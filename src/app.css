@@ -1,0 +1,19 @@
+snap-content {
+  background-color: white;
+  box-shadow: 0 0 10px #aaa;
+  padding: 10px;
+}
+
+snap-drawer {
+  padding: 10px 10px 0px 10px;
+}
+
+search-panel {
+  display: flex;
+  flex: 1;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}

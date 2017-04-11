@@ -1,0 +1,16 @@
+{
+  "name": "appliance-point-of-sale",
+  "description": "Frontend for the applicance point of sale app",
+  "version": "0.0.1",
+  "homepage": "https://github.com/costanza5813/appliance-point-of-sale",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.6.4",
+    "angular-bootstrap": "~2.5.0",
+    "bootstrap": "~3.3.7",
+    "bootstrap-sass": "~3.3.3",
+    "angular-snap": "^1.8.5",
+    "spin.js": "spinjs#^2.3.2",
+    "jquery": "^3.2.1"
+  }
+}

@@ -1,0 +1,48 @@
+{
+    "env": "dev",
+    "use_sass": false,
+    "bases": {
+        "dist": "dist/",
+        "src": "src/"
+    },
+    "path": {
+        "scripts": [
+            "src/**/*.js"
+        ],
+        "libs": [
+            "bower_components/angular/angular.min.js",
+            "bower_components/angular-bootstrap/ui-bootstrap.min.js"
+        ],
+        "css": [
+            "bower_components/bootstrap/dist/css/bootstrap.css",
+            "bower_components/angular-bootstrap/ui-bootstrap-csp.css",
+            "src/css/**/*.css"
+        ],
+        "sass": {
+            "src": [
+                "src/scss/**/*.scss"
+            ],
+            "conf": {
+                "outputStyle": "nested",
+                "includePaths": [
+                    "bower_components/bootstrap-sass/assets/stylesheets/"
+                ]
+            }
+        },
+        "fonts": [
+        ],
+        "img": [
+            "src/img/**/*"
+        ],
+        "html": [
+            "src/**/*.html"
+        ],
+        "singlefiles": [
+            "src/favicon.ico"
+        ]
+    },
+    "serve": {
+        "root": "dist/",
+        "port": 8888
+    }
+}

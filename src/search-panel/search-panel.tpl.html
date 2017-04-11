@@ -1,0 +1,44 @@
+<div class="panel panel-default flex-column">
+    <div class="panel-heading">
+        <h3 class="panel-title">Customer Search</h3>
+    </div>
+
+    <div style="padding: 10px;" class="panel-body flex-column">
+        <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            {{ $ctrl.error }}
+        </div>
+
+        <div class="btn-group">
+            <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'lastName'">Last Name</label>
+            <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'phoneNumber'">Phone Number</label>
+        </div>
+
+        <div style="padding-top: 10px;" class="input-group">
+            <input type="text" ng-model="$ctrl.searchText" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+                <button ng-click="$ctrl.search()" class="btn btn-default" type="button">Go!</button>
+            </span>
+        </div><!-- /input-group -->
+
+        <h3>Results <span ng-if="$ctrl.results" class="badge">{{ $ctrl.results.length }}</span></h3>
+
+        <div id="customer-matches" style="padding: 5px; overflow-y: auto;" class="flex-column">
+            <div class="list-group" us-spinner="$ctrl.spinnerConfig" spinner-on="$ctrl.showSpinner">
+                <button ng-repeat="customer in $ctrl.results" ng-click="$ctrl.selectCustomer(customer)"
+                        ng-attr-id="{{ customer.id }}" type="button" class="list-group-item">
+                    {{ ::customer.lastName }}, {{ ::customer.firstName }}
+                </button>
+            </div>
+        </div>
+
+        <div style="padding-top: 20px;">
+            <button ng-click="$ctrl.createNewCustomer()" ng-disabled="$ctrl.isNewCustomer()" style="width: 100%;"
+                    type="button" class="btn btn-success btn-lg">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Customer
+            </button>
+        </div>
+
+    </div>
+</div>
