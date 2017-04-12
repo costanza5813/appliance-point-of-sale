@@ -1,0 +1,17 @@
+<div class="flex">
+    <div class="flex-1">
+        <button ng-click="$ctrl.toggleSnap()" class="btn btn-primary" tooltip-placement="right" uib-tooltip="Toggle Search Panel">
+            <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
+    </div>
+
+    <div>
+        <h4 style="margin-top: 0;"><b>Service Invoice #:</b> {{ $ctrl.ticketSelection.current.invoiceNumber }}</h4>
+        <h4 style="margin-bottom: 0;"><b>Date:</b> {{ $ctrl.ticketSelection.current.date }}</h4>
+    </div>
+</div>
+
+<div class="flex">
+    <customer-information style="margin-right: 20px;" class="flex-1"></customer-information>
+    <customer-information type="'billing'" class="flex-1"></customer-information>
+</div>

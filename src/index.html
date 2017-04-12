@@ -27,13 +27,13 @@
         </snap-drawer>
 
         <snap-content>
-            <button class="btn btn-primary" snap-toggle="" tooltip-placement="right" uib-tooltip="Toggle Search Panel">
-                <span class="glyphicon glyphicon-menu-hamburger"></span>
-            </button>
+            <ticket-panel></ticket-panel>
         </snap-content>
 
         <!-- build:js -->
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+        <script type="text/javascript" src="bower_components/lodash/dist/lodash.js"></script>
+        <script type="text/javascript" src="bower_components/moment/moment.js"></script>
         <script type="text/javascript" src="bower_components/angular/angular.js"></script>
         <script type="text/javascript" src="bower_components/snapjs/snap.js"></script>
         <script type="text/javascript" src="bower_components/angular-snap/angular-snap.js"></script>
@@ -42,7 +42,10 @@
         <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script type="text/javascript" src="app.js"></script>
         <script type="text/javascript" src="customer-selection/customer-selection.service.js"></script>
+        <script type="text/javascript" src="ticket-selection/ticket-selection.service.js"></script>
         <script type="text/javascript" src="search-panel/search-panel.component.js"></script>
+        <script type="text/javascript" src="ticket-panel/ticket-panel.component.js"></script>
+        <script type="text/javascript" src="ticket-panel/customer-information/customer-information.component.js"></script>
         <!-- endbuild -->
 
         <!-- build:livereload -->

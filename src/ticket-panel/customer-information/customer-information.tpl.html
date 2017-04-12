@@ -1,0 +1,30 @@
+<div>
+    <form>
+        <!-- Address form -->
+        <h3>{{ ::$ctrl.getInformationTitle() }} Information</h3>
+
+        <!-- name input-->
+        <div class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.firstName" class="form-control flex-1" placeholder="First Name">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.lastName" class="form-control flex-1" placeholder="Last Name">
+        </div>
+
+        <!-- address-line1 input-->
+        <div style="margin-top: 10px;" class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.address" class="form-control flex-1" placeholder="Address">
+        </div>
+
+        <!-- city-state-zip-code input-->
+        <div style="margin-top: 10px;" class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.city" class="form-control flex-2" placeholder="City">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.state" class="form-control flex-1" placeholder="State">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.zipCode" class="form-control flex-2" placeholder="Zip Code">
+        </div>
+
+        <!-- phone input-->
+        <div style="margin-top: 10px;" class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.phone1" class="form-control flex-1" placeholder="Phone #1">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.phone2" class="form-control flex-1" placeholder="Phone #2">
+        </div>
+    </form>
+</div>

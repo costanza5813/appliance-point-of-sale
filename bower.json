@@ -11,6 +11,12 @@
     "bootstrap-sass": "~3.3.3",
     "angular-snap": "^1.8.5",
     "spin.js": "spinjs#^2.3.2",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "angular-spinner": "^1.0.1",
+    "moment": "^2.18.1",
+    "lodash": "^4.17.4"
+  },
+  "resolutions": {
+    "angular": "~1.6.4"
   }
 }
