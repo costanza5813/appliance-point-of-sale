@@ -4,7 +4,6 @@
 angular.module('appliancePointOfSale').component('customerInformation', {
   bindings: {
     type: '<',
-    isBillingSame: '=?'
   },
   controller: function() {
 

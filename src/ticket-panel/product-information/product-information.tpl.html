@@ -1,0 +1,31 @@
+<div>
+    <form>
+        <!-- Product form -->
+        <h3>Product Information</h3>
+
+        <!-- item-brand input-->
+        <div class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.item" class="form-control flex-1" placeholder="Item">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.brand" class="form-control flex-1" placeholder="Brand">
+        </div>
+
+        <!-- model-number input-->
+        <div style="margin-top: 10px;" class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.modelNumber" class="form-control flex-1" placeholder="Model Number">
+        </div>
+
+        <!-- serial-number input-->
+        <div style="margin-top: 10px;" class="flex">
+            <input style="margin-right: 5px;" type="text" ng-model="$ctrl.info.serialNumber" class="form-control flex-1" placeholder="Serial Number">
+        </div>
+
+        <!-- date-of-purchase input-->
+        <div style="margin-top: 10px;" class="item-group flex">
+            <input type="text" class="form-control flex-1" uib-datepicker-popup="shortDate" datepicker-options="{ showWeeks: false }"
+                   ng-model="$ctrl.info.dateOfPurchase" is-open="datePickerOpen" close-text="Close" placeholder="Date of Purchase" />
+            <div style="margin-right: 5px; width: 40px;" class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="datePickerOpen = true"><i class="glyphicon glyphicon-calendar"></i></button>
+            </div>
+        </div>
+    </form>
+</div>

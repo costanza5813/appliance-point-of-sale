@@ -7,6 +7,18 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
   controller: function(customerSelection, snapRemote, ticketSelection) {
     this.ticketSelection = ticketSelection;
 
+      this.parts = [];
+
+      for(let i = 0; i < 5; i++ ) {
+          this.parts.push({
+              brand: 'Brand ' + i,
+              description: 'Desc ' + i,
+              partNumber: 'PartNum ' + i,
+              price: i * 10,
+              quantity: i,
+          });
+      }
+
     this.toggleSnap = () => {
       snapRemote.toggle('left');
     };

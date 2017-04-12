@@ -1,55 +1,39 @@
 'use strict';
 'ngInject';
 
-/* http://stackoverflow.com/questions/12700145/format-telephone-and-credit-card-numbers-in-angularjs */
-
 angular.module('appliancePointOfSale').filter('phoneNumber', function() {
-  return function (number) {
-    if (!number) { return ''; }
+    return function (number) {
+        if (!number) { return ''; }
 
-    const value = number.toString().trim().replace(/^\+/, '');
+        const value = number.toString().trim().replace(/[^0-9]/, '');
 
-    if (value.match(/[^0-9]/)) {
-      return number;
-    }
+        let areaCode;
+        let base;
 
-    let country;
-    let areaCode;
-    let baseNumber;
+        switch (value.length) {
+        case 1:
+        case 2:
+        case 3:
+            areaCode = value;
+            break;
 
-    switch (value.length) {
-    case 5:
-    case 6:
-    case 7:
-      country = 1;
-      areaCode = '';
-      baseNumber = value;
-      break;
+        default:
+            areaCode = value.slice(0, 3);
+            base = value.slice(3);
+        }
 
-    case 8:
-    case 9:
-    case 10: // +1PPP####### -> C (PPP) ###-####
-      country = 1;
-      areaCode = value.slice(0, value.length - 7);
-      baseNumber = value.slice(value.length - 7);
-      break;
+        if(base){
+            if(base.length>3){
+                base = base.slice(0, 3) + '-' + base.slice(3,7);
+            }
+            else{
+                base = base;
+            }
 
-    case 11: // +CPPP####### -> CCC (PP) ###-####
-      country = value[0];
-      areaCode = value.slice(1, 4);
-      baseNumber = value.slice(4);
-      break;
-
-    default:
-      return number;
-    }
-
-    if (country == 1) {
-      country = "";
-    }
-
-    baseNumber = baseNumber.slice(0, 3) + '-' + baseNumber.slice(3);
-
-    return (country + " (" + areaCode + ") " + baseNumber).trim();
-  };
+            return ("(" + areaCode + ") " + base).trim();
+        }
+        else{
+            return "(" + areaCode;
+        }
+    };
 });
