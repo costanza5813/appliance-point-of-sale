@@ -1,7 +1,7 @@
 snap-content {
-    background-color: white;
+    background-color: #272b30;
     box-shadow: 0 0 10px #aaa;
-    padding: 10px;
+    padding: 20px;
 }
 
 snap-drawer {
@@ -11,6 +11,10 @@ snap-drawer {
 search-panel {
     display: flex;
     flex: 1;
+}
+
+.align-right {
+    text-align: right;
 }
 
 .flex {
