@@ -9,7 +9,7 @@ class PaymentResource {
     this.Payment = Payment;
 
     //kdj TODO
-    this.$q = $q;
+    // this.$q = $q;
   }
 
   fetchPayment(id) {
@@ -17,27 +17,29 @@ class PaymentResource {
   }
 
   fetchPaymentsForTicket(ticket) {
-    //return this.$http.get(ticket.paymentsHref).then((response) => response.data._embedded.payments);
+    return this.$http.get(ticket.paymentsHref).then((response) => response.data._embedded.payments);
 
-    return this.$q.resolve([]);
+    //kdj TODO
+    // return this.$q.resolve([]);
   }
 
   createPaymentForTicket(ticket) {
-    // return this.$http.post(baseUri, _.assign(this.Payment.defaults, { ticket: ticket.selfHref }))
-    //   .then((response) => response.data);
+    return this.$http.post(baseUri, _.assign(this.Payment.defaults, { ticket: ticket.selfHref }))
+      .then((response) => response.data);
 
-    return this.$q.resolve({
-      paymentAmount: 0,
-      paymentDate: '',
-      paymentType: 0,
-      reconciled: true,
-      reconciledNotes: '',
-      _links: {
-        self: {
-          href: 'http://localhost:9083/ShoreTVCustomers/ServiceTickets/payments/1'
-        },
-      },
-    });
+    //kdj TODO
+    // return this.$q.resolve({
+    //   paymentAmount: 0,
+    //   paymentDate: '',
+    //   paymentType: 0,
+    //   reconciled: true,
+    //   reconciledNotes: '',
+    //   _links: {
+    //     self: {
+    //       href: 'http://localhost:9083/ShoreTVCustomers/ServiceTickets/payments/1'
+    //     },
+    //   },
+    // });
   }
 
   updatePayment(payment) {

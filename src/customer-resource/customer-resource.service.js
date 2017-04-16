@@ -29,12 +29,13 @@ class CustomerResource {
   }
 
   fetchCustomer(id) {
-    //return this.$http.get(baseUri + id).then((response) => response.data);
+    return this.$http.get(baseUri + id).then((response) => response.data);
 
-    return this.$http.get(baseUri + id).then((response) => {
-      _.set(response.data._links, 'tickets.href', 'http://localhost:8888/ShoreTVCustomers/ServiceTickets/customers/1/tickets');
-      return response.data;
-    });
+    //kdj TODO
+    // return this.$http.get(baseUri + id).then((response) => {
+    //   _.set(response.data._links, 'tickets.href', 'http://localhost:8888/ShoreTVCustomers/ServiceTickets/customers/1/tickets');
+    //   return response.data;
+    // });
   }
 
   createCustomer() {
