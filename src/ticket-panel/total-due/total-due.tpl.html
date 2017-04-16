@@ -1,0 +1,88 @@
+<div style="margin-top: 20px; margin-left: 80px;">
+    <table class="table table-condensed table-no-border align-right">
+        <colgroup>
+            <col span="1" style="width: 60%;">
+            <col span="1" style="width: 40%;">
+        </colgroup>
+        <thead></thead>
+        <tbody>
+            <tr>
+                <td><h4><b>Subtotal:</b></h4></td>
+                <td><h4>{{ $ctrl.ticket.subtotal | currency : '$' : 2 }}</h4></td>
+            </tr>
+            <tr>
+                <td><h4><b>Tax:</b></h4></td>
+                <td><h4>{{ $ctrl.ticket.tax | currency : '$' : 2 }}</h4></td>
+            </tr>
+            <tr>
+                <td><h4><b>Total:</b></h4></td>
+                <td><h4>{{ $ctrl.ticket.total | currency : '$' : 2 }}</h4></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-condensed table-no-border align-right">
+        <colgroup>
+            <col span="1" style="width: 39%;">
+            <col span="1" style="width: 33%;">
+            <col span="1" style="width: 28%;">
+        </colgroup>
+        <thead>
+        </thead>
+        <tbody>
+            <tr ng-repeat="payment in $ctrl.ticket.payments">
+                <td>
+                    <div class="dropup">
+                        <a class="dropdown-toggle" id="payment-date-{{ payment.id }}" role="button" data-toggle="dropdown">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="payment.paymentDate" placeholder="Payment Date" />
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropup" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker ng-model="payment.paymentDate"
+                                            data-datetimepicker-config="{ dropdownSelector: '#payment-date-' + payment.id, modelType: 'M/D/YYYY' }"
+                            />
+                        </ul>
+                    </div>
+                </td>
+
+                <td>
+                    <select class="form-control" ng-model="payment.paymentType">
+                        <option ng-repeat="type in $ctrl.paymentTypes" ng-value="type.value">{{ type.display }}</option>
+                    </select>
+                </td>
+
+                <td>
+                    <input type="text" ng-model="payment.paymentAmount" currency-input class="form-control align-right" placeholder="Price">
+                </td>
+            </tr>
+
+            <tr>
+                <td style="text-align: left;">
+                    <button ng-click="$ctrl.createNewPayment()" type="button" class="btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Payment
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="table table-condensed table-no-border align-right">
+        <colgroup>
+            <col span="1" style="width: 60%;">
+            <col span="1" style="width: 40%;">
+        </colgroup>
+        <thead></thead>
+        <tbody>
+            <tr>
+                <td><h3><b>Amount Paid:</b></h3></td>
+                <td><h3>{{ $ctrl.ticket.amountPaid | currency : '$' : 2 }}</h3></td>
+            </tr>
+            <tr>
+                <td><h3 style="margin-top: 0;"><b>Balance Due:</b></h3></td>
+                <td><h3 style="margin-top: 0;">{{ $ctrl.ticket.balanceDue | currency : '$' : 2 }}</h3></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

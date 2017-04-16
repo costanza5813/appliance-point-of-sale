@@ -3,6 +3,7 @@
 
 angular.module('appliancePointOfSale').component('customerInformation', {
   bindings: {
+    customer: '<',
     type: '<',
   },
   controller: function() {

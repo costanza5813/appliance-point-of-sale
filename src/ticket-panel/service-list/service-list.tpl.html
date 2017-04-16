@@ -1,0 +1,50 @@
+<div>
+    <h3>Service Log</h3>
+    <table class="table table-condensed table-no-border">
+        <colgroup>
+            <col span="1" style="width: 60%;">
+            <col span="1" style="width: 40%;">
+        </colgroup>
+
+        <thead>
+            <tr>
+                <th>Date & Time</th>
+                <th>Tech</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="service in $ctrl.ticket.services">
+                <td>
+                    <div class="dropup">
+                        <a class="dropdown-toggle" ng-attr-id="service-date-{{ service.id }}" role="button" data-toggle="dropdown">
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-model="service.serviceDate" placeholder="Service Date & Time">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropup" role="menu" aria-labelledby="dLabel">
+                            <datetimepicker
+                                ng-model="service.serviceDate"
+                                data-datetimepicker-config="{ dropdownSelector: '#service-date-'+service.id, modelType: 'M/D/YYYY h:mm a' }"
+                            />
+                        </ul>
+                    </div>
+                </td>
+
+                <td>
+                    <select class="form-control" ng-model="service.tech">
+                        <option ng-repeat="tech in $ctrl.techs" ng-value="tech">{{ tech }}</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button ng-click="$ctrl.createNewService()" type="button" class="btn btn-success btn-sm">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Service
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

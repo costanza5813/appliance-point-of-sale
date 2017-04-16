@@ -3,6 +3,7 @@
 
 angular.module('appliancePointOfSale').component('productInformation', {
   bindings: {
+    ticket: '<',
     type: '<',
   },
   controller: function() {

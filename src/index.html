@@ -12,7 +12,10 @@
         <!-- build:css -->
         <link rel="stylesheet" href="bower_components/angular-snap/angular-snap.css" />
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="css/bootstrap-spacelab.min.css" />
         <link rel="stylesheet" href="bower_components/snapjs/snap.css" />
+        <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css" />
+        <link rel="stylesheet" href="app.css" />
         <link rel="stylesheet" href="app.css" />
         <!-- endbuild -->
 
@@ -23,34 +26,62 @@
     <body>
 
         <snap-drawer class="flex-column">
-            <search-panel></search-panel>
+            <search-panel class="no-print"></search-panel>
         </snap-drawer>
 
-        <snap-content>
+        <snap-content class="flex-column no-print">
             <snap-dragger style="display: none;"></snap-dragger>
-            <ticket-panel></ticket-panel>
+            <nav-bar></nav-bar>
+
+            <div style="margin: 50px 0px 60px 0px; padding: 10px; overflow-y: auto">
+                <div class="main-content">
+                    <ui-view></ui-view>
+                    <!-- <ticket-panel></ticket-panel> -->
+                </div>
+            </div>
         </snap-content>
 
         <!-- build:js -->
+        <script type="text/javascript" src="bower_components/moment/moment.js"></script>
         <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
         <script type="text/javascript" src="bower_components/lodash/dist/lodash.js"></script>
-        <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+        <script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
         <script type="text/javascript" src="bower_components/angular/angular.js"></script>
+        <script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script type="text/javascript" src="bower_components/snapjs/snap.js"></script>
         <script type="text/javascript" src="bower_components/angular-snap/angular-snap.js"></script>
         <script type="text/javascript" src="bower_components/spin.js/spin.js"></script>
         <script type="text/javascript" src="bower_components/angular-spinner/dist/angular-spinner.js"></script>
-        <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script type="text/javascript" src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+        <script type="text/javascript" src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
         <script type="text/javascript" src="app.js"></script>
-        <script type="text/javascript" src="customer-selection/customer-selection.service.js"></script>
+        <script type="text/javascript" src="current-selections/current-selections.service.js"></script>
+        <script type="text/javascript" src="customer-resource/customer-resource.service.js"></script>
+        <script type="text/javascript" src="customer-resource/customer.service.js"></script>
         <script type="text/javascript" src="filters/phone-number.filter.js"></script>
+        <script type="text/javascript" src="nav-bar/nav-bar.component.js"></script>
+        <script type="text/javascript" src="part-resource/part.service.js"></script>
+        <script type="text/javascript" src="part-resource/part-resource.service.js"></script>
+        <script type="text/javascript" src="payment-resource/payment.service.js"></script>
+        <script type="text/javascript" src="payment-resource/payment-resource.service.js"></script>
+        <script type="text/javascript" src="print-panel/print-panel.component.js"></script>
+        <script type="text/javascript" src="sales-tax-calculator/sales-tax-calculator.service.js"></script>
         <script type="text/javascript" src="search-panel/search-panel.component.js"></script>
-        <script type="text/javascript" src="ticket-panel/ticket-panel.component.js"></script>
+        <script type="text/javascript" src="service-resource/service.service.js"></script>
+        <script type="text/javascript" src="service-resource/service-resource.service.js"></script>
         <script type="text/javascript" src="ticket-panel/currency-input.directive.js"></script>
         <script type="text/javascript" src="ticket-panel/customer-information/customer-information.component.js"></script>
         <script type="text/javascript" src="ticket-panel/customer-information/phone-number-input.directive.js"></script>
+        <script type="text/javascript" src="ticket-panel/parts-list/parts-list.component.js"></script>
         <script type="text/javascript" src="ticket-panel/product-information/product-information.component.js"></script>
-        <script type="text/javascript" src="ticket-selection/ticket-selection.service.js"></script>
+        <script type="text/javascript" src="ticket-panel/service-list/service-list.component.js"></script>
+        <script type="text/javascript" src="ticket-panel/ticket-panel.component.js"></script>
+        <script type="text/javascript" src="ticket-panel/total-due/total-due.component.js"></script>
+        <script type="text/javascript" src="ticket-resource/ticket-resource.service.js"></script>
+        <script type="text/javascript" src="ticket-resource/ticket.service.js"></script>
+        <script type="text/javascript" src="welcome/welcome.component.js"></script>
         <!-- endbuild -->
 
         <!-- build:livereload -->

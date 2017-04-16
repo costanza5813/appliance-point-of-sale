@@ -1,76 +1,51 @@
-<div class="flex">
-    <div class="flex-1">
-        <button ng-click="$ctrl.toggleSnap()" class="btn btn-primary" tooltip-placement="right" uib-tooltip="Toggle Search Panel">
-            <span class="glyphicon glyphicon-menu-hamburger"></span>
-        </button>
-    </div>
-
+<ui-view></ui-view>
+<div id="ticket-spinner" us-spinner="$ctrl.spinnerConfig" spinner-on="$ctrl.showSpinner"></div>
+<div class="no-print">
     <div>
-        <h4 style="margin-top: 0;"><b>Invoice #:</b> {{ $ctrl.ticketSelection.current.invoiceNumber }}</h4>
-        <h4 style="margin-bottom: 0;"><b>Date:</b> {{ $ctrl.ticketSelection.current.date }}</h4>
+        <div class="flex">
+            <div>
+                <h4 style="margin-top: 0;"><b>Invoice #:</b> {{ $ctrl.currentTicket.id }}</h4>
+                <h4 style="margin-bottom: 0;"><b>Date:</b> {{ $ctrl.currentTicket.dateOpen }}</h4>
+            </div>
+        </div>
+
+        <div class="flex">
+            <customer-information style="margin-right: 20px;" customer="$ctrl.customer" class="flex-1">
+            </customer-information>
+            <customer-information style="margin-right: 20px;" type="'billing'" class="flex-1">
+            </customer-information>
+            <product-information ticket="$ctrl.currentTicket" class="flex-1"></product-information>
+        </div>
+
+        <div>
+            <h3>Customer Complaints</h3>
+            <textarea ng-model="$ctrl.currentTicket.customerComplaint" class="form-control" rows="3"></textarea>
+        </div>
+
+        <parts-list ticket="$ctrl.currentTicket"></parts-list>
+
+        <div>
+            <h3>Service Description</h3>
+            <textarea ng-model="$ctrl.currentTicket.serviceDescription" class="form-control" rows="3"></textarea>
+        </div>
+
+        <div class="flex">
+            <service-list ticket="$ctrl.currentTicket" style="margin-right: 20px;" class="flex-1"></service-list>
+            <total-due ticket="$ctrl.currentTicket" class="flex-1"></total-due>
+        </div>
+
     </div>
-</div>
 
-<div class="flex">
-    <customer-information style="margin-right: 20px;" class="flex-1"></customer-information>
-    <customer-information style="margin-right: 20px;" type="'billing'" class="flex-1"></customer-information>
-    <product-information class="flex-1"></product-information>
-</div>
-
-<div>
-    <h3>Customer Complaints</h3>
-    <textarea class="form-control" rows="3" id="comment"></textarea>
-</div>
-
-<div>
-    <h3>Parts List</h3>
-    <table class="table table-condensed table-hover">
-        <colgroup>
-            <col span="1" style="width: 22%;">
-            <col span="1" style="width: 22%;">
-            <col span="1" style="width: 22%;">
-            <col span="1" style="width: 12%;">
-            <col span="1" style="width: 10%;">
-            <col span="1" style="width: 12%;">
-        </colgroup>
-
-        <thead>
-            <tr>
-                <th>Brand</th>
-                <th>Description</th>
-                <th>Part Number</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr ng-repeat="part in $ctrl.parts">
-                <td>
-                    <input type="text" ng-model="part.brand" class="form-control" placeholder="Brand">
-                </td>
-
-                <td>
-                    <input type="text" ng-model="part.description" class="form-control" placeholder="Description">
-                </td>
-
-                <td>
-                    <input type="text" ng-model="part.partNumber" class="form-control" placeholder="Part Number">
-                </td>
-
-                <td>
-                    <input type="text" ng-model="part.price" currency-input class="form-control align-right" placeholder="Price">
-                </td>
-
-                <td>
-                    <input type="number" ng-model="part.quantity" class="form-control align-right" placeholder="Qty">
-                </td>
-
-                <td style="vertical-align: middle;" class="align-right">
-                    {{ (part.price * part.quantity) | currency:'$':2 }}
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="ticket-pagination">
+        <div class="flex">
+            <ul uib-pagination total-items="$ctrl.customer.tickets.length" items-per-page="1" ng-model="$ctrl.paginationIndex"
+                max-size="5" boundary-links="true" force-ellipses="true" ng-change="$ctrl.changeTicket()">
+            </ul>
+            <div>
+                <button ng-click="$ctrl.createNewTicket()" class="btn btn-success" style="margin: 20px;">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Ticket
+                </button>
+            </div>
+        </div>
+    </div>
 </div>

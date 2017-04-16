@@ -1,9 +1,12 @@
 {
-  "strict": "global",
+  "curly": true,
   "esversion": 6,
+  "eqeqeq": true,
+  "strict": "global",
   "globals": {
     "_": false,
     "angular": false,
+    "jQuery": false,
     "moment": false
   }
 }
