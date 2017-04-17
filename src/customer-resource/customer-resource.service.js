@@ -29,8 +29,6 @@ class CustomerResource {
   }
 
   fetchCustomer(id) {
-    //return this.$http.get(baseUri + id).then((response) => response.data);
-
     return this.$http.get(baseUri + id).then((response) => {
       _.set(response.data._links, 'tickets.href', (baseUri + id + '/tickets'));
       return response.data;

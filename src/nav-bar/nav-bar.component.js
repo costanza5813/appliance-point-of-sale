@@ -15,20 +15,19 @@ angular.module('appliancePointOfSale').component('navBar', {
       const customer = currentSelections.customer;
       customerResource.updateCustomer(customer);
 
-      _.each(customer.tickets, (ticket) => {
-        ticketResource.updateTicket(ticket);
+      const ticket = currentSelections.ticket;
+      ticketResource.updateTicket(ticket);
 
-        _.each(ticket.parts, (part) => {
-          partResource.updatePart(part);
-        });
+      _.each(ticket.parts, (part) => {
+        partResource.updatePart(part);
+      });
 
-        _.each(ticket.payments, (payment) => {
-          paymentResource.updatePayment(payment);
-        });
+      _.each(ticket.payments, (payment) => {
+        paymentResource.updatePayment(payment);
+      });
 
-        _.each(ticket.services, (service) => {
-          serviceResource.updateService(service);
-        });
+      _.each(ticket.services, (service) => {
+        serviceResource.updateService(service);
       });
     };
 

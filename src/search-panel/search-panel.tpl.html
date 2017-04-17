@@ -21,7 +21,7 @@
 
         <h3>Results <span ng-if="$ctrl.customers" class="badge">{{ $ctrl.customers.length }}</span></h3>
 
-        <div id="customer-matches" style="padding: 5px; overflow-y: auto;" class="flex-column">
+        <div id="customer-matches" class="flex-column">
             <div class="list-group">
                 <div id="search-spinner" us-spinner="$ctrl.spinnerConfig" spinner-on="$ctrl.showSpinner"></div>
                 <button ng-repeat="customer in $ctrl.customers" ng-click="$ctrl.selectCustomer(customer)"
