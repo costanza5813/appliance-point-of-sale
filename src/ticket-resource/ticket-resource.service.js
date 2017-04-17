@@ -16,7 +16,7 @@ class TicketResource {
   }
 
   fetchTicketsForCustomer(customer) {
-    return this.$http.get(customer.ticketsHref).then((response) => response.data);
+    return this.$http.get(customer.ticketsHref).then((response) => response.data._embedded.tickets);
   }
 
   createTicketForCustomer(customer) {
