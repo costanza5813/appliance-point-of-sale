@@ -4,8 +4,9 @@
 const baseUri = '/ShoreTVCustomers/ServiceTickets/quotes/';
 
 class PartResource {
-  constructor($http, Part) {
+  constructor($http, $q, Part) {
     this.$http = $http;
+    this.$q = $q;
     this.Part = Part;
   }
 

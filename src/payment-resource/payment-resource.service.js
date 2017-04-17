@@ -7,8 +7,6 @@ class PaymentResource {
   constructor($http, $q, Payment) {
     this.$http = $http;
     this.Payment = Payment;
-
-    //kdj TODO
     this.$q = $q;
   }
 
@@ -17,27 +15,12 @@ class PaymentResource {
   }
 
   fetchPaymentsForTicket(ticket) {
-    //return this.$http.get(ticket.paymentsHref).then((response) => response.data._embedded.payments);
-
-    return this.$q.resolve([]);
+    return this.$http.get(ticket.paymentsHref).then((response) => response.data._embedded.payments);
   }
 
   createPaymentForTicket(ticket) {
-    // return this.$http.post(baseUri, _.assign(this.Payment.defaults, { ticket: ticket.selfHref }))
-    //   .then((response) => response.data);
-
-    return this.$q.resolve({
-      paymentAmount: 0,
-      paymentDate: '',
-      paymentType: 0,
-      reconciled: true,
-      reconciledNotes: '',
-      _links: {
-        self: {
-          href: 'http://localhost:9083/ShoreTVCustomers/ServiceTickets/payments/1'
-        },
-      },
-    });
+    return this.$http.post(baseUri, _.assign(this.Payment.defaults, { ticket: ticket.selfHref }))
+      .then((response) => response.data);
   }
 
   updatePayment(payment) {
