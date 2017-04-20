@@ -17,7 +17,7 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
 
       ctrl.$parsers.unshift(function (value) {
         elem.priceFormat(format);
-        var sanitized = elem[0].value.replace(/[^0-9.]/, '');
+        var sanitized = elem[0].value.replace(/[^0-9.]/g, '');
         return parseFloat(sanitized);
       });
 
@@ -30,9 +30,10 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
   };
 });
 
+
 (function ($) {
   $.fn.priceFormat = function (options) {
-    var defaults = {
+    const defaults = {
       prefix: 'US$ ',
       suffix: '',
       centsSeparator: '.',
@@ -42,33 +43,34 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
       clearPrefix: false,
       clearSufix: false,
       allowNegative: false,
-      insertPlusSign: false
+      insertPlusSign: false,
     };
+
     options = $.extend(defaults, options);
+
     return this.each(function () {
-      var obj = $(this);
-      var is_number = /[0-9]/;
-      var prefix = options.prefix;
-      var suffix = options.suffix;
-      var centsSeparator = options.centsSeparator;
-      var thousandsSeparator = options.thousandsSeparator;
-      var limit = options.limit;
-      var centsLimit = options.centsLimit;
-      var clearPrefix = options.clearPrefix;
-      var clearSuffix = options.clearSuffix;
-      var allowNegative = options.allowNegative;
-      var insertPlusSign = options.insertPlusSign;
+      let obj = $(this);
+      let is_number = /[0-9]/;
+      let prefix = options.prefix;
+      let suffix = options.suffix;
+      let centsSeparator = options.centsSeparator;
+      let thousandsSeparator = options.thousandsSeparator;
+      let limit = options.limit;
+      let centsLimit = options.centsLimit;
+      let clearPrefix = options.clearPrefix;
+      let clearSuffix = options.clearSuffix;
+      let allowNegative = options.allowNegative;
+      let insertPlusSign = options.insertPlusSign;
 
       if (insertPlusSign) {
         allowNegative = true;
       }
 
       function to_numbers(str) {
-        var formatted = '';
-        for (var i = 0; i < (str.length); i++) {
-          var char_ = str.charAt(i);
-
-          if (formatted.length === 0 && char_ === 0) {
+        let formatted = '';
+        for (let i = 0; i < (str.length); i++) {
+          let char_ = str.charAt(i);
+          if (formatted.length === 0 && char_ === '0') {
             char_ = false;
           }
 
@@ -82,28 +84,36 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
             }
           }
         }
+
         return formatted;
       }
+
       function fill_with_zeroes(str) {
         while (str.length < (centsLimit + 1)) {
           str = '0' + str;
         }
+
         return str;
       }
+
       function price_format(str) {
-        var formatted = fill_with_zeroes(to_numbers(str));
-        var thousandsFormatted = '';
-        var thousandsCount = 0;
+        let formatted = fill_with_zeroes(to_numbers(str));
+        let thousandsFormatted = '';
+        let thousandsCount = 0;
+        let centsVal;
+
         if (centsLimit === 0) {
-          centsSeparator = "";
-          centsVal = "";
+          centsSeparator = '';
+          centsVal = '';
         }
-        var centsVal = formatted.substr(formatted.length - centsLimit, centsLimit);
-        var integerVal = formatted.substr(0, formatted.length - centsLimit);
+
+        centsVal = formatted.substr(formatted.length - centsLimit, centsLimit);
+        let integerVal = formatted.substr(0, formatted.length - centsLimit);
         formatted = (centsLimit === 0) ? integerVal : integerVal + centsSeparator + centsVal;
-        if (thousandsSeparator || $.trim(thousandsSeparator) !== "") {
-          for (var j = integerVal.length; j > 0; j--) {
-            var char_ = integerVal.substr(j - 1, 1);
+
+        if (thousandsSeparator || $.trim(thousandsSeparator) !== '') {
+          for (let j = integerVal.length; j > 0; j--) {
+            let char_ = integerVal.substr(j - 1, 1);
             thousandsCount++;
 
             if (thousandsCount % 3 === 0) {
@@ -112,12 +122,14 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
 
             thousandsFormatted = char_ + thousandsFormatted;
           }
+
           if (thousandsFormatted.substr(0, 1) === thousandsSeparator) {
             thousandsFormatted = thousandsFormatted.substring(1, thousandsFormatted.length);
           }
 
           formatted = (centsLimit === 0) ? thousandsFormatted : thousandsFormatted + centsSeparator + centsVal;
         }
+
         if (allowNegative && (integerVal !== 0 || centsVal !== 0)) {
           if (str.indexOf('-') !== -1 && str.indexOf('+') < str.indexOf('-')) {
             formatted = '-' + formatted;
@@ -129,6 +141,7 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
             }
           }
         }
+
         if (prefix) {
           formatted = prefix + formatted;
         }
@@ -139,12 +152,14 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
 
         return formatted;
       }
+
       function key_check(e) {
-        var code = (e.keyCode ? e.keyCode : e.which);
-        var typed = String.fromCharCode(code);
-        var functional = false;
-        var str = obj.val();
-        var newValue = price_format(str + typed);
+        const code = (e.keyCode ? e.keyCode : e.which);
+        const typed = String.fromCharCode(code);
+        const str = obj.val();
+        const newValue = price_format(str + typed);
+
+        let functional = false;
 
         if ((code >= 48 && code <= 57) || (code >= 96 && code <= 105)) {
           functional = true;
@@ -164,7 +179,9 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
           functional = true;
         } else if (insertPlusSign && (code === 187 || code === 107)) {
           functional = true;
-        } else {
+        }
+
+        if (!functional) {
           e.preventDefault();
           e.stopPropagation();
           if (str !== newValue) {
@@ -172,52 +189,64 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
           }
         }
       }
+
       function price_it() {
-        var str = obj.val();
-        var price = price_format(str);
+        const str = obj.val();
+        const price = price_format(str);
+
         if (str !== price) {
           obj.val(price);
         }
       }
+
       function add_prefix() {
-        var val = obj.val();
+        const val = obj.val();
         obj.val(prefix + val);
       }
+
       function add_suffix() {
-        var val = obj.val();
+        const val = obj.val();
         obj.val(val + suffix);
       }
+
       function clear_prefix() {
         if ($.trim(prefix) !== '' && clearPrefix) {
-          var array = obj.val().split(prefix);
+          const array = obj.val().split(prefix);
           obj.val(array[1]);
         }
       }
+
       function clear_suffix() {
         if ($.trim(suffix) !== '' && clearSuffix) {
-          var array = obj.val().split(suffix);
+          const array = obj.val().split(suffix);
           obj.val(array[0]);
         }
       }
+
       $(this).bind('keydown.price_format', key_check);
       $(this).bind('keyup.price_format', price_it);
       $(this).bind('focusout.price_format', price_it);
+
       if (clearPrefix) {
-        $(this).bind('focusout.price_format', function () {
+        $(this).bind('focusout.price_format', () => {
           clear_prefix();
         });
-        $(this).bind('focusin.price_format', function () {
+
+        $(this).bind('focusin.price_format', () => {
           add_prefix();
         });
       }
+
       if (clearSuffix) {
-        $(this).bind('focusout.price_format', function () {
+        $(this).bind('focusout.price_format', () => {
           clear_suffix();
         });
-        $(this).bind('focusin.price_format', function () {
+
+        $(this).bind('focusin.price_format', () => {
           add_suffix();
         });
       }
+
       if ($(this).val().length > 0) {
         price_it();
         clear_prefix();
@@ -225,17 +254,20 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
       }
     });
   };
+
   $.fn.unpriceFormat = function () {
-    return $(this).unbind(".price_format");
+    return $(this).unbind('.price_format');
   };
+
   $.fn.unmask = function () {
-    var field = $(this).val();
-    var result = "";
-    for (var f in field) {
-      if (!isNaN(field[f]) || field[f] === "-") {
+    const field = $(this).val();
+    let result = '';
+    for (let f in field) {
+      if (!isNaN(field[f]) || field[f] === '-') {
         result += field[f];
       }
     }
+
     return result;
   };
 })(jQuery);

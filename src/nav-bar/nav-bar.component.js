@@ -31,6 +31,8 @@ angular.module('appliancePointOfSale').component('navBar', {
       });
     };
 
+    this.getStateName = () => $state.current.name;
+
     this.printTicket = () => {
       $state.go('print');
     };
