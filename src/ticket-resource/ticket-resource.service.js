@@ -7,9 +7,7 @@ class TicketResource {
   constructor($http, $q, Ticket) {
     this.$http = $http;
     this.Ticket = Ticket;
-
-    //kdj TODO
-    // this.$q = $q;
+    this.$q = $q;
   }
 
   fetchTicket(id) {
