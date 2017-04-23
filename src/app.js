@@ -12,12 +12,6 @@ angular.module('appliancePointOfSale', [
 
   $urlRouterProvider.otherwise('/welcome');
 
-  // const customer = {
-  //   name: 'customer',
-  //   url: '/customer',
-  //   component: 'welcome',
-  // };
-
   // An array of state definitions
   const states = [
     {
@@ -44,13 +38,6 @@ angular.module('appliancePointOfSale', [
           return customerPromise.then((rawCustomer) => new Customer(rawCustomer));
         }
       }
-    },
-
-    {
-      name: 'print',
-      url: '/print',
-      parent: 'customers',
-      component: 'printPanel',
     },
   ];
 

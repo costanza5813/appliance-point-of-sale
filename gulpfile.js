@@ -259,6 +259,10 @@ gulp.task('serve', ['build'], function (done) {
       proxy('/ShoreTVCustomers/ServiceTickets', {
         target: 'http://localhost:9083',
         changeOrigin: false
+      }),
+      proxy('/invoice', {
+        target: 'http://localhost:9085',
+        changeOrigin: false
       })
     ];
   };
