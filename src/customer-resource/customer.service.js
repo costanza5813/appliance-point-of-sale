@@ -103,11 +103,12 @@ class Customer {
   }
 
   get zip() {
-    return this._rawData.zip;
+    return this._rawData.zip; 
   }
 
   set zip(zip) {
-    this._rawData.zip = zip;
+    var pad = "0000";
+    this._rawData.zip = pad.substring(0, pad.length - zip.length) + zip;
   }
 }
 angular.module('appliancePointOfSale').factory('Customer', () => Customer);
