@@ -6,10 +6,10 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
     customer: '<',
   },
   controller: function($q, currentSelections, Part, partResource, Payment, paymentResource, Service, serviceResource,
-                       Ticket, ticketResource) {
+                       spinnerHandler, Ticket, ticketResource) {
 
-    this.showSpinner = true;
-    this.spinnerConfig = { radius: 40, width: 8, length: 16 };
+    this.spinnerHandler = spinnerHandler;
+    this.spinnerHandler.show = true;
 
     this.$onInit = () => {
       currentSelections.customer = this.customer;
@@ -48,7 +48,7 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
 
         return $q.all(promises);
       }).finally(() => {
-        this.showSpinner = false;
+        this.spinnerHandler.show = false;
         this.paginationIndex = this.customer.tickets.length;
         this.currentTicket = _.last(this.customer.tickets);
         currentSelections.ticket = this.currentTicket;

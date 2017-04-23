@@ -6,8 +6,8 @@ const baseUri = '/ShoreTVCustomers/ServiceTickets/tickets/';
 class TicketResource {
   constructor($http, $q, Ticket) {
     this.$http = $http;
-    this.Ticket = Ticket;
     this.$q = $q;
+    this.Ticket = Ticket;
   }
 
   fetchTicket(id) {
