@@ -50,10 +50,10 @@ angular.module('appliancePointOfSale').component('navBar', {
       spinnerHandler.show = true;
 
       const promises = [
-        // doSaveCustomer(),
+        doSaveCustomer(),
       ];
 
-      const ticket = currentSelections.ticket.rawData;
+      const ticket = _.cloneDeep(currentSelections.ticket.rawData);
       ticket.id = currentSelections.ticket.id || '';
       ticket.parts = _.map(currentSelections.ticket.parts, (part) => part.rawData);
       ticket.payments = _.map(currentSelections.ticket.payments, (payment) => payment.rawData);

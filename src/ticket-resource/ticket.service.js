@@ -1,7 +1,7 @@
 'use strict';
 'ngInject';
 
-const dateFormat = 'l';
+const dateFormat = 'L';
 
 const baseUri = '/ShoreTVCustomers/ServiceTickets/tickets/';
 
@@ -11,9 +11,18 @@ function ticketFactory(salesTaxCalculator) {
       return {
         amountPaid: 0,
         balanceDue: 0,
+        billingAddress: '',
+        billingCity: '',
+        billingLastName: '',
+        billingName: '',
+        billingPhone1: '',
+        billingPhone2: '',
+        billingState: '',
+        billingZip: '',
         brand: '',
         customerComplaint: '',
         dateClosed: null,
+        dateOfPurchase: null,
         dateOpen: moment().format(dateFormat),
         dateStarted: null,
         item: '',
@@ -101,7 +110,7 @@ function ticketFactory(salesTaxCalculator) {
       if (this.selfHref) {
         return this.selfHref.slice(this.selfHref.lastIndexOf('/') + 1);
       } else if (this.idtickets) {
-        return this._rawData.idtickets; 
+        return this._rawData.idtickets;
       }
     }
 
@@ -110,7 +119,7 @@ function ticketFactory(salesTaxCalculator) {
         return _.get(this._rawData, '_links.self.href');
       } else {
         return baseUri + this._rawData.idtickets;
-      }  
+      }
     }
 
     get partsHref() {
@@ -224,7 +233,7 @@ function ticketFactory(salesTaxCalculator) {
     get total() {
       return this._rawData.total;
     }
-    
+
     get billingName() {
       return this._rawData.billingName;
     }
@@ -232,7 +241,7 @@ function ticketFactory(salesTaxCalculator) {
     set billingName(billingName) {
       this._rawData.billingName = billingName;
     }
-    
+
     get billingLastName() {
       return this._rawData.billingLastName;
     }
@@ -240,7 +249,7 @@ function ticketFactory(salesTaxCalculator) {
     set billingLastName(billingLastName) {
       this._rawData.billingLastName = billingLastName;
     }
-    
+
     get billingAddress() {
       return this._rawData.billingAddress;
     }
@@ -248,7 +257,7 @@ function ticketFactory(salesTaxCalculator) {
     set billingAddress(billingAddress) {
       this._rawData.billingAddress = billingAddress;
     }
-    
+
     get billingCity() {
       return this._rawData.billingCity;
     }
@@ -256,7 +265,7 @@ function ticketFactory(salesTaxCalculator) {
     set billingCity(billingCity) {
       this._rawData.billingCity = billingCity;
     }
-    
+
     get billingState() {
       return this._rawData.billingState;
     }
@@ -264,15 +273,15 @@ function ticketFactory(salesTaxCalculator) {
     set billingState(billingState) {
       this._rawData.billingState = billingState;
     }
-    
+
     get billingZip() {
       return this._rawData.billingZip;
     }
 
     set billingZip(billingZip) {
       this._rawData.billingZip = billingZip;
-    }    
-    
+    }
+
     get billingPhone1() {
       return this._rawData.billingPhone1;
     }
@@ -280,13 +289,21 @@ function ticketFactory(salesTaxCalculator) {
     set billingPhone1(billingPhone1) {
       this._rawData.billingPhone1 = billingPhone1;
     }
-    
+
     get billingPhone2() {
       return this._rawData.billingPhone2;
     }
 
     set billingPhone2(billingPhone2) {
       this._rawData.billingPhone2 = billingPhone2;
+    }
+
+    get dateOfPurchase() {
+      return this._rawData.dateOfPurchase;
+    }
+
+    set dateOfPurchase(dateOfPurchase) {
+      this._rawData.dateOfPurchase = dateOfPurchase;
     }
   }
   return Ticket;

@@ -24,12 +24,12 @@
             <div class="dropdown">
                 <a class="dropdown-toggle" id="product-info-date" role="button" data-toggle="dropdown">
                     <div class="input-group">
-                        <input type="text" class="form-control" ng-model="$ctrl.ticket.dateOpen" placeholder="Date of Purchase" />
+                        <input type="text" class="form-control" ng-model="$ctrl.ticket.dateOfPurchase" placeholder="Date of Purchase" />
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                 </a>
                 <ul class="dropdown-menu dropdown" role="menu" aria-labelledby="dLabel">
-                    <datetimepicker ng-model="$ctrl.ticket.dateOpen" data-datetimepicker-config="{ dropdownSelector: '#product-info-date', modelType: 'M/D/YYYY', minView: 'day' }"/>
+                    <datetimepicker ng-model="$ctrl.ticket.dateOfPurchase" data-datetimepicker-config="{ dropdownSelector: '#product-info-date', modelType: 'MM/DD/YYYY', minView: 'day' }"/>
                 </ul>
             </div>
         </div>

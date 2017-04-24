@@ -16,6 +16,7 @@ class Payment {
 
   static get defaults() {
     return {
+      checkNumber: '',
       paymentAmount: 0,
       paymentDate: '',
       paymentType: 0,
@@ -39,6 +40,14 @@ class Payment {
 
   get selfHref() {
     return _.get(this._rawData, '_links.self.href');
+  }
+
+  get checkNumber() {
+    return this._rawData.checkNumber;
+  }
+
+  set checkNumber(checkNumber) {
+    this._rawData.checkNumber = checkNumber;
   }
 
   get paymentType() {
