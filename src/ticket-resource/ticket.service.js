@@ -44,12 +44,12 @@ function ticketFactory(salesTaxCalculator) {
 
       // sum all debts
       _.each(this._parts, (part) => {
-        debts += part.total;
+        debts = debts ? debts + part.total : part.total;
       });
 
       // sum all payments
       _.each(this._payments, (payment) => {
-        credits += payment.paymentAmount;
+        credits = credits ? credits + payment.paymentAmount : payment.paymentAmount;
       });
 
       const tax = salesTaxCalculator.calculateTax(debts, this._rawData.dateStarted);

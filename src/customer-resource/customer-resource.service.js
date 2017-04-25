@@ -16,7 +16,7 @@ class CustomerResource {
     }
 
     return this.$http.get(baseUri + 'search/by-lastNameStartingWithIgnoreCase', { params: { lastName: lastName }})
-      .then((response) => _.get(response, 'data._embedded.customers', []));
+      .then((response) => _.get(response.data, '_embedded.customers', []));
   }
 
   fetchByPhoneNumber(phoneNumber) {
@@ -25,12 +25,12 @@ class CustomerResource {
     }
 
     return this.$http.get(baseUri + 'search/by-phoneNumberStartingWithIgnoreCase', { params: { phoneNumber: phoneNumber }})
-      .then((response) => _.get(response, 'data._embedded.customers', []));
+      .then((response) => _.get(response.data, '_embedded.customers', []));
   }
 
   fetchCustomer(id) {
     return this.$http.get(baseUri + id).then((response) => {
-      _.set(response.data._links, 'tickets.href', ('/ShoreTVCustomers/ServiceTickets/customerTickets/' + id));
+      _.set(response.data, '_links.tickets.href', ('/ShoreTVCustomers/ServiceTickets/customerTickets/' + id));
       return response.data;
     });
   }

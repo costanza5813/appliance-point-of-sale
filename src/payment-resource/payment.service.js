@@ -71,7 +71,7 @@ class Payment {
   }
 
   set paymentAmount(paymentAmount) {
-    this._rawData.paymentAmount = paymentAmount;
+    this._rawData.paymentAmount = parseFloat(paymentAmount);
 
     if(_.isFunction(this._updateTicket)) {
       this._updateTicket();

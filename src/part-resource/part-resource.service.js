@@ -4,9 +4,8 @@
 const baseUri = '/ShoreTVCustomers/ServiceTickets/quotes/';
 
 class PartResource {
-  constructor($http, $q, Part) {
+  constructor($http, Part) {
     this.$http = $http;
-    this.$q = $q;
     this.Part = Part;
   }
 
@@ -15,7 +14,8 @@ class PartResource {
   }
 
   fetchPartsForTicket(ticket) {
-    return this.$http.get(ticket.partsHref).then((response) => response.data._embedded.quotes);
+    return this.$http.get(ticket.partsHref)
+      .then((response) => _.get(response.data, '_embedded.quotes', []));
   }
 
   createPartForTicket(ticket) {

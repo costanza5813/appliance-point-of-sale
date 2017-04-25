@@ -22,7 +22,7 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
       });
 
       ctrl.$formatters.unshift(function (value) {
-        elem[0].value = ctrl.$modelValue * 100 ;
+        elem[0].value = ctrl.$modelValue.toFixed(2);
         elem.priceFormat(format);
         return elem[0].value ;
       });

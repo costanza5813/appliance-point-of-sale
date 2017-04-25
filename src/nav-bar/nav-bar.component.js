@@ -64,9 +64,8 @@ angular.module('appliancePointOfSale').component('navBar', {
         ticket: ticket,
       };
 
-      const invoiceUri = '/ShoreTVCustomers/ServiceTickets/invoice/';
-      const invoicePromise = $http.post(invoiceUri, payload).then((response) => {
-        $window.open(invoiceUri + _.get(response.data, 'invoiceId', ''), '_blank');
+      const invoicePromise = $http.post('/invoice', payload).then((response) => {
+        $window.open('/invoice/' + _.get(response.data, 'invoiceId', ''), '_blank');
       });
 
       promises.push(invoicePromise);

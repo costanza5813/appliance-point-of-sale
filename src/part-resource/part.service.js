@@ -67,7 +67,7 @@ class Part {
   }
 
   set price(price) {
-    this._rawData.price = price;
+    this._rawData.price = parseFloat(price);
     this._updateTotal();
   }
 

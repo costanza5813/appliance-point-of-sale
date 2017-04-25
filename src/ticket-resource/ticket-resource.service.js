@@ -4,9 +4,8 @@
 const baseUri = '/ShoreTVCustomers/ServiceTickets/tickets/';
 
 class TicketResource {
-  constructor($http, $q, Ticket) {
+  constructor($http, Ticket) {
     this.$http = $http;
-    this.$q = $q;
     this.Ticket = Ticket;
   }
 
@@ -15,7 +14,8 @@ class TicketResource {
   }
 
   fetchTicketsForCustomer(customer) {
-    return this.$http.get(customer.ticketsHref).then((response) => response.data._embedded.tickets);
+    return this.$http.get(customer.ticketsHref)
+      .then((response) => _.get(response.data, '_embedded.tickets', []));
   }
 
   createTicketForCustomer(customer) {

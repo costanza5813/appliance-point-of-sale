@@ -4,10 +4,9 @@
 const baseUri = '/ShoreTVCustomers/ServiceTickets/serviceCalls/';
 
 class ServiceResource {
-  constructor($q, $http, Service) {
+  constructor($http, Service) {
     this.$http = $http;
     this.Service = Service;
-    this.$q = $q;
   }
 
   fetchService(id) {
@@ -15,7 +14,8 @@ class ServiceResource {
   }
 
   fetchServicesForTicket(ticket) {
-    return this.$http.get(ticket.servicesHref).then((response) => response.data._embedded.serviceCalls);
+    return this.$http.get(ticket.servicesHref)
+      .then((response) => _.get(response.data, '_embedded.serviceCalls', []));
   }
 
   createServiceForTicket(ticket) {

@@ -4,10 +4,9 @@
 const baseUri = '/ShoreTVCustomers/ServiceTickets/payments/';
 
 class PaymentResource {
-  constructor($http, $q, Payment) {
+  constructor($http, Payment) {
     this.$http = $http;
     this.Payment = Payment;
-    this.$q = $q;
   }
 
   fetchPayment(id) {
@@ -15,7 +14,8 @@ class PaymentResource {
   }
 
   fetchPaymentsForTicket(ticket) {
-    return this.$http.get(ticket.paymentsHref).then((response) => response.data._embedded.payments);
+    return this.$http.get(ticket.paymentsHref)
+      .then((response) => _.get(response.data, '_embedded.payments', []));
   }
 
   createPaymentForTicket(ticket) {
