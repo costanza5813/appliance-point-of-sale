@@ -10,14 +10,18 @@
             {{ $ctrl.error }}
         </div>
 
-        <div class="btn-group">
-            <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'lastName'">Last Name</label>
-            <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'phoneNumber'">Phone Number</label>
-        </div>
+        <div style="min-height: 80px;">
+            <div class="flex-column">
+                <div class="btn-group">
+                    <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'lastName'">Last Name</label>
+                    <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'phoneNumber'">Phone Number</label>
+                </div>
+            </div>
 
-        <div style="padding-top: 10px;" class="flex-column">
-            <input type="text" ng-model="$ctrl.searchText" ng-model-options="{ debounce: 500 }" ng-change="$ctrl.search()" class="form-control" placeholder="Search...">
-        </div><!-- /input-group -->
+            <div style="padding-top: 10px;" class="flex-column">
+                <input type="text" ng-model="$ctrl.searchText" ng-model-options="{ debounce: 500 }" ng-change="$ctrl.search()" class="form-control" placeholder="Search...">
+            </div><!-- /input-group -->
+        </div>
 
         <h3>Results <span ng-if="$ctrl.customers" class="badge">{{ $ctrl.customers.length }}</span></h3>
 

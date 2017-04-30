@@ -70,6 +70,17 @@ search-panel {
     border: none !important;
 }
 
+.blocking-overlay {
+  opacity:    0.5;
+  background: #000;
+  width:      100%;
+  height:     100%;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  position:   fixed;
+}
+
 #customer-matches {
     padding: 5px;
     overflow-y: auto;

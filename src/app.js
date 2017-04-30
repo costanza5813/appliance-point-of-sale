@@ -45,8 +45,27 @@ angular.module('appliancePointOfSale', [
   _.each(states, (state) => {
     $stateProvider.state(state);
   });
-}).run(function($rootScope, $state) {
+}).run(function($rootScope, $state, $transitions, $uibModal, $window, currentSelections, spinnerHandler) {
   $rootScope.$on('$stateChangeError', function() {
     $state.go('welcome', {});
   });
+
+  const modalOptions = {
+    backdrop: 'static',
+    keyboard: false,
+    component: 'confirmUnsavedChanges',
+  };
+
+  $transitions.onStart({ from: (state) => state.name === 'customers' && currentSelections.hasUnsavedChanges() }, () => {
+    return $uibModal.open(modalOptions).result.then(() => {
+      spinnerHandler.show = true;
+      return currentSelections.save().finally(() => { spinnerHandler.show = false; });
+    }, () => true);
+  });
+
+  $window.onbeforeunload = () => {
+    if ($state.current.name === 'customers' && currentSelections.hasUnsavedChanges()) {
+      return 'unsaved changes';
+    }
+  };
 });

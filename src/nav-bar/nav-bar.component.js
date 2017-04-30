@@ -4,42 +4,16 @@
 angular.module('appliancePointOfSale').component('navBar', {
   bindings: {
   },
-  controller: function($http, $q, $state, $window, currentSelections, customerResource, partResource, paymentResource,
-                       serviceResource, snapRemote, spinnerHandler, ticketResource) {
+  controller: function($http, $q, $state, $window, currentSelections, snapRemote, spinnerHandler) {
 
     this.toggleSnap = () => {
       snapRemote.toggle('left');
     };
 
-    const doSaveCustomer = () => {
-      const customer = currentSelections.customer;
-      const ticket = currentSelections.ticket;
-
-      const promises = [
-        customerResource.updateCustomer(customer),
-        ticketResource.updateTicket(ticket),
-      ];
-
-
-      _.each(ticket.parts, (part) => {
-        promises.push(partResource.updatePart(part));
-      });
-
-      _.each(ticket.payments, (payment) => {
-        promises.push(paymentResource.updatePayment(payment));
-      });
-
-      _.each(ticket.services, (service) => {
-        promises.push(serviceResource.updateService(service));
-      });
-
-      return $q.all(promises);
-    };
-
     this.saveCustomer = () => {
       spinnerHandler.show = true;
 
-      doSaveCustomer().finally(() => {
+      currentSelections.save().finally(() => {
         spinnerHandler.show = false;
       });
     };
@@ -50,7 +24,7 @@ angular.module('appliancePointOfSale').component('navBar', {
       spinnerHandler.show = true;
 
       const promises = [
-        doSaveCustomer(),
+        currentSelections.save(),
       ];
 
       const ticket = _.cloneDeep(currentSelections.ticket.rawData);
@@ -64,8 +38,8 @@ angular.module('appliancePointOfSale').component('navBar', {
         ticket: ticket,
       };
 
-      const invoicePromise = $http.post('/invoice', payload).then((response) => {
-        $window.open('/invoice/' + _.get(response.data, 'invoiceId', ''), '_blank');
+      const invoicePromise = $http.post('/ShoreTVCustomers/ServiceTickets/invoice', payload).then((response) => {
+        $window.open('/ShoreTVCustomers/ServiceTickets/invoice/' + _.get(response.data, 'invoiceId', ''), '_blank');
       });
 
       promises.push(invoicePromise);

@@ -1,5 +1,6 @@
 <ui-view></ui-view>
 <div id="ticket-spinner" us-spinner="$ctrl.spinnerHandler.config" spinner-on="$ctrl.spinnerHandler.show"></div>
+<div ng-show="$ctrl.spinnerHandler.show" class="blocking-overlay"></div>
 <div class="no-print">
     <div>
         <div class="flex">
