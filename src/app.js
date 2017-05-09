@@ -39,6 +39,17 @@ angular.module('appliancePointOfSale', [
         }
       }
     },
+
+    {
+      name: 'error',
+      url: '/error',
+      component: 'error',
+      resolve: {
+        error: () => {
+          return { code: 404, description: 'Customer not found.'};
+        }
+      }
+    },
   ];
 
   // Loop over the state definitions and register them
@@ -46,8 +57,8 @@ angular.module('appliancePointOfSale', [
     $stateProvider.state(state);
   });
 }).run(function($rootScope, $state, $transitions, $uibModal, $window, currentSelections, spinnerHandler) {
-  $rootScope.$on('$stateChangeError', function() {
-    $state.go('welcome', {});
+  $transitions.onError({}, () => {
+    $state.go('error');
   });
 
   const modalOptions = {
