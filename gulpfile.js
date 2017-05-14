@@ -256,14 +256,10 @@ gulp.task('test:e2e', ['build'], function(cb) {
 gulp.task('serve', ['build'], function (done) {
   config.serve.middleware = function(connect, opt) {
     return [
-      proxy('/ShoreTVCustomers/ServiceTickets', {
-        target: 'http://localhost:9083',
-        changeOrigin: false
-      }),
-      proxy('/invoice', {
+      proxy('/', {
         target: 'http://localhost:9085',
         changeOrigin: false
-      })
+      }),
     ];
   };
 

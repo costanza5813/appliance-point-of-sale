@@ -1,7 +1,7 @@
 <div>
     <form>
         <!-- Address form -->
-        <h3>{{ ::$ctrl.getInformationTitle() }} Information</h3>
+        <h3>Customer Information</h3>
 
         <!-- name input-->
         <div class="flex">
@@ -24,7 +24,7 @@
         <!-- phone input-->
         <div style="margin-top: 10px;" class="flex">
             <input style="margin-right: 5px;" type="text" phone-number-input ng-model="$ctrl.customer.phoneNumber" class="form-control flex-1" placeholder="Phone #1">
-            <input style="margin-right: 5px;" type="text" phone-number-input ng-model="$ctrl.customer.workNumber" class="form-control flex-1" placeholder="Phone #2">
+            <input style="margin-right: 5px;" type="text" phone-text-input ng-model="$ctrl.customer.workNumber" class="form-control flex-1" placeholder="Phone #2">
         </div>
     </form>
 </div>
