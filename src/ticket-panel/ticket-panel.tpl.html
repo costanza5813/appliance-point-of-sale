@@ -16,14 +16,16 @@
             <product-information ticket="$ctrl.currentTicket" class="flex-1"></product-information>
         </div>
 
-        <div>
-            <h3>Service Requests</h3>
-            <textarea ng-model="$ctrl.currentTicket.customerComplaint" class="form-control" rows="3"></textarea>
-        </div>
+        <div class="flex">
+            <div class="flex-1" style="margin-right: 10px;">
+                <h3>Service Requests</h3>
+                <textarea ng-model="$ctrl.currentTicket.customerComplaint" class="form-control" rows="3"></textarea>
+            </div>
 
-        <div>
-            <h3>Service Description</h3>
-            <textarea ng-model="$ctrl.currentTicket.serviceDescription" class="form-control" rows="3"></textarea>
+            <div class="flex-1" style="margin-left: 10px;">
+                <h3>Service Log <span style="font-size: 16px;">(Not on customer copy)</span></h3>
+                <textarea ng-model="$ctrl.currentTicket.serviceDescription" class="form-control" rows="3"></textarea>
+            </div>
         </div>
 
         <parts-list ticket="$ctrl.currentTicket"></parts-list>
