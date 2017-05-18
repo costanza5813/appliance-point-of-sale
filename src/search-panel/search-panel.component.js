@@ -9,6 +9,16 @@ angular.module('appliancePointOfSale').component('searchPanel', {
     this.searchType = 'lastName';
     this.spinnerConfig = { radius: 20, width: 4, length: 8 };
 
+    this.setSearchType = (type) => {
+      if (type === 'phoneNumber') {
+        this.searchType = 'phoneNumber';
+      } else {
+        this.searchType = 'lastName';
+      }
+
+      this.searchText = '';
+    };
+
     this.search = () => {
       this.customers = [];
 
@@ -26,7 +36,10 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       this.showSpinner = true;
 
       promise.then((results) => {
-        this.customers = _.map(results, (result) => new Customer(result));
+        this.customers = _.chain(results)
+          .map((result) => new Customer(result))
+          .sortBy((customer) => customer.lastName + customer.firstName)
+          .value();
       }, () => {
         this.error = 'Error while searching';
         $timeout(() => { delete this.error; }, 5000);

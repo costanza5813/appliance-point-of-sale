@@ -13,8 +13,8 @@
         <div style="min-height: 80px;">
             <div class="flex-column">
                 <div class="btn-group">
-                    <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'lastName'">Last Name</label>
-                    <label class="btn btn-default" ng-model="$ctrl.searchType" uib-btn-radio="'phoneNumber'">Phone Number</label>
+                    <label class="btn btn-default" ng-click="$ctrl.setSearchType('lastName')">Last Name</label>
+                    <label class="btn btn-default" ng-click="$ctrl.setSearchType('phoneNumber')">Phone Number</label>
                 </div>
             </div>
 
