@@ -55,7 +55,11 @@ class Payment {
   }
 
   set paymentType(paymentType) {
-    this._rawData.paymentType = paymentType;
+    this._rawData.paymentType = parseInt(paymentType);
+
+    if(_.isFunction(this._updateTicket)) {
+      this._updateTicket();
+    }
   }
 
   get paymentDate() {

@@ -5,7 +5,7 @@ const dateFormat = 'L';
 
 const baseUri = '/ShoreTVCustomers/ServiceTickets/tickets/';
 
-function ticketFactory(salesTaxCalculator) {
+function ticketFactory(Payment, salesTaxCalculator) {
   class Ticket {
     static get defaults() {
       return {
@@ -41,6 +41,7 @@ function ticketFactory(salesTaxCalculator) {
     _updateTotals() {
       let debts = 0;
       let credits = 0;
+      let isWarranty = false;
 
       // sum all debts
       _.each(this._parts, (part) => {
@@ -49,13 +50,17 @@ function ticketFactory(salesTaxCalculator) {
 
       // sum all payments
       _.each(this._payments, (payment) => {
+        if (payment.paymentType === Payment.ePaymentTypes.warranty.value) {
+          isWarranty = true;
+        }
+
         credits = credits ? credits + payment.paymentAmount : payment.paymentAmount;
       });
 
       const tax = salesTaxCalculator.calculateTax(debts, this._rawData.dateStarted);
 
-      this._rawData.amountPaid = credits;
-      this._rawData.balanceDue = (tax + debts) - credits;
+      this._rawData.amountPaid = isWarranty ? 0 : credits;
+      this._rawData.balanceDue = isWarranty ? 0 : (tax + debts) - credits;
       this._rawData.subtotal = debts;
       this._rawData.tax = tax;
       this._rawData.total = tax + debts;
