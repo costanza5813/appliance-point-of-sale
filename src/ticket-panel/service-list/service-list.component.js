@@ -5,8 +5,10 @@ angular.module('appliancePointOfSale').component('serviceList', {
   bindings: {
     ticket: '<',
   },
-  controller: function(Service, serviceResource) {
-    this.techs = ['Kevin', 'Mikey', 'Rob', 'Other'];
+  controller: function(Service, serviceResource, typeaheadOptions) {
+    typeaheadOptions.techs.then((techs) => {
+      this.techs = techs;
+    });
 
     this.createNewService = () => {
       serviceResource.createServiceForTicket(this.ticket).then((rawService) => {
