@@ -1,6 +1,6 @@
-<div>
+<div ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
     <h3>Service Calls</h3>
-    <table class="table table-condensed table-no-border" ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
+    <table class="table table-condensed table-no-border">
         <colgroup>
             <col span="1" style="width: 0%;">
             <col span="1" style="width: 60%;">
@@ -19,8 +19,8 @@
             <tr ng-repeat="service in $ctrl.ticket.services" ng-if="!service.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
                 <td style="vertical-align: middle;">
                         <button ng-show="showDelete"  ng-click="$ctrl.deleteService(service)" type="button" class="btn btn-danger btn-xs"
-                                tooltip-placement="right" uib-tooltip="Delete Service Call">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                tooltip-placement="right" uib-tooltip="Remove Service Call">
+                            <i class="fa fa-minus"></i>
                         </button>
                 </td>
 
@@ -29,13 +29,13 @@
                         <a class="dropdown-toggle" ng-attr-id="service-date-{{ service.id }}" role="button" data-toggle="dropdown">
                             <div class="input-group">
                                 <input type="text" class="form-control" ng-model="service.serviceDate" placeholder="Service Date & Time">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropup" role="menu" aria-labelledby="dLabel">
                             <datetimepicker
                                 ng-model="service.serviceDate"
-                                data-datetimepicker-config="{ dropdownSelector: '#service-date-'+service.id, modelType: 'MM/DD/YYYY h:mm a' }"
+                                data-datetimepicker-config="{ dropdownSelector: '#service-date-'+service.id, modelType: 'MM/DD/YYYY h:mm a', minView: 'hour' }"
                             />
                         </ul>
                     </div>
@@ -49,7 +49,8 @@
             <tr ng-show="showNew">
                 <td colspan="2">
                     <button ng-click="$ctrl.createNewService()" type="button" class="btn btn-success btn-sm">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Service
+                        <i class="fa fa-plus"></i>
+                        Add Service
                     </button>
                 </td>
             </tr>

@@ -1,4 +1,4 @@
-<div style="margin-top: 20px; margin-left: 50px;">
+<div style="margin-top: 20px; margin-left: 50px;" ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
     <table class="table table-condensed table-no-border align-right">
         <colgroup>
             <col span="1" style="width: 60%;">
@@ -21,7 +21,7 @@
         </tbody>
     </table>
 
-    <table class="table table-condensed table-no-border align-right" ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
+    <table class="table table-condensed table-no-border align-right">
         <colgroup>
             <col span="1" style="width: 0%;">
             <col span="1" style="width: 36%;">
@@ -34,8 +34,8 @@
             <tr ng-repeat="payment in $ctrl.ticket.payments" ng-if="!payment.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
                 <td style="vertical-align: middle;">
                         <button ng-show="showDelete"  ng-click="$ctrl.deletePayment(payment)" type="button" class="btn btn-danger btn-xs"
-                                tooltip-placement="left" uib-tooltip="Delete Payment">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                tooltip-placement="left" uib-tooltip="Remove Payment">
+                            <i class="fa fa-minus"></i>
                         </button>
                 </td>
 
@@ -44,7 +44,7 @@
                         <a class="dropdown-toggle" id="payment-date-{{ payment.id }}" role="button" data-toggle="dropdown">
                             <div class="input-group">
                                 <input type="text" class="form-control" ng-model="payment.paymentDate" placeholder="Payment Date" />
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                             </div>
                         </a>
                         <ul class="dropdown-menu dropup" role="menu" aria-labelledby="dLabel">
@@ -69,7 +69,8 @@
             <tr ng-show="showNew">
                 <td colspan="2" style="text-align: left;">
                     <button ng-click="$ctrl.createNewPayment()" type="button" class="btn btn-success btn-sm">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Payment
+                        <i class="fa fa-plus"></i>
+                        Add Payment
                     </button>
                 </td>
             </tr>

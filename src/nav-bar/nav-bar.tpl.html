@@ -1,16 +1,21 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <button ng-click="$ctrl.toggleSnap()" style="position: absolute; left: 10px;" class="btn btn-primary navbar-btn"
             tooltip-placement="right" uib-tooltip="Toggle Search Panel">
-        <span class="glyphicon glyphicon-menu-hamburger"></span>
+        <i class="fa fa-bars"></i>
     </button>
 
     <button ng-click="$ctrl.saveCustomer()" ng-disabled="$ctrl.getStateName() !== 'customers'"
-            style="position: absolute; right: 380px;" class="btn btn-success navbar-btn">
-        <span class="glyphicon glyphicon-floppy-disk"> Save</span>
+            style="position: absolute; left: 100px;" class="btn btn-success navbar-btn">
+        <i class="fa fa-floppy-o"></i> Save
     </button>
 
     <button ng-click="$ctrl.printTicket()" ng-disabled="$ctrl.getStateName() !== 'customers'"
-            style="position: absolute; right: 275px;" class="btn btn-warning navbar-btn">
-        <span class="glyphicon glyphicon-print"> Print</span>
+            style="position: absolute; left: 185px;" class="btn btn-warning navbar-btn">
+        <i class="fa fa-print"></i> Print
     </button>
+
+    <div style="position: absolute; left: 270px; margin: 15px 0;" class="checkbox checkbox-primary">
+        <input type="checkbox" id="show-customer-totals" ng-model="$ctrl.hideCustomerTotals">
+        <label for="show-customer-totals">Hide Totals on Customer Copy</label>
+    </div>
 </nav>

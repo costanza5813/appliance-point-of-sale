@@ -5,8 +5,7 @@
 
     <div style="padding: 10px;" class="panel-body flex-column">
         <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-            <span class="sr-only">Error:</span>
+            <i class="fa fa-exclamation"></i>
             {{ $ctrl.error }}
         </div>
 
@@ -38,7 +37,8 @@
         <div style="padding-top: 20px;">
             <button ng-click="$ctrl.createNewCustomer()" style="width: 100%;"
                     type="button" class="btn btn-success btn-lg">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Customer
+                <i class="fa fa-plus"></i>
+                New Customer
             </button>
         </div>
 

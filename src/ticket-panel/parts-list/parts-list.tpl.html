@@ -1,6 +1,6 @@
-<div>
+<div ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
     <h3>Parts & Service</h3>
-    <table class="table table-condensed table-no-border" ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
+    <table class="table table-condensed table-no-border">
         <colgroup>
             <col span="1" style="width: 0%;">
             <col span="1" style="width: 22%;">
@@ -27,8 +27,8 @@
             <tr ng-repeat="part in $ctrl.ticket.parts" ng-if="!part.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
                 <td style="vertical-align: middle;">
                         <button ng-show="showDelete"  ng-click="$ctrl.deletePart(part)" type="button" class="btn btn-danger btn-xs"
-                                tooltip-placement="right" uib-tooltip="Delete Part">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                tooltip-placement="right" uib-tooltip="Remove Part">
+                            <i class="fa fa-minus"></i>
                         </button>
                 </td>
 
@@ -59,7 +59,8 @@
             <tr ng-show="showNew">
                 <td colspan="2">
                     <button ng-click="$ctrl.createNewPart()" type="button" class="btn btn-success btn-sm">
-                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Item
+                        <i class="fa fa-plus"></i>
+                        Add Item
                     </button>
                 </td>
             </tr>

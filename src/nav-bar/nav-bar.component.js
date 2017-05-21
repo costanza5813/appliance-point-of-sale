@@ -5,6 +5,7 @@ angular.module('appliancePointOfSale').component('navBar', {
   bindings: {
   },
   controller: function($http, $q, $state, $window, currentSelections, snapRemote, spinnerHandler) {
+    this.hideCustomerTotals = false;
 
     this.toggleSnap = () => {
       snapRemote.toggle('left');
@@ -32,6 +33,7 @@ angular.module('appliancePointOfSale').component('navBar', {
       ticket.parts = _.map(currentSelections.ticket.parts, (part) => part.rawData);
       ticket.payments = _.map(currentSelections.ticket.payments, (payment) => payment.rawData);
       ticket.serviceCalls = _.map(currentSelections.ticket.services, (service) => service.rawData);
+      ticket.hideCustomerTotals = this.hideCustomerTotals;
 
       const payload = {
         customer: currentSelections.customer.rawData,
