@@ -1,6 +1,6 @@
 <div>
     <h3>Service Calls</h3>
-    <table class="table table-condensed table-no-border">
+    <table class="table table-condensed table-no-border" ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
         <colgroup>
             <col span="1" style="width: 0%;">
             <col span="1" style="width: 60%;">
@@ -45,7 +45,8 @@
                     <input type="text" ng-model="service.tech" uib-typeahead="tech for tech in $ctrl.techs | filter:$viewValue" class="form-control">
                 </td>
             </tr>
-            <tr>
+
+            <tr ng-show="showNew">
                 <td colspan="2">
                     <button ng-click="$ctrl.createNewService()" type="button" class="btn btn-success btn-sm">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Service

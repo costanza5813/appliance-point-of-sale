@@ -21,7 +21,7 @@
         </tbody>
     </table>
 
-    <table class="table table-condensed table-no-border align-right">
+    <table class="table table-condensed table-no-border align-right" ng-mouseenter="showNew = true" ng-mouseleave="showNew = false">
         <colgroup>
             <col span="1" style="width: 0%;">
             <col span="1" style="width: 36%;">
@@ -66,7 +66,7 @@
                 </td>
             </tr>
 
-            <tr>
+            <tr ng-show="showNew">
                 <td colspan="2" style="text-align: left;">
                     <button ng-click="$ctrl.createNewPayment()" type="button" class="btn btn-success btn-sm">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Payment

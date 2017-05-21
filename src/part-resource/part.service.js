@@ -91,6 +91,7 @@ class Part {
 
   set deleted(deleted) {
     this._deleted = deleted;
+    this._updateTotal();
   }
 }
 

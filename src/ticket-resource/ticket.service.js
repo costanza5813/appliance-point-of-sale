@@ -45,11 +45,19 @@ function ticketFactory(Payment, salesTaxCalculator) {
 
       // sum all debts
       _.each(this._parts, (part) => {
+        if (part.deleted) {
+          return true;
+        }
+
         debts = debts ? debts + part.total : part.total;
       });
 
       // sum all payments
       _.each(this._payments, (payment) => {
+        if (payment.deleted) {
+          return true;
+        }
+
         if (payment.paymentType === Payment.ePaymentTypes.warranty.value) {
           isWarranty = true;
         }

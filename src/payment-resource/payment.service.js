@@ -97,6 +97,10 @@ class Payment {
 
   set deleted(deleted) {
     this._deleted = deleted;
+
+    if(_.isFunction(this._updateTicket)) {
+      this._updateTicket();
+    }
   }
 }
 angular.module('appliancePointOfSale').factory('Payment', () => Payment);
