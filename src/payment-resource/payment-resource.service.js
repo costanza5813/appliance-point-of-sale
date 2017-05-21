@@ -26,6 +26,10 @@ class PaymentResource {
   updatePayment(payment) {
     return this.$http.put(payment.selfHref, payment.rawData);
   }
+
+  deletePayment(payment) {
+    return this.$http.delete(payment.selfHref);
+  }
 }
 
 angular.module('appliancePointOfSale').factory('paymentResource', PaymentResource);

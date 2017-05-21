@@ -26,6 +26,10 @@ class PartResource {
   updatePart(part) {
     return this.$http.put(part.selfHref, part.rawData);
   }
+
+  deletePart(part) {
+    return this.$http.delete(part.selfHref);
+  }
 }
 
 angular.module('appliancePointOfSale').factory('partResource', PartResource);

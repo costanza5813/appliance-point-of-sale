@@ -2,19 +2,28 @@
     <h3>Service Calls</h3>
     <table class="table table-condensed table-no-border">
         <colgroup>
+            <col span="1" style="width: 0%;">
             <col span="1" style="width: 60%;">
             <col span="1" style="width: 40%;">
         </colgroup>
 
         <thead>
             <tr>
+                <th></th>
                 <th>Date & Time</th>
                 <th>Tech</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr ng-repeat="service in $ctrl.ticket.services">
+            <tr ng-repeat="service in $ctrl.ticket.services" ng-if="!service.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
+                <td style="vertical-align: middle;">
+                        <button ng-show="showDelete"  ng-click="$ctrl.deleteService(service)" type="button" class="btn btn-danger btn-xs"
+                                tooltip-placement="right" uib-tooltip="Delete Service Call">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                </td>
+
                 <td>
                     <div class="dropup">
                         <a class="dropdown-toggle" ng-attr-id="service-date-{{ service.id }}" role="button" data-toggle="dropdown">
@@ -37,7 +46,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2">
                     <button ng-click="$ctrl.createNewService()" type="button" class="btn btn-success btn-sm">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Service
                     </button>

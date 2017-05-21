@@ -28,6 +28,7 @@ class Payment {
   constructor(rawData, updateTicketFunc) {
     this._rawData = _.assign(Payment.defaults, rawData);
     this._updateTicket = updateTicketFunc;
+    this._deleted = false;
   }
 
   get rawData() {
@@ -88,6 +89,14 @@ class Payment {
 
   set reconciledNotes(reconciledNotes) {
     this._rawData.reconciledNotes = reconciledNotes;
+  }
+
+  get deleted() {
+    return this._deleted;
+  }
+
+  set deleted(deleted) {
+    this._deleted = deleted;
   }
 }
 angular.module('appliancePointOfSale').factory('Payment', () => Payment);

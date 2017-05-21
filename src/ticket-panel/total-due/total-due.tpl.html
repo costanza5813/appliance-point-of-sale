@@ -1,4 +1,4 @@
-<div style="margin-top: 20px; margin-left: 80px;">
+<div style="margin-top: 20px; margin-left: 50px;">
     <table class="table table-condensed table-no-border align-right">
         <colgroup>
             <col span="1" style="width: 60%;">
@@ -23,14 +23,22 @@
 
     <table class="table table-condensed table-no-border align-right">
         <colgroup>
-            <col span="1" style="width: 39%;">
-            <col span="1" style="width: 33%;">
-            <col span="1" style="width: 28%;">
+            <col span="1" style="width: 0%;">
+            <col span="1" style="width: 36%;">
+            <col span="1" style="width: 34%;">
+            <col span="1" style="width: 30%;">
         </colgroup>
         <thead>
         </thead>
         <tbody>
-            <tr ng-repeat="payment in $ctrl.ticket.payments">
+            <tr ng-repeat="payment in $ctrl.ticket.payments" ng-if="!payment.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
+                <td style="vertical-align: middle;">
+                        <button ng-show="showDelete"  ng-click="$ctrl.deletePayment(payment)" type="button" class="btn btn-danger btn-xs"
+                                tooltip-placement="left" uib-tooltip="Delete Payment">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                </td>
+
                 <td>
                     <div class="dropup">
                         <a class="dropdown-toggle" id="payment-date-{{ payment.id }}" role="button" data-toggle="dropdown">
@@ -54,12 +62,12 @@
                 </td>
 
                 <td>
-                    <input type="text" ng-model="payment.paymentAmount" currency-input class="form-control align-right" placeholder="Price">
+                        <input type="text" ng-model="payment.paymentAmount" currency-input class="form-control align-right" placeholder="Price">
                 </td>
             </tr>
 
             <tr>
-                <td style="text-align: left;">
+                <td colspan="2" style="text-align: left;">
                     <button ng-click="$ctrl.createNewPayment()" type="button" class="btn btn-success btn-sm">
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Payment
                     </button>

@@ -26,6 +26,10 @@ class ServiceResource {
   updateService(part) {
     return this.$http.put(part.selfHref, part.rawData);
   }
+
+  deleteService(service) {
+    return this.$http.delete(service.selfHref);
+  }
 }
 
 angular.module('appliancePointOfSale').factory('serviceResource', ServiceResource);

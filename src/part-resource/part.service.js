@@ -24,6 +24,7 @@ class Part {
   constructor(rawData, updateTicketFunc) {
     this._rawData = _.assign(Part.defaults, rawData);
     this._updateTicket = updateTicketFunc;
+    this._deleted = false;
   }
 
   get rawData() {
@@ -82,6 +83,14 @@ class Part {
 
   get total() {
     return this._rawData.total;
+  }
+
+  get deleted() {
+    return this._deleted;
+  }
+
+  set deleted(deleted) {
+    this._deleted = deleted;
   }
 }
 

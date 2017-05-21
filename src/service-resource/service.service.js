@@ -12,6 +12,7 @@ class Service {
 
   constructor(rawData) {
     this._rawData = _.assign(Service.defaults, rawData);
+    this._deleted = false;
   }
 
   get rawData() {
@@ -48,6 +49,14 @@ class Service {
 
   set tech(tech) {
     this._rawData.tech = tech;
+  }
+
+  get deleted() {
+    return this._deleted;
+  }
+
+  set deleted(deleted) {
+    this._deleted = deleted;
   }
 }
 
