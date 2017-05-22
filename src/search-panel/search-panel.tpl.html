@@ -12,8 +12,8 @@
         <div style="min-height: 80px;">
             <div class="flex-column">
                 <div class="btn-group">
-                    <label class="btn btn-default" ng-click="$ctrl.setSearchType('lastName')">Last Name</label>
-                    <label class="btn btn-default" ng-click="$ctrl.setSearchType('phoneNumber')">Phone Number</label>
+                    <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'lastName'}" ng-click="$ctrl.setSearchType('lastName')">Last Name</label>
+                    <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'phoneNumber'}" ng-click="$ctrl.setSearchType('phoneNumber')">Phone Number</label>
                 </div>
             </div>
 
