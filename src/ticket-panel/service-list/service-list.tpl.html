@@ -46,7 +46,7 @@
                 </td>
             </tr>
 
-            <tr ng-show="showNew">
+            <tr ng-class="{'visibility-hidden': !showNew }">
                 <td colspan="2">
                     <button ng-click="$ctrl.createNewService()" type="button" class="btn btn-success btn-sm">
                         <i class="fa fa-plus"></i>

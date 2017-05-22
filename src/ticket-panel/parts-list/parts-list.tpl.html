@@ -49,14 +49,14 @@
                 </td>
 
                 <td>
-                    <input type="number" ng-model="part.quantity" class="form-control align-right" placeholder="Qty">
+                    <input type="number" min="0" ng-model="part.quantity" class="form-control align-right" placeholder="Qty">
                 </td>
 
                 <td style="vertical-align: middle;" class="align-right">
                     {{ part.total | currency : '$' : 2 }}
                 </td>
             </tr>
-            <tr ng-show="showNew">
+            <tr ng-class="{'visibility-hidden': !showNew }">
                 <td colspan="2">
                     <button ng-click="$ctrl.createNewPart()" type="button" class="btn btn-success btn-sm">
                         <i class="fa fa-plus"></i>

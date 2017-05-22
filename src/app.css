@@ -16,29 +16,6 @@ search-panel {
     flex: 1;
 }
 
-@media print {
-    .no-print {
-        display: none;
-    }
-}
-
-.print-panel {
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000000000;
-}
-
-.print-page1, .print-page2, .print-page3 {
-    width: 100%;
-    height: 33.3%;
-    border: 2px solid black;
-    padding: 0.25in;
-}
-
 .main-content {
     max-width: 1024px;
     min-width: 830px;
@@ -66,6 +43,10 @@ search-panel {
     flex: 2;
 }
 
+.visibility-hidden {
+    visibility: hidden;
+}
+
 .table-no-border td, th {
     border: none !important;
 }
@@ -79,6 +60,19 @@ search-panel {
   top:        0;
   left:       0;
   position:   fixed;
+}
+
+.navbar-fixed-bottom ul {
+    position: absolute;
+    bottom: 0;
+    left: 80px;
+    margin: 8px 0;
+}
+
+.navbar-fixed-bottom button {
+    position: absolute;
+    bottom: 0;
+    left: 610px;
 }
 
 #customer-matches {
@@ -98,13 +92,4 @@ search-panel {
     position: absolute;
     left: 132px;
     top: 235px;
-}
-
-#ticket-pagination {
-    position:absolute;
-    margin-left:-250px;
-    bottom:0px;
-    left:50%;
-    width: 680px;
-    z-index: 5;
 }

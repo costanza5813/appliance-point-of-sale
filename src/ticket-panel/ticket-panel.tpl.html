@@ -37,17 +37,14 @@
 
     </div>
 
-    <div id="ticket-pagination">
-        <div class="flex">
-            <ul uib-pagination total-items="$ctrl.customer.tickets.length" items-per-page="1" ng-model="$ctrl.paginationIndex"
-                max-size="5" boundary-links="true" force-ellipses="true" ng-change="$ctrl.changeTicket()">
-            </ul>
-            <div>
-                <button ng-click="$ctrl.createNewTicket()" class="btn btn-success" style="margin: 20px;">
-                    <i class="fa fa-plus"></i>
-                    New Ticket
-                </button>
-            </div>
-        </div>
-    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <ul uib-pagination total-items="$ctrl.customer.tickets.length" items-per-page="1" ng-model="$ctrl.paginationIndex"
+            max-size="5" boundary-links="true" force-ellipses="true" ng-change="$ctrl.changeTicket()">
+        </ul>
+
+        <button ng-click="$ctrl.createNewTicket()" class="btn btn-success navbar-btn">
+            <i class="fa fa-plus"></i>
+            New Ticket
+        </button>
+    </nav>
 </div>
