@@ -3,6 +3,7 @@ var gulp = require('gulp');
 /*
  Tasks dependencies
  */
+var babel = require("gulp-babel");
 var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var proxy = require('http-proxy-middleware');
@@ -102,6 +103,7 @@ gulp.task('copy-all', ['clean', 'jshint'], function() {
     .pipe(gulp.dest(config.bases.dist));
 
   gulp.src(config.path.scripts)
+    .pipe(babel())
     .pipe(wrap('(function(){\n<%= contents %>\n})();'))
     .pipe(gulp.dest(config.bases.dist));
 });
@@ -131,6 +133,8 @@ gulp.task('jshint', function () {
  */
 gulp.task('js', ['clean', 'jshint'], function () {
   gulp.src(config.path.scripts)
+  // compile into es5
+    .pipe(babel())
   // wrap the file in an iffe
     .pipe(wrap('(function(){\n<%= contents %>\n})();'))
   // ng annotate project js files
@@ -280,6 +284,8 @@ gulp.task('serve', ['build'], function (done) {
       .pipe(gulpif(isLivereload, livereload()));
 
     watch(['src/**/*.js'], {verbose: true})
+    // compile into es5
+      .pipe(babel())
     // Wrap in iffe
       .pipe(wrap('(function(){\n<%= contents %>\n})();'))
     // Copy them in dist/ folder

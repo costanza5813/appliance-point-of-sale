@@ -5,7 +5,7 @@ angular.module('appliancePointOfSale').component('navBar', {
   bindings: {
   },
   controller: function($http, $q, $state, $window, currentSelections, snapRemote, spinnerHandler) {
-    this.hideCustomerTotals = false;
+    this.hideCustomerTotals = true;
 
     this.toggleSnap = () => {
       snapRemote.toggle('left');

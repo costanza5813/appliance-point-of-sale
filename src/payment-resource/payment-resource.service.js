@@ -32,4 +32,4 @@ class PaymentResource {
   }
 }
 
-angular.module('appliancePointOfSale').factory('paymentResource', PaymentResource);
+angular.module('appliancePointOfSale').service('paymentResource', PaymentResource);

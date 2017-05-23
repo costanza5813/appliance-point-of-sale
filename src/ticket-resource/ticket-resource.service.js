@@ -28,4 +28,4 @@ class TicketResource {
   }
 }
 
-angular.module('appliancePointOfSale').factory('ticketResource', TicketResource);
+angular.module('appliancePointOfSale').service('ticketResource', TicketResource);

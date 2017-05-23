@@ -41,4 +41,4 @@ class TypeaheadOptions {
   }
 }
 
-angular.module('appliancePointOfSale').factory('typeaheadOptions', TypeaheadOptions);
+angular.module('appliancePointOfSale').service('typeaheadOptions', TypeaheadOptions);

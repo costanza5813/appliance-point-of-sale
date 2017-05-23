@@ -8,6 +8,8 @@ class CustomerResource {
     this.$http = $http;
     this.$q = $q;
     this.Customer = Customer;
+
+    this.abortDeferred = $q.defer();
   }
 
   fetchByLastName(lastName) {
@@ -15,7 +17,11 @@ class CustomerResource {
       return this.$q.resolve([]);
     }
 
-    return this.$http.get(baseUri + 'search/by-lastNameStartingWithIgnoreCase', { params: { lastName: lastName }})
+    this.abortDeferred.resolve();
+    this.abortDeferred = this.$q.defer();
+
+    return this.$http.get(baseUri + 'search/by-lastNameStartingWithIgnoreCase',
+                          { params: { lastName: lastName }, timeout: this.abortDeferred.promise })
       .then((response) => _.get(response.data, '_embedded.customers', []));
   }
 
@@ -24,7 +30,11 @@ class CustomerResource {
       return this.$q.resolve([]);
     }
 
-    return this.$http.get(baseUri + 'search/by-phoneNumberStartingWithIgnoreCase', { params: { phoneNumber: phoneNumber }})
+    this.abortDeferred.resolve();
+    this.abortDeferred = this.$q.defer();
+
+    return this.$http.get(baseUri + 'search/by-phoneNumberStartingWithIgnoreCase',
+                          { params: { phoneNumber: phoneNumber }, timeout: this.abortDeferred.promise })
       .then((response) => _.get(response.data, '_embedded.customers', []));
   }
 
@@ -44,4 +54,4 @@ class CustomerResource {
   }
 }
 
-angular.module('appliancePointOfSale').factory('customerResource', CustomerResource);
+angular.module('appliancePointOfSale').service('customerResource', CustomerResource);

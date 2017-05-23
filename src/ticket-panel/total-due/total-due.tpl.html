@@ -24,16 +24,16 @@
     <table class="table table-condensed table-no-border align-right">
         <colgroup>
             <col span="1" style="width: 0%;">
-            <col span="1" style="width: 36%;">
-            <col span="1" style="width: 34%;">
-            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 39%;">
+            <col span="1" style="width: 33%;">
+            <col span="1" style="width: 28%;">
         </colgroup>
         <thead>
         </thead>
         <tbody>
             <tr ng-repeat="payment in $ctrl.ticket.payments" ng-if="!payment.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
                 <td style="vertical-align: middle;">
-                        <button ng-show="showDelete"  ng-click="$ctrl.deletePayment(payment)" type="button" class="btn btn-danger btn-xs"
+                        <button ng-class="{'visibility-hidden': !showDelete }" ng-click="$ctrl.deletePayment(payment)" type="button" class="btn btn-danger btn-xs"
                                 tooltip-placement="left" uib-tooltip="Remove Payment">
                             <i class="fa fa-minus"></i>
                         </button>

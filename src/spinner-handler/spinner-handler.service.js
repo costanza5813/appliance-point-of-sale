@@ -8,4 +8,4 @@ class SpinnerHandler {
   }
 }
 
-angular.module('appliancePointOfSale').factory('spinnerHandler', SpinnerHandler);
+angular.module('appliancePointOfSale').service('spinnerHandler', SpinnerHandler);

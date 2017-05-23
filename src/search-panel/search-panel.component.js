@@ -40,9 +40,11 @@ angular.module('appliancePointOfSale').component('searchPanel', {
           .map((result) => new Customer(result))
           .sortBy((customer) => customer.lastName + customer.firstName)
           .value();
-      }, () => {
-        this.error = 'Error while searching';
-        $timeout(() => { delete this.error; }, 5000);
+      }, (reject) => {
+        if (reject.status >= 0) {
+          this.error = 'Error while searching';
+          $timeout(() => { delete this.error; }, 5000);
+        }
       }).finally(() => {
         this.showSpinner = false;
       });

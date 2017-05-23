@@ -18,7 +18,7 @@
         <tbody>
             <tr ng-repeat="service in $ctrl.ticket.services" ng-if="!service.deleted" ng-mouseenter="showDelete = true" ng-mouseleave="showDelete = false">
                 <td style="vertical-align: middle;">
-                        <button ng-show="showDelete"  ng-click="$ctrl.deleteService(service)" type="button" class="btn btn-danger btn-xs"
+                        <button ng-class="{'visibility-hidden': !showDelete }" ng-click="$ctrl.deleteService(service)" type="button" class="btn btn-danger btn-xs"
                                 tooltip-placement="right" uib-tooltip="Remove Service Call">
                             <i class="fa fa-minus"></i>
                         </button>

@@ -32,4 +32,4 @@ class ServiceResource {
   }
 }
 
-angular.module('appliancePointOfSale').factory('serviceResource', ServiceResource);
+angular.module('appliancePointOfSale').service('serviceResource', ServiceResource);

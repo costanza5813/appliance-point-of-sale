@@ -105,4 +105,4 @@ class CurrentSelections {
   }
 }
 
-angular.module('appliancePointOfSale').factory('currentSelections', CurrentSelections);
+angular.module('appliancePointOfSale').service('currentSelections', CurrentSelections);

@@ -20,4 +20,4 @@ class SalesTaxCalculator {
   }
 }
 
-angular.module('appliancePointOfSale').factory('salesTaxCalculator', SalesTaxCalculator);
+angular.module('appliancePointOfSale').service('salesTaxCalculator', SalesTaxCalculator);
