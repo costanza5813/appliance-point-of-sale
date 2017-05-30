@@ -128,35 +128,24 @@ function ticketFactory(Payment, salesTaxCalculator) {
     }
 
     get selfHref() {
-      if (_.get(this._rawData, '_links.self.href')) {
-        return _.get(this._rawData, '_links.self.href');
-      } else {
-        return baseUri + this._rawData.idtickets;
-      }
+      return _.get(this._rawData, '_links.self.href', baseUri + this._rawData.idtickets);
     }
 
     get partsHref() {
-      if (_.get(this._rawData, '_links.quotes.href')) {
-        return _.get(this._rawData, '_links.quotes.href');
-      } else {
-        return baseUri + this._rawData.idtickets + '/quotes';
-      }
+      return _.get(this._rawData, '_links.quotes.href', baseUri + this._rawData.idtickets + '/quotes');
     }
 
     get paymentsHref() {
-      if (_.get(this._rawData, '_links.payments.href')) {
-        return _.get(this._rawData, '_links.payments.href');
-      } else {
-        return baseUri + this._rawData.idtickets + '/payments';
-      }
+      return _.get(this._rawData, '_links.payments.href', baseUri + this._rawData.idtickets + '/payments');
     }
 
     get servicesHref() {
-      if (_.get(this._rawData, '_links.serviceCalls.href')) {
-        return _.get(this._rawData, '_links.serviceCalls.href');
-      } else {
-        return baseUri + this._rawData.idtickets + '/serviceCalls';
-      }
+      return _.get(this._rawData, '_links.serviceCalls.href', baseUri + this._rawData.idtickets + '/serviceCalls');
+    }
+
+    get customerHref() {
+      const ticketsCustomerUri = '/ShoreTVCustomers/ServiceTickets/ticketsCustomer/';
+      return _.get(this._rawData, '_links.customer.href', ticketsCustomerUri + this._rawData.idtickets + '/customer');
     }
 
     get amountPaid() {

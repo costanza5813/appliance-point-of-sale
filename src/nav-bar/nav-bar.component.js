@@ -19,7 +19,7 @@ angular.module('appliancePointOfSale').component('navBar', {
       });
     };
 
-    this.getStateName = () => $state.current.name;
+    this.disableControls = () => !_.includes(['customers', 'tickets'], $state.current.name);
 
     this.printTicket = () => {
       spinnerHandler.show = true;

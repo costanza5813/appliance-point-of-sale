@@ -41,12 +41,16 @@ class CustomerResource {
   fetchCustomer(id) {
     return this.$http.get(baseUri + id).then((response) => {
       _.set(response.data, '_links.tickets.href', ('/ShoreTVCustomers/ServiceTickets/customerTickets/' + id));
-      return response.data;
+      return new this.Customer(response.data);
     });
   }
 
+  fetchCustomerForTicket(ticket) {
+    return this.$http.get(ticket.customerHref).then((response) => new this.Customer(response.data));
+  }
+
   createCustomer() {
-    return this.$http.post(baseUri, this.Customer.defaults).then((response) => response.data);
+    return this.$http.post(baseUri, this.Customer.defaults).then((response) => new this.Customer(response.data));
   }
 
   updateCustomer(customer) {

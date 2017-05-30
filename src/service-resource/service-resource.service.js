@@ -10,17 +10,19 @@ class ServiceResource {
   }
 
   fetchService(id) {
-    return this.$http.get(baseUri + id).then((response) => response.data);
+    return this.$http.get(baseUri + id).then((response) => new this.Service(response.data));
   }
 
   fetchServicesForTicket(ticket) {
-    return this.$http.get(ticket.servicesHref)
-      .then((response) => _.get(response.data, '_embedded.serviceCalls', []));
+    return this.$http.get(ticket.servicesHref).then((response) => {
+      const rawServices = _.get(response.data, '_embedded.serviceCalls', []);
+      return _.map(rawServices, (rawService) => new this.Service(rawService));
+    });
   }
 
   createServiceForTicket(ticket) {
     return this.$http.post(baseUri, _.assign(this.Service.defaults, { ticket: ticket.selfHref }))
-      .then((response) => response.data);
+      .then((response) => new this.Service(response.data));
   }
 
   updateService(part) {

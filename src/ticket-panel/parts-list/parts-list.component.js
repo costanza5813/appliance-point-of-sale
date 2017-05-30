@@ -5,7 +5,7 @@ angular.module('appliancePointOfSale').component('partsList', {
   bindings: {
     ticket: '<'
   },
-  controller: function($uibModal, Part, partResource, typeaheadOptions) {
+  controller: function($uibModal, partResource, typeaheadOptions) {
     typeaheadOptions.brands.then((brands) => {
       this.brands = brands;
     });
@@ -15,9 +15,7 @@ angular.module('appliancePointOfSale').component('partsList', {
     });
 
     this.createNewPart = () => {
-      partResource.createPartForTicket(this.ticket).then((rawPart) => {
-        this.ticket.addPart(new Part(rawPart, this.ticket.updateTotals.bind(this.ticket)));
-      });
+      partResource.createPartForTicket(this.ticket).then((part) => { this.ticket.addPart(part); });
     };
 
     this.deletePart = (part) => {

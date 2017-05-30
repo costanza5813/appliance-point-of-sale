@@ -10,17 +10,19 @@ class TicketResource {
   }
 
   fetchTicket(id) {
-    return this.$http.get(baseUri + id).then((response) => response.data);
+    return this.$http.get(baseUri + id).then((response) => new this.Ticket(response.data));
   }
 
   fetchTicketsForCustomer(customer) {
-    return this.$http.get(customer.ticketsHref)
-      .then((response) => _.get(response.data, '_embedded.tickets', []));
+    return this.$http.get(customer.ticketsHref).then((response) => {
+      const rawTickets = _.get(response.data, '_embedded.tickets', []);
+      return _.map(rawTickets, (rawTicket) => new this.Ticket(rawTicket));
+    });
   }
 
   createTicketForCustomer(customer) {
     return this.$http.post(baseUri, _.assign(this.Ticket.defaults, { customer: customer.selfHref }))
-      .then((response) => response.data);
+      .then((response) => new this.Ticket(response.data));
   }
 
   updateTicket(ticket) {

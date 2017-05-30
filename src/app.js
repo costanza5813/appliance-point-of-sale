@@ -25,7 +25,7 @@ angular.module('appliancePointOfSale', [
       url: '/customers/{customerId}',
       component: 'ticketPanel',
       resolve: {
-        customer: function($transition$, Customer, customerResource) {
+        customer: function($q, $transition$, customerResource, ticketResource) {
           const customerId = $transition$.params().customerId;
 
           let customerPromise;
@@ -35,7 +35,41 @@ angular.module('appliancePointOfSale', [
             customerPromise = customerResource.createCustomer();
           }
 
-          return customerPromise.then((rawCustomer) => new Customer(rawCustomer));
+          return customerPromise.then((customer) => {
+            return ticketResource.fetchTicketsForCustomer(customer).then((tickets) => {
+              if (_.isEmpty(tickets)) {
+                return ticketResource.createTicketForCustomer(customer).then((ticket) => {
+                  customer.addTicket(ticket);
+                  return customer;
+                });
+              }
+
+              _.each(tickets, (ticket) => { customer.addTicket(ticket); });
+              return customer;
+            });
+          }, () => $q.reject({ description: 'Customer not found.'}));
+        }
+      }
+    },
+
+    {
+      name: 'tickets',
+      url: '/tickets/{ticketId}',
+      component: 'ticketPanel',
+      resolve: {
+        customer: function($q, $transition$, Customer, customerResource, ticketResource) {
+          const ticketId = $transition$.params().ticketId;
+
+          if(!ticketId) {
+            return $q.reject({ description: 'Ticket number not provided.' });
+          }
+
+          return ticketResource.fetchTicket(ticketId).then((ticket) => {
+            return customerResource.fetchCustomerForTicket(ticket).then((customer) => {
+              customer.addTicket(ticket);
+              return customer;
+            });
+          }, () => $q.reject({ description: 'Ticket \'' + ticketId + '\' not found.' }));
         }
       }
     },
@@ -44,9 +78,12 @@ angular.module('appliancePointOfSale', [
       name: 'error',
       url: '/error',
       component: 'error',
+      params: {
+        description: ''
+      },
       resolve: {
-        error: () => {
-          return { code: 404, description: 'Customer not found.'};
+        error: ($transition$) => {
+          return { code: 404, description: $transition$.params().description || 'Customer or ticket not found.'};
         }
       }
     },
@@ -57,8 +94,8 @@ angular.module('appliancePointOfSale', [
     $stateProvider.state(state);
   });
 }).run(function($rootScope, $state, $transitions, $uibModal, $window, currentSelections, spinnerHandler) {
-  $transitions.onError({}, () => {
-    $state.go('error');
+  $transitions.onError({}, (transition) => {
+    $state.go('error', transition.error());
   });
 
   const modalOptions = {
@@ -67,7 +104,9 @@ angular.module('appliancePointOfSale', [
     component: 'confirmUnsavedChanges',
   };
 
-  $transitions.onStart({ from: (state) => state.name === 'customers' && currentSelections.hasUnsavedChanges() }, () => {
+  $transitions.onStart({
+    from: (state) => _.includes(['customers', 'tickets'], state.name) && currentSelections.hasUnsavedChanges()
+  }, () => {
     return $uibModal.open(modalOptions).result.then(() => {
       spinnerHandler.show = true;
       return currentSelections.save().finally(() => { spinnerHandler.show = false; });

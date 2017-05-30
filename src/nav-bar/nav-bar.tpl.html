@@ -4,12 +4,12 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <button ng-click="$ctrl.saveCustomer()" ng-disabled="$ctrl.getStateName() !== 'customers'"
+    <button ng-click="$ctrl.saveCustomer()" ng-disabled="$ctrl.disableControls()"
             style="position: absolute; left: 100px;" class="btn btn-success navbar-btn">
         <i class="fa fa-floppy-o"></i> Save
     </button>
 
-    <button ng-click="$ctrl.printTicket()" ng-disabled="$ctrl.getStateName() !== 'customers'"
+    <button ng-click="$ctrl.printTicket()" ng-disabled="$ctrl.disableControls()"
             style="position: absolute; left: 185px;" class="btn btn-warning navbar-btn">
         <i class="fa fa-print"></i> Print
     </button>

@@ -5,67 +5,49 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
   bindings: {
     customer: '<',
   },
-  controller: function($q, currentSelections, Part, partResource, Payment, paymentResource, Service, serviceResource,
-                       spinnerHandler, Ticket, ticketResource) {
+  controller: function($q, currentSelections, partResource, paymentResource, serviceResource, spinnerHandler,
+                       ticketResource) {
 
     this.spinnerHandler = spinnerHandler;
     this.spinnerHandler.show = true;
 
     this.$onInit = () => {
       currentSelections.customer = this.customer;
+      this.paginationIndex = this.customer.tickets.length;
 
-      ticketResource.fetchTicketsForCustomer(this.customer).then((rawTickets) => {
-        if(_.isEmpty(rawTickets)) {
-          return ticketResource.createTicketForCustomer(this.customer).then((rawTicket) => [rawTicket]);
-        }
-        return rawTickets;
-      }).then((rawTickets) => {
-        const promises = [];
-        _.each(rawTickets, (rawTicket) => {
-          const ticket = new Ticket(rawTicket);
-          this.customer.addTicket(ticket);
+      const promises = [];
+      _.each(this.customer.tickets, (ticket) => {
 
-          const partsPromise = partResource.fetchPartsForTicket(ticket).then((rawParts) => {
-            _.each(rawParts, (rawPart) => {
-              ticket.addPart(new Part(rawPart, ticket.updateTotals.bind(ticket)));
-            });
-          });
-
-          const paymentsPromise = paymentResource.fetchPaymentsForTicket(ticket).then((rawPayments) => {
-            _.each(rawPayments, (rawPayment) => {
-              ticket.addPayment(new Payment(rawPayment, ticket.updateTotals.bind(ticket)));
-            });
-          });
-
-          const servicesPromise = serviceResource.fetchServicesForTicket(ticket).then((rawServices) => {
-            _.each(rawServices, (rawService) => {
-              ticket.addService(new Service(rawService));
-            });
-          });
-
-          promises.push(partsPromise, paymentsPromise, servicesPromise);
+        const partsPromise = partResource.fetchPartsForTicket(ticket).then((parts) => {
+          _.each(parts, (part) => { ticket.addPart(part); });
         });
 
-        return $q.all(promises);
-      }).finally(() => {
+        const paymentsPromise = paymentResource.fetchPaymentsForTicket(ticket).then((payments) => {
+          _.each(payments, (payment) => { ticket.addPayment(payment); });
+        });
+
+        const servicesPromise = serviceResource.fetchServicesForTicket(ticket).then((services) => {
+          _.each(services, (service) => { ticket.addService(service); });
+        });
+
+        promises.push(partsPromise, paymentsPromise, servicesPromise);
+      });
+
+      $q.all(promises).finally(() => {
+        currentSelections.ticket = this.currentTicket = _.last(this.customer.tickets);
         this.spinnerHandler.show = false;
-        this.paginationIndex = this.customer.tickets.length;
-        this.currentTicket = _.last(this.customer.tickets);
-        currentSelections.ticket = this.currentTicket;
       });
     };
 
     this.changeTicket = () => {
-      this.currentTicket = this.customer.tickets[this.paginationIndex - 1];
-      currentSelections.ticket = this.currentTicket;
+      currentSelections.ticket = this.currentTicket = this.customer.tickets[this.paginationIndex - 1];
     };
 
     this.createNewTicket = () => {
-      ticketResource.createTicketForCustomer(this.customer).then((rawTicket) => {
-        this.customer.addTicket(new Ticket(rawTicket));
+      ticketResource.createTicketForCustomer(this.customer).then((ticket) => {
+        this.customer.addTicket(ticket);
         this.paginationIndex = this.customer.tickets.length;
-        this.currentTicket = _.last(this.customer.tickets);
-        currentSelections.ticket = this.currentTicket;
+        currentSelections.ticket = this.currentTicket = ticket;
       });
     };
   },

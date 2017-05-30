@@ -5,15 +5,13 @@ angular.module('appliancePointOfSale').component('serviceList', {
   bindings: {
     ticket: '<',
   },
-  controller: function($uibModal, Service, serviceResource, typeaheadOptions) {
+  controller: function($uibModal, serviceResource, typeaheadOptions) {
     typeaheadOptions.techs.then((techs) => {
       this.techs = techs;
     });
 
     this.createNewService = () => {
-      serviceResource.createServiceForTicket(this.ticket).then((rawService) => {
-        this.ticket.addService(new Service(rawService));
-      });
+      serviceResource.createServiceForTicket(this.ticket).then((service) => { this.ticket.addService(service); });
     };
 
     this.deleteService = (service) => {

@@ -61,10 +61,21 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       angular.element('#customer-matches button.active').removeClass('active');
       snapRemote.close();
 
-      customerResource.createCustomer().then((rawCustomer) => {
-        const customer = new Customer(rawCustomer);
-        $state.go('customers', { customerId: customer.id });
-      });
+      $state.go('customers');
+    };
+
+    this.openTicket = (keyEvent) => {
+      if (keyEvent && keyEvent.which !== 13) {
+        return;
+      }
+
+      if (this.ticketId) {
+        const ticketId = this.ticketId;
+        this.ticketId = '';
+        snapRemote.close();
+
+        $state.go('tickets', { ticketId: ticketId });
+      }
     };
   },
   templateUrl: 'search-panel/search-panel.tpl.html'

@@ -10,17 +10,19 @@ class PaymentResource {
   }
 
   fetchPayment(id) {
-    return this.$http.get(baseUri + id).then((response) => response.data);
+    return this.$http.get(baseUri + id).then((response) => this.Payment(response.data));
   }
 
   fetchPaymentsForTicket(ticket) {
-    return this.$http.get(ticket.paymentsHref)
-      .then((response) => _.get(response.data, '_embedded.payments', []));
+    return this.$http.get(ticket.paymentsHref).then((response) => {
+      const rawPayments = _.get(response.data, '_embedded.payments', []);
+      return _.map(rawPayments, (rawPayment) => new this.Payment(rawPayment, ticket.updateTotals.bind(ticket)));
+    });
   }
 
   createPaymentForTicket(ticket) {
     return this.$http.post(baseUri, _.assign(this.Payment.defaults, { ticket: ticket.selfHref }))
-      .then((response) => response.data);
+      .then((response) => new this.Payment(response.data, ticket.updateTotals.bind(ticket)));
   }
 
   updatePayment(payment) {

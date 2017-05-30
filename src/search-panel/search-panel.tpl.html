@@ -1,46 +1,60 @@
-<div class="panel panel-default flex-column">
-    <div class="panel-heading">
-        <h3 class="panel-title">Customer Search</h3>
-    </div>
-
-    <div style="padding: 10px;" class="panel-body flex-column">
-        <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
-            <i class="fa fa-exclamation"></i>
-            {{ $ctrl.error }}
+<div class="flex-column">
+    <div class="panel panel-default flex-column">
+        <div class="panel-heading">
+            <h3 class="panel-title">Jump to a Ticket</h3>
         </div>
 
-        <div style="min-height: 80px;">
-            <div class="flex-column">
-                <div class="btn-group">
-                    <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'lastName'}" ng-click="$ctrl.setSearchType('lastName')">Last Name</label>
-                    <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'phoneNumber'}" ng-click="$ctrl.setSearchType('phoneNumber')">Phone Number</label>
+        <div style="padding: 10px;" class="input-group">
+            <input type="text" ng-model="$ctrl.ticketId" ng-keypress="$ctrl.openTicket($event)" class="form-control" placeholder="Ticket Number">
+            <span class="input-group-btn">
+                <button ng-click="$ctrl.openTicket()" class="btn btn-default" type="button">Go!</button>
+            </span>
+        </div>
+    </div>
+
+    <div class="panel panel-default flex-column flex-1">
+        <div class="panel-heading">
+            <h3 class="panel-title">Customer Search</h3>
+        </div>
+
+        <div style="padding: 10px;" class="panel-body flex-column">
+            <div ng-if="$ctrl.error" class="alert alert-danger" role="alert">
+                <i class="fa fa-exclamation"></i>
+                {{ $ctrl.error }}
+            </div>
+
+            <div style="min-height: 80px;">
+                <div class="flex-column">
+                    <div class="btn-group">
+                        <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'lastName'}" ng-click="$ctrl.setSearchType('lastName')">Last Name</label>
+                        <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'phoneNumber'}" ng-click="$ctrl.setSearchType('phoneNumber')">Phone Number</label>
+                    </div>
+                </div>
+
+                <div style="padding-top: 10px;" class="flex-column">
+                    <input type="text" ng-model="$ctrl.searchText" ng-model-options="{ debounce: 500 }" ng-change="$ctrl.search()" class="form-control" placeholder="Search...">
+                </div><!-- /input-group -->
+            </div>
+
+            <h3>Results <span ng-if="$ctrl.customers" class="badge">{{ $ctrl.customers.length }}</span></h3>
+
+            <div id="customer-matches" class="flex-column">
+                <div class="list-group">
+                    <div id="search-spinner" us-spinner="$ctrl.spinnerConfig" spinner-on="$ctrl.showSpinner"></div>
+                    <button ng-repeat="customer in $ctrl.customers" ng-click="$ctrl.selectCustomer(customer)"
+                            ng-attr-id="{{ customer.id }}" type="button" class="list-group-item">
+                        {{ ::customer.lastName }}, {{ ::customer.firstName }}
+                    </button>
                 </div>
             </div>
 
-            <div style="padding-top: 10px;" class="flex-column">
-                <input type="text" ng-model="$ctrl.searchText" ng-model-options="{ debounce: 500 }" ng-change="$ctrl.search()" class="form-control" placeholder="Search...">
-            </div><!-- /input-group -->
-        </div>
-
-        <h3>Results <span ng-if="$ctrl.customers" class="badge">{{ $ctrl.customers.length }}</span></h3>
-
-        <div id="customer-matches" class="flex-column">
-            <div class="list-group">
-                <div id="search-spinner" us-spinner="$ctrl.spinnerConfig" spinner-on="$ctrl.showSpinner"></div>
-                <button ng-repeat="customer in $ctrl.customers" ng-click="$ctrl.selectCustomer(customer)"
-                        ng-attr-id="{{ customer.id }}" type="button" class="list-group-item">
-                    {{ ::customer.lastName }}, {{ ::customer.firstName }}
+            <div style="padding-top: 20px;">
+                <button ng-click="$ctrl.createNewCustomer()" style="width: 100%;"
+                        type="button" class="btn btn-success btn-lg">
+                    <i class="fa fa-plus"></i>
+                    New Customer
                 </button>
             </div>
         </div>
-
-        <div style="padding-top: 20px;">
-            <button ng-click="$ctrl.createNewCustomer()" style="width: 100%;"
-                    type="button" class="btn btn-success btn-lg">
-                <i class="fa fa-plus"></i>
-                New Customer
-            </button>
-        </div>
-
     </div>
 </div>

@@ -9,9 +9,7 @@ angular.module('appliancePointOfSale').component('totalDue', {
     this.paymentTypes = Payment.ePaymentTypes;
 
     this.createNewPayment = () => {
-      paymentResource.createPaymentForTicket(this.ticket).then((rawPayment) => {
-        this.ticket.addPayment(new Payment(rawPayment, this.ticket.updateTotals.bind(this.ticket)));
-      });
+      paymentResource.createPaymentForTicket(this.ticket).then((payment) => { this.ticket.addPayment(payment); });
     };
 
     this.deletePayment = (payment) => {
