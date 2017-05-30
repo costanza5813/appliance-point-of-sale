@@ -61,7 +61,7 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       angular.element('#customer-matches button.active').removeClass('active');
       snapRemote.close();
 
-      $state.go('customers');
+      $state.go('customers', { customerId: '' });
     };
 
     this.openTicket = (keyEvent) => {
