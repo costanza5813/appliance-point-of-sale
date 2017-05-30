@@ -9,7 +9,7 @@ angular.module('appliancePointOfSale').directive('phoneTextInput', function($fil
         const phoneRegex = /^[0-9-() ]*$/;
         if (phoneRegex.test($element.val())) {
           const value = $element.val().replace(/[^0-9]/g, '');
-          $element.val($filter('phoneNumber')(value, false));
+          $element.val($filter('phoneNumber')(value));
         }
       };
 
@@ -27,7 +27,7 @@ angular.module('appliancePointOfSale').directive('phoneTextInput', function($fil
       ngModelCtrl.$render = () => {
         const phoneRegex = /^[0-9-() ]*$/;
         if (phoneRegex.test(ngModelCtrl.$viewValue)) {
-          $element.val($filter('phoneNumber')(ngModelCtrl.$viewValue, false));
+          $element.val($filter('phoneNumber')(ngModelCtrl.$viewValue));
         } else {
           $element.val(ngModelCtrl.$viewValue);
         }
