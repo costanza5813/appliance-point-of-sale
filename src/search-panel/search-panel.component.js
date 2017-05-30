@@ -4,7 +4,7 @@
 angular.module('appliancePointOfSale').component('searchPanel', {
   bindings: {
   },
-  controller: function($state, $timeout, customerResource, Customer, snapRemote, ticketResource) {
+  controller: function ($state, $timeout, customerResource, Customer, snapRemote) {
     this.customers = [];
     this.searchType = 'lastName';
     this.spinnerConfig = { radius: 20, width: 4, length: 8 };
@@ -78,5 +78,6 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       }
     };
   },
-  templateUrl: 'search-panel/search-panel.tpl.html'
+
+  templateUrl: 'search-panel/search-panel.tpl.html',
 });
