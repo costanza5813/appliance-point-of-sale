@@ -33,6 +33,7 @@ function ticketFactory(Payment, salesTaxCalculator) {
         store: '',
         subtotal: 0,
         tax: 0,
+        taxable: true,
         tech: '',
         total: 0,
       };
@@ -65,7 +66,7 @@ function ticketFactory(Payment, salesTaxCalculator) {
         credits = credits ? credits + payment.paymentAmount : payment.paymentAmount;
       });
 
-      const tax = salesTaxCalculator.calculateTax(debts, this._rawData.dateStarted);
+      const tax = this._rawData.taxable ? salesTaxCalculator.calculateTax(debts, this._rawData.dateStarted) : 0;
 
       this._rawData.amountPaid = isWarranty ? 0 : credits;
       this._rawData.balanceDue = isWarranty ? 0 : (tax + debts) - credits;
@@ -222,6 +223,15 @@ function ticketFactory(Payment, salesTaxCalculator) {
 
     get tax() {
       return this._rawData.tax;
+    }
+
+    get taxable() {
+      return this._rawData.taxable;
+    }
+
+    set taxable(taxable) {
+      this._rawData.taxable = taxable;
+      this._updateTotals();
     }
 
     get tech() {

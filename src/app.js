@@ -114,7 +114,7 @@ angular.module('appliancePointOfSale', [
   });
 
   $window.onbeforeunload = () => {
-    if ($state.current.name === 'customers' && currentSelections.hasUnsavedChanges()) {
+    if (_.includes(['customers', 'tickets'], $state.current.name) && currentSelections.hasUnsavedChanges()) {
       return 'unsaved changes';
     }
   };

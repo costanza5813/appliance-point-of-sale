@@ -11,7 +11,15 @@
                 <td><h4>{{ $ctrl.ticket.subtotal | currency : '$' : 2 }}</h4></td>
             </tr>
             <tr>
-                <td><h4><b>Tax:</b></h4></td>
+                <td>
+                    <div style="align-items: center; justify-content: flex-end;" class="flex">
+                        <div style="margin: 0;" class="checkbox checkbox-primary">
+                            <input type="checkbox" id="taxable" ng-model="$ctrl.ticket.taxable">
+                            <label for="taxable"></label>
+                        </div>
+                        <h4><b>Tax:</b></h4>
+                    </div>
+                </td>
                 <td><h4>{{ $ctrl.ticket.tax | currency : '$' : 2 }}</h4></td>
             </tr>
             <tr>
