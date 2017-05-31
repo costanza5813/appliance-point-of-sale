@@ -28,23 +28,10 @@ angular.module('appliancePointOfSale', [
         customer: function($q, $transition$, customerResource, ticketResource) {
           const customerId = $transition$.params().customerId;
 
-          let customerPromise;
-          if (customerId) {
-            customerPromise = customerResource.fetchCustomer(customerId);
-          } else {
-            customerPromise = customerResource.createCustomer();
-          }
-
-          return customerPromise.then((customer) => {
+          return customerResource.fetchCustomer(customerId).then((customer) => {
             return ticketResource.fetchTicketsForCustomer(customer).then((tickets) => {
-              if (_.isEmpty(tickets)) {
-                return ticketResource.createTicketForCustomer(customer).then((ticket) => {
-                  customer.addTicket(ticket);
-                  return customer;
-                });
-              }
-
               _.each(tickets, (ticket) => { customer.addTicket(ticket); });
+
               return customer;
             });
           }, () => $q.reject({ description: 'Customer not found.'}));
@@ -93,9 +80,24 @@ angular.module('appliancePointOfSale', [
   _.each(states, (state) => {
     $stateProvider.state(state);
   });
-}).run(function($rootScope, $state, $transitions, $uibModal, $window, currentSelections, spinnerHandler) {
+}).run(function($rootScope, $state, $transitions, $uibModal, $window, currentSelections, customerResource,
+                ticketResource, spinnerHandler) {
   $transitions.onError({}, (transition) => {
-    $state.go('error', transition.error());
+    if (!transition.error().redirected) {
+      $state.go('error', transition.error());
+    }
+  });
+
+  $transitions.onBefore({ to: (state) => state.name === 'customers' }, (transition) => {
+    if (!transition.params().customerId) {
+      return customerResource.createCustomer().then((customer) => {
+        return ticketResource.createTicketForCustomer(customer).then(() => {
+          return transition.router.stateService.target('customers', { customerId: customer.id });
+        });
+      });
+    }
+
+    return true;
   });
 
   const modalOptions = {
