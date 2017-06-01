@@ -8,6 +8,7 @@ var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var proxy = require('http-proxy-middleware');
 var jshint = require('gulp-jshint');
+var jscs = require('gulp-jscs');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var htmlreplace = require('gulp-html-replace');
@@ -72,7 +73,7 @@ gulp.task('clean', function() {
  Use in dev environment to build the project
  It moves files from src/ to dist/ with almost no files transformation
  */
-gulp.task('copy-all', ['clean', 'jshint'], function() {
+gulp.task('copy-all', ['clean', 'jshint', 'jscs'], function() {
   /*
    Starts by processing main index.html file
    It removes livereload js if functionality has been disabled and sass stylesheets if using css without processor
@@ -128,10 +129,20 @@ gulp.task('jshint', function () {
 });
 
 /*
+ jscs task
+ Apply jscs to all src js files
+ */
+gulp.task('jscs', function () {
+  gulp.src(config.path.scripts)
+    .pipe(jscs({fix: true}))
+    .pipe(jscs.reporter());
+});
+
+/*
  Process scripts, ng annotate, uglify and concatenate them into one output file
  Use in production environment
  */
-gulp.task('js', ['clean', 'jshint'], function () {
+gulp.task('js', ['clean', 'jshint', 'jscs'], function () {
   gulp.src(config.path.scripts)
   // compile into es5
     .pipe(babel())

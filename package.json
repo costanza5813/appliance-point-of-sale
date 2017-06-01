@@ -21,6 +21,7 @@
     "gulp-html-replace": "~1.4.3",
     "gulp-if": "~1.2.5",
     "gulp-imagemin": "~2.1.0",
+    "gulp-jscs": "^4.0.0",
     "gulp-jshint": "~1.9.0",
     "gulp-karma": "~0.0.4",
     "gulp-livereload": "~3.5.0",

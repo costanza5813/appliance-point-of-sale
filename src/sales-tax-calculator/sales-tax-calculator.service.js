@@ -4,9 +4,6 @@
 const changedTo635 = moment('07/01/2011', 'L');
 
 class SalesTaxCalculator {
-  constructor() {
-  }
-
   getTaxRate(date) {
     if (moment(date).isBefore(changedTo635)) {
       return 0.06;
