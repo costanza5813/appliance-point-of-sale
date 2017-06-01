@@ -5,19 +5,20 @@ angular.module('appliancePointOfSale').directive('currencyInput', function($filt
   return {
     require: 'ngModel',
     link: function($scope, $element, $attrs, ngModelCtrl) {
+      const formatNumber = (number) => {
+        const sign = number.charAt(0) === '-' ? '-' : '';
+        let value = number.replace(/[^0-9]/g, '');
+        value = value.length === 1 ? '0' + value : value;
+        return sign + value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
+      };
+
       const listener = () => {
-        const sign = $element.val().charAt(0) === '-' ? '-' : '';
-        let value = $element.val().replace(/[^0-9]/g, '');
-        value = sign + value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
-        $element.val($filter('currency')(parseFloat(value)));
+        $element.val($filter('currency')(parseFloat(formatNumber($element.val()))));
       };
 
       // This runs when we update the text field
       ngModelCtrl.$parsers.push((viewValue) => {
-        const sign = viewValue.charAt(0) === '-' ? '-' : '';
-        let value = viewValue.replace(/[^0-9]/g, '');
-        value = sign + value.slice(0, value.length - 2) + '.' + value.slice(value.length - 2);
-        return parseFloat(value);
+        return parseFloat(formatNumber(viewValue));
       });
 
       // This runs when the model gets updated on the scope directly and keeps our view in sync
