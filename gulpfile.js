@@ -150,11 +150,17 @@ gulp.task('js', ['clean', 'jshint', 'jscs'], function () {
     .pipe(wrap('(function(){\n<%= contents %>\n})();'))
   // ng annotate project js files
     .pipe(ngAnnotate())
-  // Pipe libraries js files
-    .pipe(addsrc.prepend(config.path.libs))
-  // uglify and concat in one single file
-    .pipe(uglify())
+  // uglify
+    // .pipe(uglify())
+  // concat in one single file
     .pipe(concat('app.js'))
+  // Put in dist/scripts folder
+    .pipe(gulp.dest(config.bases.dist + 'scripts/'));
+
+  // Pipe libraries js files
+  gulp.src(config.path.libs)
+  // concat in one single file
+    .pipe(concat('vendors.js'))
   // Put in dist/scripts folder
     .pipe(gulp.dest(config.bases.dist + 'scripts/'));
 });
@@ -168,7 +174,7 @@ gulp.task('html', ['clean'], function () {
   // Replace stylesheets and javascript blocks with minified version
     .pipe(htmlreplace({
       css: 'css/stylesheets.css',
-      js: 'scripts/app.js',
+      js: ['scripts/vendors.js', 'scripts/app.js'],
       sass: ''
     }))
   // Minify html
@@ -228,6 +234,16 @@ gulp.task('img', ['clean'], function() {
     .pipe(imagemin())
   // Put in dist/img/ folder
     .pipe(gulp.dest(config.bases.dist + 'img/'));
+});
+
+/*
+ Process data
+ Use in production environment
+ */
+gulp.task('data', ['clean'], function() {
+  gulp.src(config.path.data)
+  // Put in dist/data/ folder
+    .pipe(gulp.dest(config.bases.dist + 'data/'));
 });
 
 /*
@@ -332,7 +348,7 @@ gulp.task('serve', ['build'], function (done) {
  */
 var buildDep = ['copy-all', 'fonts'];
 if (env === "prod") {
-  buildDep = ['js', 'html', 'fonts', 'img'];
+  buildDep = ['js', 'html', 'fonts', 'img', 'data', 'single-files'];
   if (!config.use_sass) {
     buildDep.push('css');
   }

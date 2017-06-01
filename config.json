@@ -7,16 +7,33 @@
     },
     "path": {
         "scripts": [
-            "src/**/*.js"
+            "src/**/*.js",
+            "!src/**/*.spec.js"
         ],
         "libs": [
+            "bower_components/moment/min/moment.min.js",
+            "bower_components/jquery/dist/jquery.min.js",
+            "bower_components/lodash/dist/lodash.min.js",
+            "bower_components/bootstrap/dist/js/bootstrap.min.js",
             "bower_components/angular/angular.min.js",
-            "bower_components/angular-bootstrap/ui-bootstrap.min.js"
+            "bower_components/angular-sanitize/angular-sanitize.min.js",
+            "bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js",
+            "bower_components/snapjs/snap.min.js",
+            "bower_components/angular-snap/angular-snap.min.js",
+            "bower_components/spin.js/spin.min.js",
+            "bower_components/angular-spinner/dist/angular-spinner.min.js",
+            "bower_components/angular-ui-router/release/angular-ui-router.min.js",
+            "bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js",
+            "bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"
         ],
         "css": [
-            "bower_components/bootstrap/dist/css/bootstrap.css",
-            "bower_components/angular-bootstrap/ui-bootstrap-csp.css",
-            "src/css/**/*.css"
+            "bower_components/bootstrap/dist/css/bootstrap.min.css",
+            "bower_components/font-awesome/css/font-awesome.min.css",
+            "bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
+            "bower_components/angular-snap/angular-snap.min.css",
+            "bower_components/snapjs/snap.css",
+            "bower_components/angular-bootstrap-datetimepicker/datetimepicker.css",
+            "src/**/*.css"
         ],
         "sass": {
             "src": [
@@ -30,9 +47,13 @@
             }
         },
         "fonts": [
+            "bower_components/font-awesome/fonts/*"
         ],
         "img": [
             "src/img/**/*"
+        ],
+        "data": [
+            "src/data/**/*"
         ],
         "html": [
             "src/**/*.html"
