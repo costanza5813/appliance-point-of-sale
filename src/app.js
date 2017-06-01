@@ -8,7 +8,7 @@ angular.module('appliancePointOfSale', [
   'ui.router',
   'ui.bootstrap.datetimepicker',
   'snap',
-]).config(function($stateProvider, $urlRouterProvider) {
+]).config(function ($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise('/welcome');
 
@@ -25,18 +25,24 @@ angular.module('appliancePointOfSale', [
       url: '/customers/{customerId}',
       component: 'ticketPanel',
       resolve: {
-        customer: function($q, $transition$, customerResource, ticketResource) {
+        customer: function ($q, $transition$, customerResource, ticketResource) {
           const customerId = $transition$.params().customerId;
 
           return customerResource.fetchCustomer(customerId).then((customer) => {
             return ticketResource.fetchTicketsForCustomer(customer).then((tickets) => {
-              _.each(tickets, (ticket) => { customer.addTicket(ticket); });
+              if (_.isEmpty(tickets)) {
+                return ticketResource.createTicketForCustomer(customer).then((ticket) => {
+                  customer.addTicket(ticket);
+                  return customer;
+                });
+              }
 
+              _.each(tickets, (ticket) => { customer.addTicket(ticket); });
               return customer;
             });
-          }, () => $q.reject({ description: 'Customer not found.'}));
-        }
-      }
+          }, () => $q.reject({ description: 'Customer not found.' }));
+        },
+      },
     },
 
     {
@@ -44,10 +50,10 @@ angular.module('appliancePointOfSale', [
       url: '/tickets/{ticketId}',
       component: 'ticketPanel',
       resolve: {
-        customer: function($q, $transition$, Customer, customerResource, ticketResource) {
+        customer: function ($q, $transition$, Customer, customerResource, ticketResource) {
           const ticketId = $transition$.params().ticketId;
 
-          if(!ticketId) {
+          if (!ticketId) {
             return $q.reject({ description: 'Ticket number not provided.' });
           }
 
@@ -57,8 +63,8 @@ angular.module('appliancePointOfSale', [
               return customer;
             });
           }, () => $q.reject({ description: 'Ticket \'' + ticketId + '\' not found.' }));
-        }
-      }
+        },
+      },
     },
 
     {
@@ -66,13 +72,13 @@ angular.module('appliancePointOfSale', [
       url: '/error',
       component: 'error',
       params: {
-        description: ''
+        description: '',
       },
       resolve: {
         error: ($transition$) => {
-          return { code: 404, description: $transition$.params().description || 'Customer or ticket not found.'};
-        }
-      }
+          return { code: 404, description: $transition$.params().description || 'Customer or ticket not found.' };
+        },
+      },
     },
   ];
 
@@ -80,7 +86,7 @@ angular.module('appliancePointOfSale', [
   _.each(states, (state) => {
     $stateProvider.state(state);
   });
-}).run(function($rootScope, $state, $transitions, $uibModal, $window, currentSelections, customerResource,
+}).run(function ($rootScope, $state, $transitions, $uibModal, $window, currentSelections, customerResource,
                 ticketResource, spinnerHandler) {
   $transitions.onError({}, (transition) => {
     if (!transition.error().redirected) {
@@ -107,7 +113,7 @@ angular.module('appliancePointOfSale', [
   };
 
   $transitions.onStart({
-    from: (state) => _.includes(['customers', 'tickets'], state.name) && currentSelections.hasUnsavedChanges()
+    from: (state) => _.includes(['customers', 'tickets'], state.name) && currentSelections.hasUnsavedChanges(),
   }, () => {
     return $uibModal.open(modalOptions).result.then(() => {
       spinnerHandler.show = true;
