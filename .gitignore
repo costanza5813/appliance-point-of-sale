@@ -3,4 +3,5 @@ bower_components/
 *.log
 
 build/
+coverage/
 dist/

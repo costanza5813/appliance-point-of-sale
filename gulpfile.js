@@ -249,9 +249,9 @@ gulp.task('data', ['clean'], function() {
 /*
  Run unit tests once and exit
  */
-gulp.task('test:unit', function (done) {
+gulp.task('test', function (done) {
   karma.start({
-    configFile: __dirname + '/test/karma.conf.js',
+    configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done);
 });
@@ -267,7 +267,7 @@ gulp.task('webdriver_update', webdriver_update);
  The site should be available on localhost:8888 before running this command.
  Moreover check the configuration of protractor.conf.js file (mainly the selenium driver)
  */
-gulp.task('test:e2e', ['build'], function(cb) {
+gulp.task('e2e', ['build'], function(cb) {
   connect.server(config.serve);
 
   gulp.src(['test/e2e/**/*.spec.js'], { read:false })
@@ -337,7 +337,7 @@ gulp.task('serve', ['build'], function (done) {
   // Call with --watch --tdd to enable
   if (isWatch && tdd) {
     karma.start({
-      configFile: __dirname + '/test/karma.conf.js'
+      configFile: __dirname + '/karma.conf.js'
     }, done);
   }
 });
