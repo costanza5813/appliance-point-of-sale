@@ -31,6 +31,9 @@ module.exports = function(config) {
     exclude: [
       'dist/bower_components/**/*',
     ],
+    preprocessors: {
+      'dist/**/*.js': ['coverage']
+    },
     //add reporters
     reporters: [
       'coverage',
