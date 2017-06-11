@@ -16,7 +16,7 @@ class Part {
   _updateTotal() {
     this._rawData.total = this._rawData.price * this._rawData.quantity;
 
-    if(_.isFunction(this._updateTicket)) {
+    if (_.isFunction(this._updateTicket)) {
       this._updateTicket();
     }
   }
@@ -32,7 +32,12 @@ class Part {
   }
 
   get id() {
-    return this.selfHref.slice(this.selfHref.lastIndexOf('/') + 1);
+    const selfHref = this.selfHref;
+    if (!selfHref) {
+      return undefined;
+    }
+
+    return selfHref.slice(selfHref.lastIndexOf('/') + 1);
   }
 
   get selfHref() {

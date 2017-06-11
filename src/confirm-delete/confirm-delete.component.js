@@ -6,7 +6,7 @@ angular.module('appliancePointOfSale').component('confirmDelete', {
     modalInstance: '<',
     resolve: '<',
   },
-  controller: function() {
+  controller: function () {
     this.$onInit = () => {
       this.type = this.resolve.type;
     };
@@ -23,5 +23,6 @@ angular.module('appliancePointOfSale').component('confirmDelete', {
       return _.startCase(this.type);
     };
   },
-  templateUrl: 'confirm-delete/confirm-delete.tpl.html'
+
+  templateUrl: 'confirm-delete/confirm-delete.tpl.html',
 });

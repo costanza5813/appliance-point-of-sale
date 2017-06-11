@@ -2,9 +2,9 @@
 'ngInject';
 
 class CurrentSelections {
-  constructor($q, Customer, customerResource, partResource, paymentResource, serviceResource, Ticket, ticketResource) {
-    this._customer = new Customer();
-    this._ticket = new Ticket();
+  constructor($q, customerResource, partResource, paymentResource, serviceResource, ticketResource) {
+    this._customer = new customerResource.Customer();
+    this._ticket = new ticketResource.Ticket();
 
     this._customerSaved = _.cloneDeep(this._customer);
     this._ticketSaved = _.cloneDeep(this._ticket);
@@ -59,7 +59,7 @@ class CurrentSelections {
       promises.push(this.serviceResource.updateService(service));
     });
 
-    // Do Deletions
+    // Do Deletes
     _.each(deletedParts, (part) => {
       promises.push(this.partResource.deletePart(part));
     });
@@ -75,6 +75,7 @@ class CurrentSelections {
     return this.$q.all(promises).then(() => {
       this._customerSaved = _.cloneDeep(this._customer);
       this._ticketSaved = _.cloneDeep(this._ticket);
+      return true;
     });
   }
 

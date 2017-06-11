@@ -10,7 +10,7 @@ class PaymentResource {
   }
 
   fetchPayment(id) {
-    return this.$http.get(baseUri + id).then((response) => this.Payment(response.data));
+    return this.$http.get(baseUri + id).then((response) => new this.Payment(response.data));
   }
 
   fetchPaymentsForTicket(ticket) {

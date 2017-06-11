@@ -22,7 +22,10 @@ class CustomerResource {
 
     return this.$http.get(baseUri + 'search/by-lastNameStartingWithIgnoreCase',
                           { params: { lastName: lastName }, timeout: this.abortDeferred.promise })
-      .then((response) => _.get(response.data, '_embedded.customers', []));
+      .then((response) => {
+        const rawCustomers = _.get(response.data, '_embedded.customers', []);
+        return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
+      });
   }
 
   fetchByPhoneNumber(phoneNumber) {
@@ -35,7 +38,10 @@ class CustomerResource {
 
     return this.$http.get(baseUri + 'search/by-phoneNumberStartingWithIgnoreCase',
                           { params: { phoneNumber: phoneNumber }, timeout: this.abortDeferred.promise })
-      .then((response) => _.get(response.data, '_embedded.customers', []));
+      .then((response) => {
+        const rawCustomers = _.get(response.data, '_embedded.customers', []);
+        return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
+      });
   }
 
   fetchCustomer(id) {

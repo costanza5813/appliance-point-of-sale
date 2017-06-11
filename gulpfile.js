@@ -3,7 +3,7 @@ var gulp = require('gulp');
 /*
  Tasks dependencies
  */
-var babel = require("gulp-babel");
+var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var connect = require('gulp-connect');
 var proxy = require('http-proxy-middleware');
@@ -13,7 +13,7 @@ var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
 var htmlreplace = require('gulp-html-replace');
 var gulpif = require('gulp-if');
-var htmlminify = require("gulp-minify-html");
+var htmlminify = require('gulp-minify-html');
 var addsrc = require('gulp-add-src');
 var minifycss = require('gulp-minify-css');
 var debug = require('gulp-debug');
@@ -27,7 +27,7 @@ var webdriver_update = require('gulp-protractor').webdriver_update;
 var protractor = require('gulp-protractor').protractor;
 var sass = require('gulp-sass');
 var batch = require('gulp-batch');
-var wrap = require("gulp-wrap");
+var wrap = require('gulp-wrap');
 
 /*
  Config
@@ -40,22 +40,22 @@ var config = require('./config.json');
  */
 // --env parameter. Default to the one in config.json
 var env = config.env;
-if (typeof argv.env !== "undefined") {
+if (typeof argv.env !== 'undefined') {
   env = argv.env;
 }
 // --watch parameter (used in serve task in dev env).
 var isWatch = false;
-if (typeof argv.watch !== "undefined") {
+if (typeof argv.watch !== 'undefined') {
   isWatch = true;
 }
 // --no-livereload parameter (used in serve task in dev env) to disable live reload
 var isLivereload = true;
-if (typeof argv.livereload !== "undefined") {
+if (typeof argv.livereload !== 'undefined') {
   isLivereload = false;
 }
 // --tdd parameter (used with --watch parameter) to enable running unit test on each changes
 var tdd = false;
-if (typeof argv.tdd !== "undefined") {
+if (typeof argv.tdd !== 'undefined') {
   tdd = true;
 }
 
@@ -63,8 +63,8 @@ if (typeof argv.tdd !== "undefined") {
  Clean files
  Remove the dist/ folder
  */
-gulp.task('clean', function() {
-  return gulp.src(config.bases.dist, {read: false})
+gulp.task('clean', function () {
+  return gulp.src(config.bases.dist, { read: false })
     .pipe(clean());
 });
 
@@ -73,7 +73,7 @@ gulp.task('clean', function() {
  Use in dev environment to build the project
  It moves files from src/ to dist/ with almost no files transformation
  */
-gulp.task('copy-all', ['clean', 'jshint', 'jscs'], function() {
+gulp.task('copy-all', ['clean', 'jshint', 'jscs'], function () {
   /*
    Starts by processing main index.html file
    It removes livereload js if functionality has been disabled and sass stylesheets if using css without processor
@@ -81,25 +81,25 @@ gulp.task('copy-all', ['clean', 'jshint', 'jscs'], function() {
 
   // prepare list of files to pipe after processing index.html file
   var otherSrc = [
-    config.bases.src+'*',
-    config.bases.src+'**/*',
-    '!'+config.bases.src+'**/*.js',
-    '!'+config.bases.src+'*.html',
+    config.bases.src + '*',
+    config.bases.src + '**/*',
+    '!' + config.bases.src + '**/*.js',
+    '!' + config.bases.src + '*.html',
   ];
 
   if (config.use_sass) {
     otherSrc.push('!src/**/*.css');
   }
 
-  gulp.src([config.bases.src+'*.html'])
+  gulp.src([config.bases.src + '*.html'])
   // Manage removing of livereload script
-    .pipe(gulpif(!isLivereload || !isWatch, htmlreplace({livereload: ""}, {keepUnassigned: true, keepBlockTags: true})))
+    .pipe(gulpif(!isLivereload || !isWatch, htmlreplace({ livereload: '' }, { keepUnassigned: true, keepBlockTags: true })))
   // Switch between sass or css according to configuration
-    .pipe(gulpif(config.use_sass, htmlreplace({css: ""}, {keepUnassigned: true})))
-    .pipe(gulpif(!config.use_sass, htmlreplace({sass: ""}, {keepUnassigned: true})))
+    .pipe(gulpif(config.use_sass, htmlreplace({ css: '' }, { keepUnassigned: true })))
+    .pipe(gulpif(!config.use_sass, htmlreplace({ sass: '' }, { keepUnassigned: true })))
   // Add other src
-    .pipe(addsrc(otherSrc, {"base": config.bases.src}))
-    .pipe(addsrc(['bower_components/**/*'], {"base": './'}))
+    .pipe(addsrc(otherSrc, { base: config.bases.src }))
+    .pipe(addsrc(['bower_components/**/*'], { base: './' }))
   // Copy to dist folder
     .pipe(gulp.dest(config.bases.dist));
 
@@ -113,8 +113,8 @@ gulp.task('copy-all', ['clean', 'jshint', 'jscs'], function() {
  Copy single files to dist folder
  For example favicon.ico
  */
-gulp.task('single-files', ['clean'], function() {
-  gulp.src(config.path.singlefiles, {base: config.bases.src})
+gulp.task('single-files', ['clean'], function () {
+  gulp.src(config.path.singlefiles, { base: config.bases.src })
     .pipe(gulp.dest(config.bases.dist));
 });
 
@@ -134,7 +134,7 @@ gulp.task('jshint', function () {
  */
 gulp.task('jscs', function () {
   gulp.src(config.path.scripts)
-    .pipe(jscs({fix: true}))
+    .pipe(jscs({ fix: true }))
     .pipe(jscs.reporter());
 });
 
@@ -175,7 +175,7 @@ gulp.task('html', ['clean'], function () {
     .pipe(htmlreplace({
       css: 'css/stylesheets.css',
       js: ['scripts/vendors.js', 'scripts/app.js'],
-      sass: ''
+      sass: '',
     }))
   // Minify html
     .pipe(htmlminify())
@@ -187,10 +187,10 @@ gulp.task('html', ['clean'], function () {
  Process css, minify it and concat them in a single file
  Use in production environment
  */
-gulp.task('css', ['clean'], function() {
+gulp.task('css', ['clean'], function () {
   gulp.src(config.path.css)
   // minify css
-    .pipe(minifycss({comments:true, spare:true}))
+    .pipe(minifycss({ comments: true, spare: true }))
   // Concat them
     .pipe(concat('stylesheets.css'))
   // Put in dist/css/ folder
@@ -208,8 +208,8 @@ gulp.task('sass', ['clean'], function () {
   // transforms to css
     .pipe(sass(config.path.sass.conf))
   // If prod env, minify and concat
-    .pipe(gulpif(env == "prod", minifycss({comments:true, spare:true})))
-    .pipe(gulpif(env == "prod", concat('stylesheets.css')))
+    .pipe(gulpif(env == 'prod', minifycss({ comments: true, spare: true })))
+    .pipe(gulpif(env == 'prod', concat('stylesheets.css')))
   // Put in dist/css/ folder
     .pipe(gulp.dest(config.bases.dist + 'css/'));
 });
@@ -218,7 +218,7 @@ gulp.task('sass', ['clean'], function () {
  Process fonts
  Copy fonts from project and libraries in dist/fonts/ folder
  */
-gulp.task('fonts', ['clean'], function() {
+gulp.task('fonts', ['clean'], function () {
   gulp.src(config.path.fonts)
     .pipe(gulp.dest(config.bases.dist + 'fonts/'));
 });
@@ -228,7 +228,7 @@ gulp.task('fonts', ['clean'], function() {
  Minify them and copy to dist/img/ folder
  Use in production environment
  */
-gulp.task('img', ['clean'], function() {
+gulp.task('img', ['clean'], function () {
   gulp.src(config.path.img)
   // Minify images
     .pipe(imagemin())
@@ -240,7 +240,7 @@ gulp.task('img', ['clean'], function() {
  Process data
  Use in production environment
  */
-gulp.task('data', ['clean'], function() {
+gulp.task('data', ['clean'], function () {
   gulp.src(config.path.data)
   // Put in dist/data/ folder
     .pipe(gulp.dest(config.bases.dist + 'data/'));
@@ -252,7 +252,7 @@ gulp.task('data', ['clean'], function() {
 gulp.task('test', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
-    singleRun: true
+    singleRun: true,
   }, done);
 });
 
@@ -267,16 +267,16 @@ gulp.task('webdriver_update', webdriver_update);
  The site should be available on localhost:8888 before running this command.
  Moreover check the configuration of protractor.conf.js file (mainly the selenium driver)
  */
-gulp.task('e2e', ['build'], function(cb) {
+gulp.task('e2e', ['build'], function (cb) {
   connect.server(config.serve);
 
-  gulp.src(['test/e2e/**/*.spec.js'], { read:false })
+  gulp.src(['test/e2e/**/*.spec.js'], { read: false })
     .pipe(protractor({
       configFile: 'test/protractor.conf.js',
-    })).on('error', function(e) {
+    })).on('error', function (e) {
       console.log(e);
       connect.serverClose();
-    }).on('end', function() {
+    }).on('end', function () {
       connect.serverClose();
     });
 });
@@ -285,14 +285,14 @@ gulp.task('e2e', ['build'], function(cb) {
  Serve file
  */
 gulp.task('serve', ['build'], function (done) {
-  config.serve.middleware = function(connect, opt) {
-    return [
-      proxy('/', {
-        target: 'http://localhost:9085',
-        changeOrigin: false
-      }),
-    ];
-  };
+  // config.serve.middleware = function(connect, opt) {
+  //   return [
+  //     proxy('/', {
+  //       target: 'http://localhost:9085',
+  //       changeOrigin: false
+  //     }),
+  //   ];
+  // };
 
   connect.server(config.serve);
 
@@ -304,13 +304,13 @@ gulp.task('serve', ['build'], function (done) {
   // Call with --watch to enable
   if (isWatch) {
     // Watch changes in all files except scss files
-    watch(['src/**/*', '!src/**/*.js', '!src/**/*.scss'], {verbose: true})
+    watch(['src/**/*', '!src/**/*.js', '!src/**/*.scss'], { verbose: true })
     // Copy them in dist/ folder
       .pipe(gulp.dest(config.bases.dist))
     // Then launch live reload if enabled
       .pipe(gulpif(isLivereload, livereload()));
 
-    watch(['src/**/*.js'], {verbose: true})
+    watch(['src/**/*.js'], { verbose: true })
     // compile into es5
       .pipe(babel())
     // Wrap in iffe
@@ -323,7 +323,7 @@ gulp.task('serve', ['build'], function (done) {
     // If sass has been enabled. Custom watch to launch preprocessing
     if (config.use_sass) {
       // Watch changes in scss files
-      watch(config.path.sass.src, {verbose: true})
+      watch(config.path.sass.src, { verbose: true })
       // Process them with node-sass
         .pipe(sass(config.path.sass.conf))
       // Copy them to dist/css/ folder
@@ -337,7 +337,7 @@ gulp.task('serve', ['build'], function (done) {
   // Call with --watch --tdd to enable
   if (isWatch && tdd) {
     karma.start({
-      configFile: __dirname + '/karma.conf.js'
+      configFile: __dirname + '/karma.conf.js',
     }, done);
   }
 });
@@ -347,12 +347,13 @@ gulp.task('serve', ['build'], function (done) {
  Different for dev or prod env
  */
 var buildDep = ['copy-all', 'fonts'];
-if (env === "prod") {
+if (env === 'prod') {
   buildDep = ['js', 'html', 'fonts', 'img', 'data', 'single-files'];
   if (!config.use_sass) {
     buildDep.push('css');
   }
 }
+
 if (config.use_sass) {
   buildDep.push('sass');
 }

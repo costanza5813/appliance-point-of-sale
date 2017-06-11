@@ -20,7 +20,12 @@ class Service {
   }
 
   get id() {
-    return this.selfHref.slice(this.selfHref.lastIndexOf('/') + 1);
+    const selfHref = this.selfHref;
+    if (!selfHref) {
+      return undefined;
+    }
+
+    return selfHref.slice(selfHref.lastIndexOf('/') + 1);
   }
 
   get selfHref() {

@@ -5,8 +5,9 @@ angular.module('appliancePointOfSale').component('error', {
   bindings: {
     error: '<',
   },
-  controller: function(snapRemote) {
+  controller: function (snapRemote) {
     snapRemote.open('left');
   },
-  templateUrl: 'error/error.tpl.html'
+
+  templateUrl: 'error/error.tpl.html',
 });

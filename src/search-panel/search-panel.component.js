@@ -4,19 +4,23 @@
 angular.module('appliancePointOfSale').component('searchPanel', {
   bindings: {
   },
-  controller: function ($state, $timeout, customerResource, Customer, snapRemote) {
+  controller: function ($state, $timeout, customerResource, snapRemote) {
     this.customers = [];
     this.searchType = 'lastName';
     this.spinnerConfig = { radius: 20, width: 4, length: 8 };
 
     this.setSearchType = (type) => {
+      const oldSearchType = this.searchType;
+
       if (type === 'phoneNumber') {
         this.searchType = 'phoneNumber';
       } else {
         this.searchType = 'lastName';
       }
 
-      this.searchText = '';
+      if (oldSearchType !== this.searchType) {
+        this.searchText = '';
+      }
     };
 
     this.search = () => {
@@ -36,10 +40,7 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       this.showSpinner = true;
 
       promise.then((results) => {
-        this.customers = _.chain(results)
-          .map((result) => new Customer(result))
-          .sortBy((customer) => customer.lastName + customer.firstName)
-          .value();
+        this.customers = _.sortBy(results, (customer) => customer.lastName + customer.firstName);
       }, (reject) => {
         if (reject.status >= 0) {
           this.error = 'Error while searching';
@@ -70,6 +71,7 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       }
 
       if (this.ticketId) {
+        angular.element('#customer-matches button.active').removeClass('active');
         const ticketId = this.ticketId;
         this.ticketId = '';
         snapRemote.close();

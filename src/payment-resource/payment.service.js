@@ -36,7 +36,12 @@ class Payment {
   }
 
   get id() {
-    return this.selfHref.slice(this.selfHref.lastIndexOf('/') + 1);
+    const selfHref = this.selfHref;
+    if (!selfHref) {
+      return undefined;
+    }
+
+    return selfHref.slice(selfHref.lastIndexOf('/') + 1);
   }
 
   get selfHref() {
@@ -51,14 +56,14 @@ class Payment {
     this._rawData.checkNumber = checkNumber;
   }
 
-  get paymentType() {
-    return this._rawData.paymentType;
+  get paymentAmount() {
+    return this._rawData.paymentAmount;
   }
 
-  set paymentType(paymentType) {
-    this._rawData.paymentType = parseInt(paymentType);
+  set paymentAmount(paymentAmount) {
+    this._rawData.paymentAmount = parseFloat(paymentAmount);
 
-    if(_.isFunction(this._updateTicket)) {
+    if (_.isFunction(this._updateTicket)) {
       this._updateTicket();
     }
   }
@@ -71,14 +76,14 @@ class Payment {
     this._rawData.paymentDate = paymentDate;
   }
 
-  get paymentAmount() {
-    return this._rawData.paymentAmount;
+  get paymentType() {
+    return this._rawData.paymentType;
   }
 
-  set paymentAmount(paymentAmount) {
-    this._rawData.paymentAmount = parseFloat(paymentAmount);
+  set paymentType(paymentType) {
+    this._rawData.paymentType = parseInt(paymentType);
 
-    if(_.isFunction(this._updateTicket)) {
+    if (_.isFunction(this._updateTicket)) {
       this._updateTicket();
     }
   }
@@ -98,7 +103,7 @@ class Payment {
   set deleted(deleted) {
     this._deleted = deleted;
 
-    if(_.isFunction(this._updateTicket)) {
+    if (_.isFunction(this._updateTicket)) {
       this._updateTicket();
     }
   }

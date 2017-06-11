@@ -4,7 +4,7 @@
 angular.module('appliancePointOfSale').component('navBar', {
   bindings: {
   },
-  controller: function($http, $q, $state, $window, currentSelections, snapRemote, spinnerHandler) {
+  controller: function ($http, $q, $state, $window, currentSelections, snapRemote, spinnerHandler) {
     this.hideCustomerTotals = true;
 
     this.toggleSnap = () => {
@@ -51,5 +51,6 @@ angular.module('appliancePointOfSale').component('navBar', {
       });
     };
   },
-  templateUrl: 'nav-bar/nav-bar.tpl.html'
+
+  templateUrl: 'nav-bar/nav-bar.tpl.html',
 });

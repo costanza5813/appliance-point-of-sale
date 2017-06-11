@@ -3,9 +3,9 @@
 
 angular.module('appliancePointOfSale').component('partsList', {
   bindings: {
-    ticket: '<'
+    ticket: '<',
   },
-  controller: function($uibModal, partResource, typeaheadOptions) {
+  controller: function ($uibModal, partResource, typeaheadOptions) {
     typeaheadOptions.brands.then((brands) => {
       this.brands = brands;
     });
@@ -26,8 +26,8 @@ angular.module('appliancePointOfSale').component('partsList', {
         resolve: {
           type: () => {
             return 'part';
-          }
-        }
+          },
+        },
       };
 
       $uibModal.open(modalOptions).result.then(() => {
@@ -35,5 +35,6 @@ angular.module('appliancePointOfSale').component('partsList', {
       });
     };
   },
-  templateUrl: 'ticket-panel/parts-list/parts-list.tpl.html'
+
+  templateUrl: 'ticket-panel/parts-list/parts-list.tpl.html',
 });

@@ -3,9 +3,9 @@
 
 angular.module('appliancePointOfSale').component('confirmUnsavedChanges', {
   bindings: {
-    modalInstance: '<'
+    modalInstance: '<',
   },
-  controller: function() {
+  controller: function () {
     this.onDiscard = () => {
       this.modalInstance.dismiss();
     };
@@ -14,5 +14,6 @@ angular.module('appliancePointOfSale').component('confirmUnsavedChanges', {
       this.modalInstance.close();
     };
   },
-  templateUrl: 'confirm-unsaved-changes/confirm-unsaved-changes.tpl.html'
+
+  templateUrl: 'confirm-unsaved-changes/confirm-unsaved-changes.tpl.html',
 });

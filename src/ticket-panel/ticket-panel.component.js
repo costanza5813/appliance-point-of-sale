@@ -5,7 +5,7 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
   bindings: {
     customer: '<',
   },
-  controller: function($q, currentSelections, partResource, paymentResource, serviceResource, spinnerHandler,
+  controller: function ($q, currentSelections, partResource, paymentResource, serviceResource, spinnerHandler,
                        ticketResource) {
 
     this.spinnerHandler = spinnerHandler;
@@ -51,5 +51,6 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
       });
     };
   },
-  templateUrl: 'ticket-panel/ticket-panel.tpl.html'
+
+  templateUrl: 'ticket-panel/ticket-panel.tpl.html',
 });

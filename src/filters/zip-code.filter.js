@@ -1,7 +1,7 @@
 'use strict';
 'ngInject';
 
-angular.module('appliancePointOfSale').filter('zipCode', function() {
+angular.module('appliancePointOfSale').filter('zipCode', function () {
   return function (code) {
     if (!code) { return ''; }
 
