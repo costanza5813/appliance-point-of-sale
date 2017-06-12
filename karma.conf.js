@@ -1,6 +1,6 @@
 module.exports = function(config) {
   config.set({
-    browserNoActivityTimeout: 20000,
+    browserNoActivityTimeout: 30000,
     browsers: ['Chrome'],
     frameworks: ['jasmine'],
     files: [

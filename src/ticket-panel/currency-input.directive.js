@@ -1,7 +1,7 @@
 'use strict';
 'ngInject';
 
-angular.module('appliancePointOfSale').directive('currencyInput', function ($filter, $browser) {
+angular.module('appliancePointOfSale').directive('currencyInput', function ($filter, $timeout) {
   return {
     require: 'ngModel',
     link: function ($scope, $element, $attrs, ngModelCtrl) {
@@ -28,7 +28,7 @@ angular.module('appliancePointOfSale').directive('currencyInput', function ($fil
 
       $element.bind('change', listener);
       $element.bind('keydown', (event) => {
-        const key = event.keyCode;
+        const key = event.which;
 
         // If the keys include the CTRL, SHIFT, ALT, or META keys, or the arrow keys, do nothing.
         // This lets us support copy and paste too
@@ -36,11 +36,11 @@ angular.module('appliancePointOfSale').directive('currencyInput', function ($fil
           return;
         }
 
-        $browser.defer(listener); // Have to do this or changes don't get picked up properly
+        $timeout(listener); // Have to do this or changes don't get picked up properly
       });
 
       $element.bind('paste cut', function () {
-        $browser.defer(listener);
+        $timeout(listener);
       });
     },
   };

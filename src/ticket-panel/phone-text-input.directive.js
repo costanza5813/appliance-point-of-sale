@@ -1,10 +1,10 @@
 'use strict';
 'ngInject';
 
-angular.module('appliancePointOfSale').directive('phoneTextInput', function($filter, $browser) {
+angular.module('appliancePointOfSale').directive('phoneTextInput', function ($filter, $timeout) {
   return {
     require: 'ngModel',
-    link: function($scope, $element, $attrs, ngModelCtrl) {
+    link: function ($scope, $element, $attrs, ngModelCtrl) {
       const listener = () => {
         const phoneRegex = /^[0-9-() ]*$/;
         if (phoneRegex.test($element.val())) {
@@ -17,7 +17,7 @@ angular.module('appliancePointOfSale').directive('phoneTextInput', function($fil
       ngModelCtrl.$parsers.push((viewValue) => {
         const phoneRegex = /^[0-9-() ]*$/;
         if (phoneRegex.test($element.val())) {
-          return viewValue.replace(/[^0-9]/g, '').slice(0,10);
+          return viewValue.replace(/[^0-9]/g, '').slice(0, 10);
         }
 
         return viewValue;
@@ -35,18 +35,20 @@ angular.module('appliancePointOfSale').directive('phoneTextInput', function($fil
 
       $element.bind('change', listener);
       $element.bind('keydown', (event) => {
-        var key = event.keyCode;
+        var key = event.which;
+
         // If the keys include the CTRL, SHIFT, ALT, or META keys, or the arrow keys, do nothing.
         // This lets us support copy and paste too
-        if (key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40)){
+        if (key === 91 || (15 < key && key < 19) || (37 <= key && key <= 40)) {
           return;
         }
-        $browser.defer(listener); // Have to do this or changes don't get picked up properly
+
+        $timeout(listener); // Have to do this or changes don't get picked up properly
       });
 
-      $element.bind('paste cut', function() {
-        $browser.defer(listener);
+      $element.bind('paste cut', function () {
+        $timeout(listener);
       });
-    }
+    },
   };
 });
