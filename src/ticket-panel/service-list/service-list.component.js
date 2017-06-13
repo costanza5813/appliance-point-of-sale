@@ -5,7 +5,7 @@ angular.module('appliancePointOfSale').component('serviceList', {
   bindings: {
     ticket: '<',
   },
-  controller: function($uibModal, serviceResource, typeaheadOptions) {
+  controller: function ($uibModal, serviceResource, typeaheadOptions) {
     typeaheadOptions.techs.then((techs) => {
       this.techs = techs;
     });
@@ -22,8 +22,8 @@ angular.module('appliancePointOfSale').component('serviceList', {
         resolve: {
           type: () => {
             return 'service call';
-          }
-        }
+          },
+        },
       };
 
       $uibModal.open(modalOptions).result.then(() => {
@@ -31,5 +31,6 @@ angular.module('appliancePointOfSale').component('serviceList', {
       });
     };
   },
-  templateUrl: 'ticket-panel/service-list/service-list.tpl.html'
+
+  templateUrl: 'ticket-panel/service-list/service-list.tpl.html',
 });

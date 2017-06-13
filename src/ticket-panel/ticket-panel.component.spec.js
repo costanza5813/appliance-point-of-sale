@@ -15,14 +15,6 @@ describe('Component: ticketPanel', function () {
     this.locals = {};
     this.bindings = { customer: this.customer };
     this.createController = () => $componentController('ticketPanel', this.locals, this.bindings);
-
-    angular.element('body').append([
-      '<div id="customer-matches">',
-      '<button id="0" class="active"></button>',
-      '<button id="1"></button>',
-      '</div>',
-    ].join(''));
-
   }));
 
   it('should setup defaults', function () {

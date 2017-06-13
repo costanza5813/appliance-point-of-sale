@@ -5,7 +5,7 @@ angular.module('appliancePointOfSale').component('totalDue', {
   bindings: {
     ticket: '<',
   },
-  controller: function($uibModal, Payment, paymentResource) {
+  controller: function ($uibModal, Payment, paymentResource) {
     this.paymentTypes = Payment.ePaymentTypes;
 
     this.createNewPayment = () => {
@@ -20,8 +20,8 @@ angular.module('appliancePointOfSale').component('totalDue', {
         resolve: {
           type: () => {
             return 'payment';
-          }
-        }
+          },
+        },
       };
 
       $uibModal.open(modalOptions).result.then(() => {
@@ -30,5 +30,6 @@ angular.module('appliancePointOfSale').component('totalDue', {
 
     };
   },
-  templateUrl: 'ticket-panel/total-due/total-due.tpl.html'
+
+  templateUrl: 'ticket-panel/total-due/total-due.tpl.html',
 });

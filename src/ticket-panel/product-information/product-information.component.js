@@ -4,9 +4,8 @@
 angular.module('appliancePointOfSale').component('productInformation', {
   bindings: {
     ticket: '<',
-    type: '<',
   },
-  controller: function(typeaheadOptions) {
+  controller: function (typeaheadOptions) {
     typeaheadOptions.brands.then((brands) => {
       this.brands = brands;
     });
@@ -15,5 +14,6 @@ angular.module('appliancePointOfSale').component('productInformation', {
       this.descriptions = descriptions;
     });
   },
-  templateUrl: 'ticket-panel/product-information/product-information.tpl.html'
+
+  templateUrl: 'ticket-panel/product-information/product-information.tpl.html',
 });
