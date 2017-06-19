@@ -4,5 +4,6 @@
     "value": 120,
     "allExcept": ["urlComments"]
   },
-  "requireShorthandArrowFunctions": false
+  "requireShorthandArrowFunctions": false,
+  "validateLineBreaks": null
 }
