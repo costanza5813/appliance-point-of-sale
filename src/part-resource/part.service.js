@@ -25,6 +25,8 @@ class Part {
     this._rawData = _.assign(Part.defaults, rawData);
     this._updateTicket = updateTicketFunc;
     this._deleted = false;
+
+    this._updateTotal();
   }
 
   get rawData() {

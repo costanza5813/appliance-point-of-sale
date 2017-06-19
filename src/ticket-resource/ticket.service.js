@@ -77,7 +77,6 @@ function ticketFactory(Payment, salesTaxCalculator) {
 
     constructor(rawData) {
       this._rawData = _.assign(Ticket.defaults, rawData);
-      this._rawData.dateOpen = this._rawData.dateOpen || moment().format(dateFormat);
 
       this._parts = [];
       this._payments = [];
@@ -121,15 +120,11 @@ function ticketFactory(Payment, salesTaxCalculator) {
     }
 
     get id() {
-      if (this.selfHref) {
-        return this.selfHref.slice(this.selfHref.lastIndexOf('/') + 1);
-      } else if (this.idtickets) {
-        return this._rawData.idtickets;
-      }
+      return this.selfHref.slice(this.selfHref.lastIndexOf('/') + 1);
     }
 
     get selfHref() {
-      return _.get(this._rawData, '_links.self.href', baseUri + this._rawData.idtickets);
+      return _.get(this._rawData, '_links.self.href', baseUri + (this._rawData.idtickets || ''));
     }
 
     get partsHref() {

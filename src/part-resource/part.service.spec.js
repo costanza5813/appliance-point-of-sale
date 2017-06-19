@@ -51,6 +51,11 @@ describe('Factory: Part', function () {
       const part = new this.Part({}, updateTicket);
       expect(part._updateTicket).toBe(updateTicket);
     });
+
+    it('should call _updateTotal on construction', function () {
+      const part = new this.Part({ price: 1, quantity: 2 });
+      expect(part.total).toBeCloseTo(2, 2);
+    });
   });
 
   describe('get id', function () {
