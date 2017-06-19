@@ -4,7 +4,7 @@
 angular.module('appliancePointOfSale').component('welcome', {
   bindings: {
   },
-  controller: function(snapRemote) {
+  controller: function (snapRemote) {
     snapRemote.open('left');
 
     const hour = moment().hour();
@@ -16,5 +16,6 @@ angular.module('appliancePointOfSale').component('welcome', {
       this.partOfDay = 'evening';
     }
   },
-  templateUrl: 'welcome/welcome.tpl.html'
+
+  templateUrl: 'welcome/welcome.tpl.html',
 });
