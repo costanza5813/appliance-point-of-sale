@@ -8,6 +8,9 @@ angular.module('appliancePointOfSale').component('searchPanel', {
     this.customers = [];
     this.searchType = 'lastName';
     this.spinnerConfig = { radius: 20, width: 4, length: 8 };
+    this.resultType = 'both';  //ticketsOnly / invoicesOnly / both
+    this.startSearchDate = '2017-01-01';
+    this.endSearchDate = '2099-12-31'; 
 
     this.setSearchType = (type) => {
       const oldSearchType = this.searchType;
@@ -32,9 +35,19 @@ angular.module('appliancePointOfSale').component('searchPanel', {
 
       let promise;
       if (this.searchType === 'phoneNumber') {
-        promise = customerResource.fetchByPhoneNumber(this.searchText);
+        if (this.resultType === 'ticketsOnly') {
+          promise = customerResource.fetchByPhoneNumberIfTickets(
+              this.searchText, this.startSearchDate, this.endSearchDate);
+        } else {
+          promise = customerResource.fetchByPhoneNumber(this.searchText);
+        }
       } else {
-        promise = customerResource.fetchByLastName(this.searchText);
+        if (this.resultType === 'ticketsOnly') {
+          promise = customerResource.fetchByLastNameIfTickets(
+              this.searchText, this.startSearchDate, this.endSearchDate);
+        } else {
+          promise = customerResource.fetchByLastName(this.searchText);
+        }
       }
 
       this.showSpinner = true;

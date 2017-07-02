@@ -23,7 +23,7 @@
                 {{ $ctrl.error }}
             </div>
 
-            <div style="min-height: 80px;">
+            <div>
                 <div class="flex-column">
                     <div class="btn-group">
                         <label class="btn btn-default" ng-class="{'active': $ctrl.searchType === 'lastName'}" ng-click="$ctrl.setSearchType('lastName')">Last Name</label>
@@ -34,6 +34,42 @@
                 <div style="padding-top: 10px;" class="flex-column">
                     <input type="text" ng-model="$ctrl.searchText" ng-model-options="{ debounce: 500 }" ng-change="$ctrl.search()" class="form-control" placeholder="Search...">
                 </div><!-- /input-group -->
+            </div>
+            
+            <div class="input-group">
+                 <div><label>Only Service Tickets</label><input type="radio" ng-model="$ctrl.resultType" value="ticketsOnly"></div>
+                 <div style="display: none;"><label>Only Invoices</label><input type="radio" ng-model="$ctrl.resultType" value="invoicesOnly"></div>
+                 <div><label>Tickets and Invoices</label><input type="radio" ng-model="$ctrl.resultType" value="both"></div>   
+            </div>
+            <!-- start search date input-->
+            <div id="startAndEndSearchDates" ng-show="$ctrl.resultType==='ticketsOnly'">
+              <div style="margin-top: 10px;" class="item-group flex">
+                  <div class="dropdown">
+                      <a class="dropdown-toggle" id="start-search-date" role="button" data-toggle="dropdown">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="$ctrl.startSearchDate" placeholder="Tickets on or After..." >
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                      </a>
+                      <ul class="dropdown-menu dropdown" role="menu" aria-labelledby="dLabel">
+                          <datetimepicker ng-model="$ctrl.startSearchDate" data-datetimepicker-config="{ dropdownSelector: '#start-search-date', modelType: 'YYYY-MM-DD', minView: 'day' }"/>
+                      </ul>
+                  </div>
+              </div>
+              <!-- end search date input -->
+              <div style="margin-top: 10px;" class="item-group flex">
+                  <div class="dropdown">
+                      <a class="dropdown-toggle" id="end-search-date" role="button" data-toggle="dropdown">
+                        <div class="input-group">
+                            <input type="text" class="form-control" ng-model="$ctrl.endSearchDate" placeholder="Tickets on or Before..." >
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                      </a>
+                      <ul class="dropdown-menu dropdown" role="menu" aria-labelledby="dLabel">
+                          <datetimepicker ng-model="$ctrl.endSearchDate" data-datetimepicker-config="{ dropdownSelector: '#end-search-date', modelType: 'YYYY-MM-DD', minView: 'day' }"/>
+                      </ul>
+                  </div>
+              </div>
             </div>
 
             <h3>Results <span ng-if="$ctrl.customers" class="badge">{{ $ctrl.customers.length }}</span></h3>
