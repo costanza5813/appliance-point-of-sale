@@ -78,7 +78,12 @@ class CustomerResource {
     //eg: http://localhost:9090/ShoreTVCustomers/ServiceTickets/customerSearch
       // /by-phoneNumberStartingWithIgnoreCase?phoneNumber=669&startDate=2015-01-01&endDate=2019-01-01
     return this.$http.get(searchBaseUri + 'by-phoneNumberStartingWithIgnoreCase',
-        { params: { phoneNumber: phoneNumber, startDate: startDate, endDate: endDate }, timeout: this.abortDeferred.promise })
+        { params: { 
+            phoneNumber: phoneNumber, 
+            startDate: startDate, 
+            endDate: endDate 
+          }, timeout: this.abortDeferred.promise 
+        })
       .then((response) => {
         const rawCustomers = _.get(response.data, '_embedded.customers', []);
         return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
