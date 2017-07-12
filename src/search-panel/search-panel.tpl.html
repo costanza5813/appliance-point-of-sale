@@ -37,9 +37,9 @@
             </div>
             
             <div class="input-group">
-                 <div><label>Only Service Tickets</label><input type="radio" ng-model="$ctrl.resultType" value="ticketsOnly"></div>
-                 <div style="display: none;"><label>Only Invoices</label><input type="radio" ng-model="$ctrl.resultType" value="invoicesOnly"></div>
-                 <div><label>Tickets and Invoices</label><input type="radio" ng-model="$ctrl.resultType" value="both"></div>   
+                 <div><label>Only Service Tickets</label><input type="radio" ng-model="$ctrl.resultType" value="ticketsOnly" ng-change="$ctrl.search()" ></div>
+                 <div style="display: none;"><label>Only Invoices</label><input type="radio" ng-model="$ctrl.resultType" value="invoicesOnly" ng-change="$ctrl.search()" ></div>
+                 <div><label>Tickets and Invoices</label><input type="radio" ng-model="$ctrl.resultType" value="both" ng-change="$ctrl.search()" ></div>   
             </div>
             <!-- start search date input-->
             <div id="startAndEndSearchDates" ng-show="$ctrl.resultType==='ticketsOnly'">
@@ -47,7 +47,7 @@
                   <div class="dropdown">
                       <a class="dropdown-toggle" id="start-search-date" role="button" data-toggle="dropdown">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="$ctrl.startSearchDate" placeholder="Tickets on or After..." >
+                            <input type="text" class="form-control" ng-model="$ctrl.startSearchDate" placeholder="Tickets on or After..." ng-change="$ctrl.search()" >
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                       </a>
@@ -61,7 +61,7 @@
                   <div class="dropdown">
                       <a class="dropdown-toggle" id="end-search-date" role="button" data-toggle="dropdown">
                         <div class="input-group">
-                            <input type="text" class="form-control" ng-model="$ctrl.endSearchDate" placeholder="Tickets on or Before..." >
+                            <input type="text" class="form-control" ng-model="$ctrl.endSearchDate" placeholder="Tickets on or Before..." ng-change="$ctrl.search()" >
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                       </a>
