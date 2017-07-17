@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h3>Advanced Search</h3>
+    <button ng-click="$ctrl.close()"
+            class="btn btn-danger"
+            style="position: fixed; top: 15px; right: 15px;">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+<div class="modal-body">
+    <basic-search search-options="$ctrl.searchOptions"></basic-search>
+
+    <div style="margin-top: 20px;" class="flex-column">
+        <div class="btn-group">
+            <label class="btn btn-default"
+                   ng-class="{'active': $ctrl.searchOptions.resultType === 'ticketsOnly'}"
+                   ng-click="$ctrl.searchOptions.resultType = 'ticketsOnly'">
+                Tickets
+            </label>
+            <label class="btn btn-default"
+                   ng-disabled="true"
+                   ng-class="{'active': $ctrl.searchOptions.resultType === 'invoicesOnly'}">
+                Invoices
+            </label>
+            <label class="btn btn-default"
+                   ng-class="{'active': $ctrl.searchOptions.resultType === 'both'}"
+                   ng-click="$ctrl.searchOptions.resultType = 'both'">
+                Both
+            </label>
+        </div>
+    </div>
+
+    <div style="margin-top: 15px;" ng-show="$ctrl.searchOptions.resultType !== 'both'">
+        <div>
+            <label class="control-label">From</label>
+            <div class="dropdown">
+                <a class="dropdown-toggle" id="start-search-date" role="button" data-toggle="dropdown">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="$ctrl.searchOptions.startDate" placeholder="Start Date" readonly>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown" role="menu" aria-labelledby="dLabel">
+                    <datetimepicker ng-model="$ctrl.searchOptions.startDate" data-datetimepicker-config="{ dropdownSelector: '#start-search-date', modelType: 'YYYY-MM-DD', minView: 'day' }"/>
+                </ul>
+            </div>
+        </div>
+
+        <div style="margin-top: 5px;">
+            <label class="control-label">To</label>
+            <div class="dropdown">
+                <a class="dropdown-toggle" id="end-search-date" role="button" data-toggle="dropdown">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="$ctrl.searchOptions.endDate" placeholder="End Date" readonly>
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown" role="menu" aria-labelledby="dLabel">
+                    <datetimepicker ng-model="$ctrl.searchOptions.endDate" data-datetimepicker-config="{ dropdownSelector: '#end-search-date', modelType: 'YYYY-MM-DD', minView: 'day' }"/>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

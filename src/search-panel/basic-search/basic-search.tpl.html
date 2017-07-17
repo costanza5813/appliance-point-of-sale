@@ -1,0 +1,24 @@
+<div class="flex-column">
+    <div class="btn-group">
+        <label class="btn btn-default"
+               ng-class="{'active': $ctrl.searchOptions.searchType === 'lastName'}"
+               ng-click="$ctrl.setSearchType('lastName')">
+            Last Name
+        </label>
+        <label class="btn btn-default"
+               ng-class="{'active': $ctrl.searchOptions.searchType === 'phoneNumber'}"
+               ng-click="$ctrl.setSearchType('phoneNumber')">
+            Phone Number
+        </label>
+    </div>
+</div>
+
+<div style="margin-top: 10px;" class="flex-column">
+    <input type="text"
+           id="basic-search-text"
+           ng-model="$ctrl.searchOptions.searchText"
+           ng-model-options="{ debounce: 500 }"
+           ng-change="$ctrl.search()"
+           class="form-control"
+           placeholder="Search...">
+</div><!-- /input-group -->

@@ -4,56 +4,24 @@
 angular.module('appliancePointOfSale').component('searchPanel', {
   bindings: {
   },
-  controller: function ($state, $timeout, customerResource, snapRemote) {
+  controller: function ($state, $timeout, $uibModal, customerResource, SearchOptions, snapRemote) {
     this.customers = [];
-    this.searchType = 'lastName';
     this.spinnerConfig = { radius: 20, width: 4, length: 8 };
-    this.resultType = 'both';  //ticketsOnly / invoicesOnly / both
-    this.startSearchDate = '2017-01-01';
-    this.endSearchDate = '2099-12-31'; 
-
-    this.setSearchType = (type) => {
-      const oldSearchType = this.searchType;
-
-      if (type === 'phoneNumber') {
-        this.searchType = 'phoneNumber';
-      } else {
-        this.searchType = 'lastName';
-      }
-
-      if (oldSearchType !== this.searchType) {
-        this.searchText = '';
-      }
-    };
 
     this.search = () => {
       this.customers = [];
 
-      if (!this.searchText || this.searchText.length < 2) {
+      if (_.size(this.searchOptions.searchText) < 2) {
         return;
-      }
-
-      let promise;
-      if (this.searchType === 'phoneNumber') {
-        if (this.resultType === 'ticketsOnly') {
-          promise = customerResource.fetchByPhoneNumberIfTickets(
-              this.searchText, this.startSearchDate, this.endSearchDate);
-        } else {
-          promise = customerResource.fetchByPhoneNumber(this.searchText);
-        }
-      } else {
-        if (this.resultType === 'ticketsOnly') {
-          promise = customerResource.fetchByLastNameIfTickets(
-              this.searchText, this.startSearchDate, this.endSearchDate);
-        } else {
-          promise = customerResource.fetchByLastName(this.searchText);
-        }
       }
 
       this.showSpinner = true;
 
-      promise.then((results) => {
-        this.customers = _.sortBy(results, (customer) => customer.lastName + customer.firstName);
+      customerResource.searchForCustomers(this.searchOptions).then((results) => {
+        this.customers = _.chain(results)
+          .filter((customer) => !_.isEmpty(customer.lastName))
+          .sortBy((customer) => customer.lastName + customer.firstName)
+          .value();
       }, (reject) => {
         if (reject.status >= 0) {
           this.error = 'Error while searching';
@@ -62,6 +30,22 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       }).finally(() => {
         this.showSpinner = false;
       });
+    };
+
+    this.searchOptions = new SearchOptions({}, this.search.bind(this));
+
+    this.openAdvancedSearch = () => {
+      const modalOptions = {
+        size: 'sm',
+        component: 'advancedSearch',
+        resolve: {
+          searchOptions: () => {
+            return this.searchOptions;
+          },
+        },
+      };
+
+      $uibModal.open(modalOptions);
     };
 
     this.selectCustomer = (customer) => {

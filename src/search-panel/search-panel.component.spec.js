@@ -3,8 +3,9 @@
 describe('Component: searchPanel', function () {
   beforeEach(module('appliancePointOfSale'));
 
-  beforeEach(inject(function ($componentController, snapRemote) {
+  beforeEach(inject(function ($componentController, SearchOptions, snapRemote) {
     this.$componentController = $componentController;
+    this.SearchOptions = SearchOptions;
     this.snapRemote = snapRemote;
 
     this.locals = {};
@@ -23,36 +24,8 @@ describe('Component: searchPanel', function () {
   it('should setup defaults', function () {
     const ctrl = this.createController();
     expect(ctrl.customers).toEqual(jasmine.any(Array));
-    expect(ctrl.searchType).toBe('lastName');
     expect(ctrl.spinnerConfig).toEqual(jasmine.any(Object));
-  });
-
-  describe('setSearchType', function () {
-    it('should set the search type to "phoneNumber"', function () {
-      const ctrl = this.createController();
-      ctrl.setSearchType('phoneNumber');
-      expect(ctrl.searchType).toBe('phoneNumber');
-    });
-
-    it('should set the search type to "lastName"', function () {
-      const ctrl = this.createController();
-      ctrl.setSearchType('lastName');
-      expect(ctrl.searchType).toBe('lastName');
-
-      ctrl.setSearchType('notAnOption');
-      expect(ctrl.searchType).toBe('lastName');
-    });
-
-    it('should clear the search text if the search type changes', function () {
-      const ctrl = this.createController();
-      ctrl.searchText = 'Vecer';
-      ctrl.setSearchType('phoneNumber');
-      expect(ctrl.searchText).toBe('');
-
-      ctrl.searchText = 'Johnson';
-      ctrl.setSearchType('phoneNumber');
-      expect(ctrl.searchText).toBe('Johnson');
-    });
+    expect(ctrl.searchOptions).toEqual(jasmine.any(this.SearchOptions));
   });
 
   describe('search', function () {
@@ -72,49 +45,35 @@ describe('Component: searchPanel', function () {
         customers.push(customer);
       }
 
-      spyOn(customerResource, 'fetchByPhoneNumber').and.returnValue($q.resolve(customers));
-      spyOn(customerResource, 'fetchByLastName').and.returnValue($q.resolve(customers));
+      spyOn(customerResource, 'searchForCustomers').and.returnValue($q.resolve(customers));
     }));
 
     it('should not attempt to search if searchText is too short', function () {
       const ctrl = this.createController();
       ctrl.search();
 
-      ctrl.searchText = 'J';
+      ctrl.searchOptions.searchText = 'J';
       ctrl.search();
 
-      expect(this.customerResource.fetchByLastName).not.toHaveBeenCalled();
+      expect(this.customerResource.searchForCustomers).not.toHaveBeenCalled();
     });
 
-    it('should search by last name', function () {
+    it('should call customerResource#searchForCustomers and sort the results', function () {
       const ctrl = this.createController();
-      ctrl.searchText = 'Vecer';
+      ctrl.searchOptions.searchText = 'Vecer';
       ctrl.search();
 
       this.$scope.$digest();
 
-      expect(this.customerResource.fetchByLastName).toHaveBeenCalledWith('Vecer');
-      expect(ctrl.customers.length).toBe(5);
-      expect(ctrl.customers[0].lastName).toBe('LN0');
-    });
-
-    it('should search by phoneNumber', function () {
-      const ctrl = this.createController();
-      ctrl.searchType = 'phoneNumber';
-      ctrl.searchText = '6698007';
-      ctrl.search();
-
-      this.$scope.$digest();
-
-      expect(this.customerResource.fetchByPhoneNumber).toHaveBeenCalledWith('6698007');
+      expect(this.customerResource.searchForCustomers).toHaveBeenCalledWith(ctrl.searchOptions);
       expect(ctrl.customers.length).toBe(5);
       expect(ctrl.customers[0].lastName).toBe('LN0');
     });
 
     it('should set an error if the request fails and clear it after 5s', function () {
-      this.customerResource.fetchByLastName.and.returnValue(this.$q.reject({ status: 500 }));
+      this.customerResource.searchForCustomers.and.returnValue(this.$q.reject({ status: 500 }));
       const ctrl = this.createController();
-      ctrl.searchText = 'aa';
+      ctrl.searchOptions.searchText = 'aa';
       ctrl.search();
 
       this.$scope.$digest();
@@ -125,9 +84,9 @@ describe('Component: searchPanel', function () {
     });
 
     it('should not set an error if the request was canceled', function () {
-      this.customerResource.fetchByLastName.and.returnValue(this.$q.reject({ status: -1 }));
+      this.customerResource.searchForCustomers.and.returnValue(this.$q.reject({ status: -1 }));
       const ctrl = this.createController();
-      ctrl.searchText = 'aa';
+      ctrl.searchOptions.searchText = 'aa';
       ctrl.search();
 
       this.$scope.$digest();
@@ -137,7 +96,7 @@ describe('Component: searchPanel', function () {
 
     it('should show a spinner while the request is pending', function () {
       const ctrl = this.createController();
-      ctrl.searchText = 'aa';
+      ctrl.searchOptions.searchText = 'aa';
       ctrl.search();
 
       expect(ctrl.showSpinner).toBeTruthy();
@@ -146,6 +105,17 @@ describe('Component: searchPanel', function () {
 
       expect(ctrl.showSpinner).toBeFalsy();
     });
+  });
+
+  describe('openAdvancedSearch', function () {
+    it('should open the advanced search modal', inject(function ($uibModal) {
+      spyOn($uibModal, 'open');
+      const ctrl = this.createController();
+
+      ctrl.openAdvancedSearch();
+
+      expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({ component: 'advancedSearch' }));
+    }));
   });
 
   describe('selectCustomer', function () {

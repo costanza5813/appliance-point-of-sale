@@ -13,81 +13,70 @@ class CustomerResource {
     this.abortDeferred = $q.defer();
   }
 
-  fetchByLastName(lastName) {
-    if (!lastName) {
-      return this.$q.resolve([]);
-    }
-
-    this.abortDeferred.resolve();
-    this.abortDeferred = this.$q.defer();
-
-    return this.$http.get(baseUri + 'search/by-lastNameStartingWithIgnoreCase',
-                          { params: { lastName: lastName }, timeout: this.abortDeferred.promise })
-      .then((response) => {
-        const rawCustomers = _.get(response.data, '_embedded.customers', []);
-        return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
-      });
+  _fetchByLastName(lastName) {
+    return this.$http.get(baseUri + 'search/by-lastNameStartingWithIgnoreCase', {
+      params: { lastName },
+      timeout: this.abortDeferred.promise,
+    });
   }
-  
-  fetchByLastNameIfTickets(lastName, startDate, endDate) {
-    if (!lastName || !startDate || !endDate) {
-      return this.$q.resolve([]);
-    }
 
-    this.abortDeferred.resolve();
-    this.abortDeferred = this.$q.defer();
-
+  _fetchByLastNameIfTickets(lastName, startDate, endDate) {
     //eg: http://localhost:9084/customerSearch/by-lastNameStartingWithIgnoreCase?
-      //lastName=Vec&startDate=2015-01-01&endDate=2019-01-01
+    //lastName=Vec&startDate=2015-01-01&endDate=2019-01-01
     //eg: http://localhost:9090/ShoreTVCustomers/ServiceTickets/customerSearch
-      // /by-lastNameStartingWithIgnoreCase?lastName=Vec&startDate=2015-01-01&endDate=2019-01-01
-    return this.$http.get(searchBaseUri + 'by-lastNameStartingWithIgnoreCase',
-        { params: { lastName: lastName, startDate: startDate, endDate: endDate }, timeout: this.abortDeferred.promise })
-      .then((response) => {
-        const rawCustomers = _.get(response.data, '_embedded.customers', []);
-        return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
-      });
+    // /by-lastNameStartingWithIgnoreCase?lastName=Vec&startDate=2015-01-01&endDate=2019-01-01
+    return this.$http.get(searchBaseUri + 'by-lastNameStartingWithIgnoreCase', {
+      params: { lastName, startDate, endDate },
+      timeout: this.abortDeferred.promise,
+    });
   }
 
-  fetchByPhoneNumber(phoneNumber) {
-    if (!phoneNumber) {
-      return this.$q.resolve([]);
-    }
-
-    this.abortDeferred.resolve();
-    this.abortDeferred = this.$q.defer();
-
-    return this.$http.get(baseUri + 'search/by-phoneNumberStartingWithIgnoreCase',
-                          { params: { phoneNumber: phoneNumber }, timeout: this.abortDeferred.promise })
-      .then((response) => {
-        const rawCustomers = _.get(response.data, '_embedded.customers', []);
-        return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
-      });
+  _fetchByPhoneNumber(phoneNumber) {
+    return this.$http.get(baseUri + 'search/by-phoneNumberStartingWithIgnoreCase', {
+      params: { phoneNumber },
+      timeout: this.abortDeferred.promise,
+    });
   }
-  
-  fetchByPhoneNumberIfTickets(phoneNumber, startDate, endDate) {
-    if (!phoneNumber || !startDate || !endDate) {
-      return this.$q.resolve([]);
-    }
 
-    this.abortDeferred.resolve();
-    this.abortDeferred = this.$q.defer();
-    
+  _fetchByPhoneNumberIfTickets(phoneNumber, startDate, endDate) {
     //eg: http://localhost:9084/customerSearch/by-phoneNumberStartingWithIgnoreCase?
-      //phoneNumber=669&startDate=2015-01-01&endDate=2019-01-01
+    //phoneNumber=669&startDate=2015-01-01&endDate=2019-01-01
     //eg: http://localhost:9090/ShoreTVCustomers/ServiceTickets/customerSearch
-      // /by-phoneNumberStartingWithIgnoreCase?phoneNumber=669&startDate=2015-01-01&endDate=2019-01-01
-    return this.$http.get(searchBaseUri + 'by-phoneNumberStartingWithIgnoreCase',
-        { params: { 
-            phoneNumber: phoneNumber, 
-            startDate: startDate, 
-            endDate: endDate 
-          }, timeout: this.abortDeferred.promise 
-        })
-      .then((response) => {
-        const rawCustomers = _.get(response.data, '_embedded.customers', []);
-        return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
-      });
+    // /by-phoneNumberStartingWithIgnoreCase?phoneNumber=669&startDate=2015-01-01&endDate=2019-01-01
+    return this.$http.get(searchBaseUri + 'by-phoneNumberStartingWithIgnoreCase', {
+      params: { phoneNumber, startDate, endDate },
+      timeout: this.abortDeferred.promise,
+    });
+  }
+
+  searchForCustomers(searchOptions) {
+    if (!searchOptions.searchText) {
+      return this.$q.resolve([]);
+    }
+
+    this.abortDeferred.resolve();
+    this.abortDeferred = this.$q.defer();
+
+    var promise;
+    const { searchText, searchType, resultType, startDate, endDate } = searchOptions.rawData;
+    if (searchType === 'phoneNumber') {
+      if (resultType === 'ticketsOnly' && startDate && endDate) {
+        promise = this._fetchByPhoneNumberIfTickets(searchText, startDate, endDate);
+      } else {
+        promise = this._fetchByPhoneNumber(searchText);
+      }
+    } else {
+      if (resultType === 'ticketsOnly' && startDate && endDate) {
+        promise = this._fetchByLastNameIfTickets(searchText, startDate, endDate);
+      } else {
+        promise = this._fetchByLastName(searchText);
+      }
+    }
+
+    return promise.then((response) => {
+      const rawCustomers = _.get(response.data, '_embedded.customers', []);
+      return _.map(rawCustomers, (rawCustomer) => new this.Customer(rawCustomer));
+    });
   }
 
   fetchCustomer(id) {
