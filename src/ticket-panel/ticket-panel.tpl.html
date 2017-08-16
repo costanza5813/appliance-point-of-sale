@@ -29,7 +29,13 @@
         <parts-list ticket="$ctrl.currentTicket"></parts-list>
 
         <div class="flex">
-            <service-list ticket="$ctrl.currentTicket" style="margin-right: 20px;" class="flex-1"></service-list>
+            <div style="margin-right: 20px;" class="flex-1">
+                <service-list ticket="$ctrl.currentTicket"></service-list>
+                <div>
+                    <label for="salespersonInput">Salesperson</label>
+                    <input type="text" id="salespersonInput" ng-model="$ctrl.currentTicket.salesperson" uib-typeahead="person for person in $ctrl.salespeople | filter:$viewValue" class="form-control">
+                </div>
+            </div>
             <total-due ticket="$ctrl.currentTicket" class="flex-1"></total-due>
         </div>
 

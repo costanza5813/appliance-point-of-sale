@@ -260,6 +260,14 @@ describe('Factory: Ticket', function () {
     });
   });
 
+  describe('get/set salesperson', function () {
+    it('should update the salesperson correctly', function () {
+      const ticket = new this.Ticket();
+      ticket.salesperson = 'Fred';
+      expect(ticket.salesperson).toBe('Fred');
+    });
+  });
+
   describe('get/set serialNumber', function () {
     it('should update the serial number correctly', function () {
       const ticket = new this.Ticket();

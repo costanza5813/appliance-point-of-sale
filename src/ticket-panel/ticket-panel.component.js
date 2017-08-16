@@ -6,10 +6,14 @@ angular.module('appliancePointOfSale').component('ticketPanel', {
     customer: '<',
   },
   controller: function ($q, currentSelections, partResource, paymentResource, serviceResource, spinnerHandler,
-                       ticketResource) {
+                        ticketResource, typeaheadOptions) {
 
     this.spinnerHandler = spinnerHandler;
     this.spinnerHandler.show = true;
+
+    typeaheadOptions.salespeople.then((salespeople) => {
+      this.salespeople = salespeople;
+    });
 
     this.$onInit = () => {
       currentSelections.customer = this.customer;

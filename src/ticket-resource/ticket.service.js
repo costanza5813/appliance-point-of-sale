@@ -27,6 +27,7 @@ function ticketFactory(Payment, salesTaxCalculator) {
         dateStarted: null,
         item: '',
         model: '',
+        salesperson: '',
         serialNumber: '',
         serviceDescription: '',
         statusCode: 0,
@@ -186,6 +187,14 @@ function ticketFactory(Payment, salesTaxCalculator) {
 
     set model(model) {
       this._rawData.model = model;
+    }
+
+    get salesperson() {
+      return this._rawData.salesperson;
+    }
+
+    set salesperson(salesperson) {
+      this._rawData.salesperson = salesperson;
     }
 
     get serialNumber() {

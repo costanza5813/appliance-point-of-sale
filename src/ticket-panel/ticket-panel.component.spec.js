@@ -3,7 +3,7 @@
 describe('Component: ticketPanel', function () {
   beforeEach(module('appliancePointOfSale'));
 
-  beforeEach(inject(function ($componentController, currentSelections, Customer, spinnerHandler, ticketResource) {
+  beforeEach(inject(function ($componentController, $q, currentSelections, Customer, spinnerHandler, ticketResource) {
     this.$componentController = $componentController;
     this.currentSelections = currentSelections;
     this.spinnerHandler = spinnerHandler;
@@ -12,7 +12,11 @@ describe('Component: ticketPanel', function () {
     this.customer = new Customer();
     this.customer.addTicket(new ticketResource.Ticket());
 
-    this.locals = {};
+    this.locals = {
+      typeaheadOptions: {
+        salespeople: $q.resolve(['John', 'Paul', 'George', 'Ringo']),
+      },
+    };
     this.bindings = { customer: this.customer };
     this.createController = () => $componentController('ticketPanel', this.locals, this.bindings);
   }));
@@ -22,6 +26,13 @@ describe('Component: ticketPanel', function () {
     expect(ctrl.spinnerHandler).toBe(this.spinnerHandler);
     expect(this.spinnerHandler.show).toBeTruthy();
   });
+
+  it('should get the salespeople list from the typeaheadOptions service', inject(function ($rootScope) {
+    const ctrl = this.createController();
+    $rootScope.$new().$digest();
+    expect(ctrl.salespeople).toEqual(jasmine.any(Array));
+    expect(ctrl.salespeople.length).toBe(4);
+  }));
 
   describe('$onInit', function () {
     beforeEach(inject(function ($q, $rootScope, partResource, paymentResource, serviceResource) {
