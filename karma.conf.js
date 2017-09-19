@@ -1,7 +1,13 @@
+const ChromiumRevision = require('puppeteer/package.json').puppeteer.chromium_revision
+const Downloader = require('puppeteer/utils/ChromiumDownloader')
+const revisionInfo = Downloader.revisionInfo(Downloader.currentPlatform(), ChromiumRevision)
+
+process.env.CHROME_BIN = revisionInfo.executablePath
+
 module.exports = function(config) {
   config.set({
     browserNoActivityTimeout: 30000,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     frameworks: ['jasmine'],
     files: [
       // vendor files
@@ -59,4 +65,11 @@ module.exports = function(config) {
       suppressPassed: true,
     },
   });
+
+  plugins: [
+    'karma-chrome-launcher',
+    'karma-coverage',
+    'karma-jasmine',
+    'karma-spec-reporter',
+  ]
 };

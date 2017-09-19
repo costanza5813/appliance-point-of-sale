@@ -56,10 +56,11 @@ describe('Component: navBar', function () {
   });
 
   describe('printTicket', function () {
-    beforeEach(inject(function ($httpBackend, $q, $window, currentSelections, Customer, Part, Payment, Service,
-                                Ticket) {
+    beforeEach(inject(function ($httpBackend, $q, $rootScope, $window, currentSelections, Customer, Part, Payment,
+                                Service, Ticket) {
       this.$httpBackend = $httpBackend;
       this.$q = $q;
+      this.$scope = $rootScope.$new();
       this.currentSelections = currentSelections;
 
       currentSelections.customer = new Customer();
@@ -71,58 +72,48 @@ describe('Component: navBar', function () {
 
       spyOn(currentSelections, 'save').and.returnValue(this.$q.resolve());
       spyOn($window, 'open');
-
-      this.hideCustomerTotals = true;
-      this.expectInvoicePOST = (response) => {
-        const payload = {
-          customer: currentSelections.customer.rawData,
-          ticket: _.chain(currentSelections.ticket.rawData).cloneDeep().assign({
-            hideCustomerTotals: this.hideCustomerTotals,
-            id: currentSelections.ticket.id || '',
-            parts: _.map(currentSelections.ticket.parts, (part) => part.rawData),
-            payments: _.map(currentSelections.ticket.payments, (payment) => payment.rawData),
-            serviceCalls: _.map(currentSelections.ticket.services, (service) => service.rawData),
-          }).value(),
-        };
-
-        $httpBackend.expectPOST('/ShoreTVCustomers/ServiceTickets/invoice', payload).respond(response);
-      };
     }));
 
     it('should show the spinner until the promises resolve', inject(function (spinnerHandler) {
       const ctrl = this.createController();
 
-      this.hideCustomerTotals = ctrl.hideCustomerTotals;
-      this.expectInvoicePOST();
-
       ctrl.printTicket();
 
       expect(spinnerHandler.show).toBeTruthy();
-      this.$httpBackend.flush();
+      this.$scope.$digest();
       expect(spinnerHandler.show).toBeFalsy();
     }));
 
     it('should call save on the current selections', function () {
       const ctrl = this.createController();
       _.set(this.currentSelections.ticket.rawData, '_links.self.href', '/');
-      this.expectInvoicePOST();
       ctrl.printTicket();
       expect(this.currentSelections.save).toHaveBeenCalled();
     });
 
-    it('should POST the customer and ticket data and open the response pdf id', function () {
+    it('should open the response pdf in a new tab', function () {
       const ctrl = this.createController();
-      this.expectInvoicePOST({ invoiceId: '123abc' });
+      _.set(this.currentSelections.ticket.rawData, '_links.self.href', '/555');
       ctrl.printTicket();
-      this.$httpBackend.flush();
-      expect(window.open).toHaveBeenCalledWith('/ShoreTVCustomers/ServiceTickets/invoice/123abc', '_blank');
+      this.$scope.$digest();
+
+      expect(window.open).toHaveBeenCalledWith(
+        '/ShoreTVCustomers/ServiceTickets/printable-ticket/555?hideCustomerTotals=true',
+        '_blank'
+      );
     });
 
     it('should correctly send the hideCustomerTotals flag', function () {
       const ctrl = this.createController();
-      this.hideCustomerTotals = ctrl.hideCustomerTotals = false;
-      this.expectInvoicePOST();
+      _.set(this.currentSelections.ticket.rawData, '_links.self.href', '/555');
+      ctrl.hideCustomerTotals = false;
       ctrl.printTicket();
+      this.$scope.$digest();
+
+      expect(window.open).toHaveBeenCalledWith(
+        '/ShoreTVCustomers/ServiceTickets/printable-ticket/555?hideCustomerTotals=false',
+        '_blank'
+      );
     });
   });
 });
