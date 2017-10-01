@@ -21,8 +21,8 @@ angular.module('appliancePointOfSale', [
     },
 
     {
-      name: 'customers',
-      url: '/customers/{customerId}',
+      name: 'customerTickets',
+      url: '/customerTickets/{customerId}',
       component: 'ticketPanel',
       resolve: {
         customer: function ($q, $transition$, customerResource, ticketResource) {
@@ -94,11 +94,11 @@ angular.module('appliancePointOfSale', [
     }
   });
 
-  $transitions.onBefore({ to: (state) => state.name === 'customers' }, (transition) => {
+  $transitions.onBefore({ to: (state) => state.name === 'customerTickets' }, (transition) => {
     if (!transition.params().customerId) {
       return customerResource.createCustomer().then((customer) => {
         return ticketResource.createTicketForCustomer(customer).then(() => {
-          return transition.router.stateService.target('customers', { customerId: customer.id });
+          return transition.router.stateService.target('customerTickets', { customerId: customer.id });
         });
       });
     }
@@ -113,7 +113,7 @@ angular.module('appliancePointOfSale', [
   };
 
   $transitions.onStart({
-    from: (state) => _.includes(['customers', 'tickets'], state.name) && currentSelections.hasUnsavedChanges(),
+    from: (state) => _.includes(['customerTickets', 'tickets'], state.name) && currentSelections.hasUnsavedChanges(),
   }, () => {
     return $uibModal.open(modalOptions).result.then(() => {
       spinnerHandler.show = true;
@@ -122,7 +122,7 @@ angular.module('appliancePointOfSale', [
   });
 
   $window.onbeforeunload = () => {
-    if (_.includes(['customers', 'tickets'], $state.current.name) && currentSelections.hasUnsavedChanges()) {
+    if (_.includes(['customerTickets', 'tickets'], $state.current.name) && currentSelections.hasUnsavedChanges()) {
       return 'unsaved changes';
     }
   };

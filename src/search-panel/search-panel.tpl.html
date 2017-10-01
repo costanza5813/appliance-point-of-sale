@@ -1,14 +1,38 @@
 <div class="flex-column">
     <div class="panel panel-default flex-column">
         <div class="panel-heading">
-            <h3 class="panel-title">Jump to a Ticket</h3>
+            <h3 class="panel-title">Jump to a Ticket or Purchase</h3>
         </div>
 
-        <div style="padding: 10px;" class="input-group">
-            <input type="text" ng-model="$ctrl.ticketId" ng-keypress="$ctrl.openTicket($event)" class="form-control" placeholder="Ticket Number">
-            <span class="input-group-btn">
-                <button ng-click="$ctrl.openTicket()" class="btn btn-default" type="button">Go!</button>
-            </span>
+        <div style="padding: 10px;"  class="panel-body flex-column">
+            <div class="flex-column">
+                <div class="btn-group">
+                    <label class="btn btn-default"
+                           ng-class="{active: $ctrl.jumpType === 'ticket'}"
+                           ng-click="$ctrl.setJumpType('ticket')">
+                        Ticket
+                    </label>
+                    <label class="btn btn-default"
+                           ng-class="{active: $ctrl.jumpType === 'purchase'}"
+                           ng-click="$ctrl.setJumpType('purchase')">
+                        Purchase
+                    </label>
+                </div>
+            </div>
+
+            <div style="padding-top: 10px;" class="input-group">
+                <input
+                    id="jump-input"
+                    type="text"
+                    ng-model="$ctrl.jumpId"
+                    ng-keypress="$ctrl.jump($event)"
+                    class="form-control"
+                    placeholder="{{$ctrl.jumpType === 'purchase' ? 'Purchase' : 'Ticket'}} Number"
+                >
+                <span class="input-group-btn">
+                    <button ng-click="$ctrl.jump()" class="btn btn-default" type="button">Go!</button>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -40,10 +64,32 @@
             <div id="customer-matches" class="flex-column">
                 <div class="list-group">
                     <div id="search-spinner" us-spinner="$ctrl.spinnerConfig" spinner-on="$ctrl.showSpinner"></div>
-                    <button ng-repeat="customer in $ctrl.customers" ng-click="$ctrl.selectCustomer(customer)"
-                            ng-attr-id="{{ customer.id }}" type="button" class="list-group-item">
-                        {{ ::customer.lastName }}, {{ ::customer.firstName }}
-                    </button>
+                    <a
+                        ng-repeat="customer in $ctrl.customers"
+                        ng-click="$ctrl.selectedCustomer = customer"
+                        class="list-group-item"
+                        style="cursor: pointer"
+                        ng-class="{active: customer === $ctrl.selectedCustomer}"
+                        uib-tooltip="{{ ::customer.address }}, {{ ::customer.city }}, {{ ::customer.state }}"
+                        tooltip-placement="top"
+                    >
+                        <h5>{{ ::customer.lastName }}, {{ ::customer.firstName }}</h5>
+                        <div ng-if="customer === $ctrl.selectedCustomer">
+                            <div class="flex-column">
+                            <button type="button" class="btn btn-warning btn-sm" ng-click="$ctrl.openCustomerTickets()">
+                                <i class="fa fa-file-o"></i>
+                                Tickets
+                            </button>
+                            </div>
+
+                            <div class="flex-column" style="padding-top: 5px;">
+                            <button type="button" class="btn btn-warning btn-sm" ng-click="$ctrl.openCustomerPurchases()">
+                                <i class="fa fa-file-o"></i>
+                                Purchases
+                            </button>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
 

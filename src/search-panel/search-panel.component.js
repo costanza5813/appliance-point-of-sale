@@ -4,9 +4,21 @@
 angular.module('appliancePointOfSale').component('searchPanel', {
   bindings: {
   },
-  controller: function ($state, $timeout, $uibModal, customerResource, SearchOptions, snapRemote) {
+  controller: function ($element, $state, $timeout, $uibModal, customerResource, SearchOptions, snapRemote) {
     this.customers = [];
     this.spinnerConfig = { radius: 20, width: 4, length: 8 };
+    this.selectedCustomer = null;
+    this.jumpType = 'ticket';
+
+    this.setJumpType = (type) => {
+      if (type === 'purchase') {
+        this.jumpType = type;
+      } else {
+        this.jumpType = 'ticket';
+      }
+
+      $element.find('#jump-input').focus();
+    };
 
     this.search = () => {
       this.customers = [];
@@ -48,32 +60,49 @@ angular.module('appliancePointOfSale').component('searchPanel', {
       $uibModal.open(modalOptions);
     };
 
-    this.selectCustomer = (customer) => {
-      angular.element('#customer-matches button.active').removeClass('active');
-      angular.element('#customer-matches #' + customer.id).addClass('active');
-
-      $state.go('customers', { customerId: customer.id });
-    };
-
     this.createNewCustomer = () => {
-      angular.element('#customer-matches button.active').removeClass('active');
-      snapRemote.close();
+      const modalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        component: 'confirmContext',
+      };
 
-      $state.go('customers', { customerId: '' });
+      $uibModal.open(modalOptions).result.then((choice) => {
+        this.selectedCustomer = null;
+        snapRemote.close();
+
+        if (choice === 'purchase') {
+          $state.go('customerPurchases', { customerId: '' });
+        } else {
+          $state.go('customerTickets', { customerId: '' });
+        }
+      });
     };
 
-    this.openTicket = (keyEvent) => {
+    this.openCustomerPurchases = () => {
+      $state.go('customerPurchases', { customerId: this.selectedCustomer.id });
+    };
+
+    this.openCustomerTickets = () => {
+      $state.go('customerTickets', { customerId: this.selectedCustomer.id });
+    };
+
+    this.jump = (keyEvent) => {
       if (keyEvent && keyEvent.which !== 13) {
         return;
       }
 
-      if (this.ticketId) {
-        angular.element('#customer-matches button.active').removeClass('active');
-        const ticketId = this.ticketId;
-        this.ticketId = '';
+      if (this.jumpId) {
+        this.selectedCustomer = null;
+        const jumpId = this.jumpId;
+        this.jumpId = '';
         snapRemote.close();
 
-        $state.go('tickets', { ticketId: ticketId });
+        if (this.jumpType === 'purchase') {
+          $state.go('purchases', { purchaseId: jumpId });
+        } else {
+          $state.go('tickets', { ticketId: jumpId });
+        }
       }
     };
   },

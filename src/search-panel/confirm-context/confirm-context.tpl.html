@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h3>Select an Application Context</h3>
+    <button ng-click="$ctrl.dismiss()"
+            class="btn btn-danger"
+            style="position: fixed; top: 15px; right: 15px;">
+        <i class="fa fa-times"></i>
+    </button>
+</div>
+<div class="modal-body">
+    <h3>How would you like to proceed?</h3>
+
+    <div class="flex-column">
+        <button type="button" class="btn btn-success btn-lg" ng-click="$ctrl.chooseTicket()">
+            Create a <b style="border-bottom: 2px solid;">Service Ticket</b> for the customer.
+        </button>
+    </div>
+
+    <div class="flex-column" style="margin-top: 10px;">
+        <button type="button" class="btn btn-success btn-lg" ng-click="$ctrl.choosePurchase()">
+            Create a <b style="border-bottom: 2px solid;">Purchase Invoice</b> for the customer.
+        </button>
+    </div>
+</div>
